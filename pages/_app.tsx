@@ -5,6 +5,7 @@ import 'firebase/firestore';
 import '../styles/globals.css';
 import config from '../frontend/config/config.json';
 import { useRouter } from 'next/router';
+import { AppProps } from 'next/app';
 
 const AUTHED_PATHS = ['/t'];
 const UNAUTHED_PATHS = ['/'];
@@ -13,7 +14,7 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(config.firebaseConfig);
 }
 
-function MyApp({ Component, pageProps }) {
+let MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   let router = useRouter();
 
   useEffect(() => {
@@ -31,6 +32,6 @@ function MyApp({ Component, pageProps }) {
   }, [router]);
 
   return <Component {...pageProps} />;
-}
+};
 
 export default MyApp;

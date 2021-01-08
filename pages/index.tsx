@@ -3,7 +3,7 @@ import config from '../frontend/config/config.json';
 import firebase from 'firebase/app';
 import React from 'react';
 
-export default function Home() {
+let Home: React.FC = () => {
   return (
     <div>
       <Head>
@@ -36,4 +36,6 @@ export default function Home() {
     await firebase.auth().signInWithPopup(provider);
     window.location.href = '/t';
   }
-}
+};
+
+export default Home;
