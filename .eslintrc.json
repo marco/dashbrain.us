@@ -1,8 +1,10 @@
 {
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 2020,
@@ -17,6 +19,7 @@
     "node": true
   },
   "rules": {
-    "react/prop-types": 0
+    "react/prop-types": "off",
+    "prefer-const": "off"
   }
 }
