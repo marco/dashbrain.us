@@ -3,10 +3,10 @@ import * as rooms from './rooms';
 import * as events from './events';
 import _ from 'lodash';
 
-export async function raiseHand(room: rooms.Room): Promise<events.Event> {
+export async function raiseHand(room: rooms.Room): Promise<events.EventHand> {
   let reference = generateEventReference(room);
 
-  let event: events.Event = {
+  let event: events.EventHand = {
     ...getUniversalEventValues(reference.id),
     type: 'hand',
     recipientUids: _.uniq([
@@ -22,10 +22,10 @@ export async function raiseHand(room: rooms.Room): Promise<events.Event> {
 export async function askQuestion(
   room: rooms.Room,
   text: string
-): Promise<events.Event> {
+): Promise<events.EventQuestion> {
   let reference = generateEventReference(room);
 
-  let event: events.Event = {
+  let event: events.EventQuestion = {
     ...getUniversalEventValues(reference.id),
     type: 'question',
     text: text,
@@ -39,10 +39,10 @@ export async function askQuestion(
 export async function upvoteQuestion(
   room: rooms.Room,
   questionEventId: string
-): Promise<events.Event> {
+): Promise<events.EventQuestionUpvote> {
   let reference = generateEventReference(room);
 
-  let event: events.Event = {
+  let event: events.EventQuestionUpvote = {
     ...getUniversalEventValues(reference.id),
     type: 'question_upvote',
     questionEventId: questionEventId,
@@ -70,10 +70,10 @@ export async function sendPollStart(
   room: rooms.Room,
   options: string[],
   showLiveResults: boolean
-): Promise<events.Event> {
+): Promise<events.EventPollStart> {
   let reference = generateEventReference(room);
 
-  let event: events.Event = {
+  let event: events.EventPollStart = {
     ...getUniversalEventValues(reference.id),
     type: 'poll_start',
     options: options,
@@ -89,12 +89,12 @@ export async function sendPollEnd(
   room: rooms.Room,
   pollEventId: string,
   optionsCount: number,
-  votes: events.EventPollResponse[]
+  voteEvents: events.EventPollResponse[]
 ): Promise<events.Event> {
   let reference = generateEventReference(room);
 
   let scores = new Array(optionsCount).fill(0);
-  for (let voteEvent of votes) {
+  for (let voteEvent of voteEvents) {
     scores[voteEvent.answerIndex]++;
   }
 
