@@ -41,7 +41,12 @@ let StudentRoomPage: React.FC = () => {
     <div>
       <div>
         {update.events.map((event) => (
-          <EventComponent event={event} room={update!.room} key={event.id} />
+          <EventComponent
+            event={event}
+            room={update!.room}
+            key={event.id}
+            events={update!.events}
+          />
         ))}
       </div>
       <div>
