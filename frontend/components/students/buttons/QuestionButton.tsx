@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as rooms from '../../../lib/rooms';
 import * as eventSender from '../../../lib/event-sender';
+import Prompt from '../../Prompt';
 
 let QuestionButton: React.FC<{ room: rooms.Room }> = (props) => {
   let [showPrompt, setShowPrompt] = useState(false);
@@ -29,13 +30,7 @@ let QuestionPrompt: React.FC<{
   onClose: () => void;
 }> = (props) => {
   return (
-    <div className="fixed bottom-0">
-      <button onClick={props.onClose}>
-        {
-          // TODO: Use an SVG for close.
-        }
-        x
-      </button>
+    <Prompt onClose={props.onClose}>
       <p>What&apos;s your Question?</p>
       <p>
         Classmates will see your question, but won&apos;t see who it&apos;s
@@ -52,7 +47,7 @@ let QuestionPrompt: React.FC<{
           </Form>
         )}
       </Formik>
-    </div>
+    </Prompt>
   );
 };
 
