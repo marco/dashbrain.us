@@ -41,6 +41,8 @@ let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
           events={props.events}
         />
       );
+    } else {
+      return null;
     }
   }
 
@@ -65,7 +67,10 @@ let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
     );
   }
 
-  if (props.event.type === 'question_upvote') {
+  if (
+    props.event.type === 'question_upvote' ||
+    props.event.type === 'poll_response'
+  ) {
     return null;
   }
 
