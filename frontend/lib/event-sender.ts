@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 import * as rooms from './rooms';
 import * as events from './events';
 
-export async function raiseHand(room: rooms.Room): Promise<void> {
+export async function raiseHand(room: rooms.Room): Promise<events.Event> {
   let reference = firebase
     .firestore()
     .collection('rooms')
@@ -22,4 +22,18 @@ export async function raiseHand(room: rooms.Room): Promise<void> {
   };
 
   await reference.set(event);
+  return event;
+}
+
+export async function deleteEvent(
+  room: rooms.Room,
+  event: events.Event
+): Promise<void> {
+  await firebase
+    .firestore()
+    .collection('rooms')
+    .doc(room.id)
+    .collection('events')
+    .doc(event.id)
+    .delete();
 }
