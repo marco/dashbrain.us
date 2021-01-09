@@ -1,24 +1,18 @@
 import firebase from 'firebase/app';
 import * as rooms from './rooms';
 import * as events from './events';
+import _ from 'lodash';
 
 export async function raiseHand(room: rooms.Room): Promise<events.Event> {
-  let reference = firebase
-    .firestore()
-    .collection('rooms')
-    .doc(room.id)
-    .collection('events')
-    .doc();
+  let reference = generateEventReference(room);
 
   let event: events.Event = {
-    id: reference.id,
+    ...getUniversalEventValues(reference.id),
     type: 'hand',
-    when: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp,
-    senderUid: firebase.auth().currentUser?.uid as string,
-    recipientUids: [
+    recipientUids: _.uniq([
       room.teacherUid,
       firebase.auth().currentUser?.uid as string,
-    ],
+    ]),
   };
 
   await reference.set(event);
@@ -29,23 +23,13 @@ export async function askQuestion(
   room: rooms.Room,
   text: string
 ): Promise<events.Event> {
-  let reference = firebase
-    .firestore()
-    .collection('rooms')
-    .doc(room.id)
-    .collection('events')
-    .doc();
+  let reference = generateEventReference(room);
 
   let event: events.Event = {
-    id: reference.id,
+    ...getUniversalEventValues(reference.id),
     type: 'question',
     text: text,
-    when: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp,
-    senderUid: firebase.auth().currentUser?.uid as string,
-    recipientUids: [
-      room.teacherUid,
-      firebase.auth().currentUser?.uid as string,
-    ],
+    recipientUids: getEveryoneUids(room),
   };
 
   await reference.set(event);
@@ -56,23 +40,13 @@ export async function upvoteQuestion(
   room: rooms.Room,
   questionEventId: string
 ): Promise<events.Event> {
-  let reference = firebase
-    .firestore()
-    .collection('rooms')
-    .doc(room.id)
-    .collection('events')
-    .doc();
+  let reference = generateEventReference(room);
 
   let event: events.Event = {
-    id: reference.id,
+    ...getUniversalEventValues(reference.id),
     type: 'question_upvote',
     questionEventId: questionEventId,
-    when: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp,
-    senderUid: firebase.auth().currentUser?.uid as string,
-    recipientUids: [
-      room.teacherUid,
-      firebase.auth().currentUser?.uid as string,
-    ],
+    recipientUids: getEveryoneUids(room),
   };
 
   await reference.set(event);
@@ -90,4 +64,35 @@ export async function deleteEvent(
     .collection('events')
     .doc(event.id)
     .delete();
+}
+
+function generateEventReference(room: rooms.Room) {
+  return firebase
+    .firestore()
+    .collection('rooms')
+    .doc(room.id)
+    .collection('events')
+    .doc();
+}
+
+function getUniversalEventValues(
+  id: string
+): {
+  id: string;
+  when: firebase.firestore.Timestamp;
+  senderUid: string;
+} {
+  return {
+    id: id,
+    when: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp,
+    senderUid: firebase.auth().currentUser?.uid as string,
+  };
+}
+
+function getEveryoneUids(room: rooms.Room) {
+  return _.uniq([
+    room.teacherUid,
+    ...Object.keys(room.students),
+    firebase.auth().currentUser?.uid as string,
+  ]);
 }
