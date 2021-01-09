@@ -1,6 +1,5 @@
 import React from 'react';
-import { EventHand, SenderDetails } from '../../lib/events';
-import { Room } from '../../lib/rooms';
+import { SenderDetails } from '../../lib/events';
 
 let RaiseHandEvent: React.FC<{ senderDetails: SenderDetails }> = (props) => {
   if (props.senderDetails.isCurrentUser) {
