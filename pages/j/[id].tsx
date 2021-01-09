@@ -7,6 +7,7 @@ import { Formik, Form, Field } from 'formik';
 import EventComponent from '../../frontend/components/events/Event';
 import * as eventSender from '../../frontend/lib/event-sender';
 import RaiseHandButton from '../../frontend/components/students/buttons/RaiseHandButton';
+import QuestionButton from '../../frontend/components/students/buttons/QuestionButton';
 
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
@@ -45,6 +46,7 @@ let StudentRoomPage: React.FC = () => {
       </div>
       <div>
         <RaiseHandButton room={update!.room} />
+        <QuestionButton room={update!.room} />
       </div>
     </div>
   );
