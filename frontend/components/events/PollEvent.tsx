@@ -22,7 +22,7 @@ let PollEvent: React.FC<{
   return (
     <div>
       <p>
-        {props.senderDetails.name} {props.endVotes ? 'ended the ' : 'sent a '}
+        {props.senderDetails.name} {props.endVotes ? 'ended a ' : 'sent a '}
         poll.
       </p>
       {props.event.text ? (
