@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import firebase from 'firebase/app';
 import {
   Event,
   EventPollResponse,
@@ -33,12 +34,10 @@ let PollEvent: React.FC<{
         <button
           onClick={() => onClickOption(index)}
           key={index}
-          disabled={choiceIndex !== undefined || !!props.endVotes}
+          disabled={!checkCanVote()}
         >
           {option}
-          {choiceIndex !== undefined && props.event.showLiveResults
-            ? voteTotals[index] + ' '
-            : null}
+          {checkShouldSeeVotes() ? voteTotals[index] + ' ' : null}
         </button>
       ))}
     </div>
@@ -56,8 +55,14 @@ let PollEvent: React.FC<{
 
     let votes = new Array(props.event.options.length).fill(0);
 
-    // This array would be empty if `showLiveResults` is false, since no
-    // public choice events would be sent.
+    // If the end results haven't been published, and we aren't guaranteed access,
+    // just return the 0s array.
+    if (!checkShouldSeeVotes()) {
+      return votes;
+    }
+
+    // This array would be empty, except for the user's own vote,
+    // if `showLiveResults` is false, since no public choice events would be sent.
     let filteredEvents = props.events.filter(
       (event) => event.type === 'poll_response'
     ) as EventPollResponse[];
@@ -67,6 +72,38 @@ let PollEvent: React.FC<{
     }
 
     return votes;
+  }
+
+  function checkShouldSeeVotes() {
+    if (firebase.auth().currentUser?.uid === props.event.senderUid) {
+      return true;
+    }
+
+    if (props.endVotes) {
+      return true;
+    }
+
+    if (props.event.showLiveResults && choiceIndex !== undefined) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function checkCanVote() {
+    if (firebase.auth().currentUser?.uid === props.event.senderUid) {
+      return false;
+    }
+
+    if (props.endVotes) {
+      return false;
+    }
+
+    if (choiceIndex !== undefined) {
+      return false;
+    }
+
+    return true;
   }
 };
 
