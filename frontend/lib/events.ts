@@ -65,7 +65,7 @@ export interface EventPollResponse extends EventCommon {
 }
 
 export interface EventPollEnd extends EventCommon {
-  type: 'poll_start';
+  type: 'poll_end';
   pollEventId: string;
   votes: number[];
 }
