@@ -34,7 +34,7 @@ let Home: React.FC = () => {
   async function teacherSignIn() {
     let provider = new firebase.auth.GoogleAuthProvider();
     await firebase.auth().signInWithPopup(provider);
-    window.location.href = '/t';
+    window.location.href = '/new-room';
   }
 };
 
