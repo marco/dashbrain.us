@@ -53,19 +53,6 @@ export async function upvoteQuestion(
   return event;
 }
 
-export async function deleteEvent(
-  room: rooms.Room,
-  event: events.Event
-): Promise<void> {
-  await firebase
-    .firestore()
-    .collection('rooms')
-    .doc(room.id)
-    .collection('events')
-    .doc(event.id)
-    .delete();
-}
-
 export async function sendPollStart(
   room: rooms.Room,
   text: string,
@@ -110,6 +97,19 @@ export async function sendPollEnd(
 
   await reference.set(event);
   return event;
+}
+
+export async function deleteEvent(
+  room: rooms.Room,
+  event: events.Event
+): Promise<void> {
+  await firebase
+    .firestore()
+    .collection('rooms')
+    .doc(room.id)
+    .collection('events')
+    .doc(event.id)
+    .delete();
 }
 
 function generateEventReference(room: rooms.Room) {
