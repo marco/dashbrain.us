@@ -122,7 +122,7 @@ let PollPrompt: React.FC<{
             </FieldArray>
             <Field name="showLiveResults" type="checkbox" />
             <label htmlFor="showLiveResults">
-              Let students see live results
+              Let students see live results after they vote.
             </label>
             <button type="submit" disabled={isSubmitting}>
               {isSubmitting ? 'Sent!' : 'Send'}
