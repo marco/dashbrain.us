@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import * as rooms from '../../frontend/lib/rooms';
 import Loading from '../../frontend/components/Loading';
 import EventComponent from '../../frontend/components/events/Event';
+import PollButton from '../../frontend/components/teachers/buttons/PollButton';
 
 let TeacherRoomPage: React.FC = () => {
   let router = useRouter();
@@ -30,6 +31,9 @@ let TeacherRoomPage: React.FC = () => {
             events={update!.events}
           />
         ))}
+      </div>
+      <div>
+        <PollButton room={update!.room} events={update!.events} />
       </div>
     </div>
   );
