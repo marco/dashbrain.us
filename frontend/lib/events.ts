@@ -37,13 +37,14 @@ export interface EventHand extends EventCommon {
   type: 'hand';
 }
 
-export interface EventThumbup extends EventCommon {
-  type: 'thumbup';
-}
-
 export interface EventQuestion extends EventCommon {
   type: 'question';
   text: string;
+}
+
+export interface EventQuestionUpvote extends EventCommon {
+  type: 'upvote';
+  questionEventId: string;
 }
 
 export interface EventMessage extends EventCommon {
@@ -70,8 +71,8 @@ export interface EventPollEnd extends EventCommon {
 
 export type Event =
   | EventHand
-  | EventThumbup
   | EventQuestion
+  | EventQuestionUpvote
   | EventMessage
   | EventPollStart
   | EventPollResponse
