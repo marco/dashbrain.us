@@ -1,14 +1,7 @@
 import firebase from 'firebase/app';
 import { Room } from './rooms';
 
-export function getSenderDetails(
-  event: Event,
-  room: Room
-): {
-  name: string;
-  photo?: string;
-  isCurrentUser: boolean;
-} {
+export function getSenderDetails(event: Event, room: Room): SenderDetails {
   if (firebase.auth().currentUser?.uid === event.senderUid) {
     return { name: 'You', isCurrentUser: true };
   }
@@ -40,36 +33,36 @@ interface EventCommon {
   recipientUids: string[];
 }
 
-interface EventHand extends EventCommon {
+export interface EventHand extends EventCommon {
   type: 'hand';
 }
 
-interface EventThumbup extends EventCommon {
+export interface EventThumbup extends EventCommon {
   type: 'thumbup';
 }
 
-interface EventQuestion extends EventCommon {
+export interface EventQuestion extends EventCommon {
   type: 'question';
   text: string;
 }
 
-interface EventMessage extends EventCommon {
+export interface EventMessage extends EventCommon {
   type: 'message';
   text: string;
 }
 
-interface EventPollStart extends EventCommon {
+export interface EventPollStart extends EventCommon {
   type: 'poll_start';
   options: string[];
   showLiveResults: boolean;
 }
 
-interface EventPollResponse extends EventCommon {
+export interface EventPollResponse extends EventCommon {
   type: 'poll_response';
   answer: string;
 }
 
-interface EventPollEnd extends EventCommon {
+export interface EventPollEnd extends EventCommon {
   type: 'poll_start';
   options: string[];
   votes: number[];
@@ -83,3 +76,9 @@ export type Event =
   | EventPollStart
   | EventPollResponse
   | EventPollEnd;
+
+export interface SenderDetails {
+  name: string;
+  photo?: string;
+  isCurrentUser: boolean;
+}
