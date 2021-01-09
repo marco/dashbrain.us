@@ -98,7 +98,7 @@ export async function sendPollEnd(
   pollEventId: string,
   optionsCount: number,
   voteEvents: events.EventPollResponse[]
-): Promise<events.Event> {
+): Promise<events.EventPollEnd> {
   let reference = generateEventReference(room);
 
   let scores = new Array(optionsCount).fill(0);
@@ -106,7 +106,7 @@ export async function sendPollEnd(
     scores[voteEvent.answerIndex]++;
   }
 
-  let event: events.Event = {
+  let event: events.EventPollEnd = {
     ...getUniversalEventValues(reference.id),
     type: 'poll_end',
     votes: scores,
