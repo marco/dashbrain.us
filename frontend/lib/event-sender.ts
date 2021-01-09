@@ -66,6 +66,25 @@ export async function deleteEvent(
     .delete();
 }
 
+export async function sendPollStart(
+  room: rooms.Room,
+  options: string[],
+  showLiveResults: boolean
+): Promise<events.Event> {
+  let reference = generateEventReference(room);
+
+  let event: events.Event = {
+    ...getUniversalEventValues(reference.id),
+    type: 'poll_start',
+    options: options,
+    showLiveResults: showLiveResults,
+    recipientUids: getEveryoneUids(room),
+  };
+
+  await reference.set(event);
+  return event;
+}
+
 function generateEventReference(room: rooms.Room) {
   return firebase
     .firestore()
