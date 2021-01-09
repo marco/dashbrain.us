@@ -29,17 +29,21 @@ let PollButton: React.FC<{ room: Room; events: Event[] }> = (props) => {
       case 'no_poll':
         setState({ state: 'prompting' });
         break;
-      case 'started':
+      case 'started': {
         setState({ state: 'ending' });
+        let eventId = state.event.id;
+
         await await eventSender.sendPollEnd(
           props.room,
           state.event.id,
           state.event.options.length,
           props.events.filter(
-            (event) => event.type === 'poll_response'
+            (event) =>
+              event.type === 'poll_response' && event.pollEventId === eventId
           ) as EventPollResponse[]
         );
         setState({ state: 'no_poll' });
+      }
     }
   }
 

@@ -64,7 +64,8 @@ let PollEvent: React.FC<{
     // This array would be empty, except for the user's own vote,
     // if `showLiveResults` is false, since no public choice events would be sent.
     let filteredEvents = props.events.filter(
-      (event) => event.type === 'poll_response'
+      (event) =>
+        event.type === 'poll_response' && event.pollEventId === props.event.id
     ) as EventPollResponse[];
 
     for (let voteEvent of filteredEvents) {
