@@ -8,14 +8,15 @@ let QuestionButton: React.FC<{ room: rooms.Room }> = (props) => {
 
   return (
     <>
-      <button onClick={onClick}>Ask a Question</button>
-      {showPrompt ? <QuestionPrompt onSubmit={onSubmit} /> : null}
+      <button onClick={() => setShowPrompt(true)}>Ask a Question</button>
+      {showPrompt ? (
+        <QuestionPrompt
+          onSubmit={onSubmit}
+          onClose={() => setShowPrompt(false)}
+        />
+      ) : null}
     </>
   );
-
-  function onClick() {
-    setShowPrompt(true);
-  }
 
   async function onSubmit(values: { text: string }) {
     await eventSender.askQuestion(props.room, values.text);
@@ -25,9 +26,16 @@ let QuestionButton: React.FC<{ room: rooms.Room }> = (props) => {
 
 let QuestionPrompt: React.FC<{
   onSubmit: (values: { text: string }) => Promise<void>;
+  onClose: () => void;
 }> = (props) => {
   return (
     <div className="fixed bottom-0">
+      <button onClick={props.onClose}>
+        {
+          // TODO: Use an SVG for close.
+        }
+        x
+      </button>
       <p>What&apos;s your Question?</p>
       <p>Only you and your teacher will see your question.</p>
       <Formik initialValues={{ text: '' }} onSubmit={props.onSubmit}>
