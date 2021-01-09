@@ -3,7 +3,6 @@ import {
   Event,
   EventPollResponse,
   EventPollStart,
-  getSenderDetails,
   SenderDetails,
 } from '../../lib/events';
 import { Room } from '../../lib/rooms';
