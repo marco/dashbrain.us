@@ -5,7 +5,9 @@ import { Room } from '../../lib/rooms';
 import RaiseHandEventComponent from './RaiseHandEvent';
 import QuestionEvent from './QuestionEvent';
 
-let EventComponent: React.FC<{ event: Event; room: Room }> = (props) => {
+let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
+  props
+) => {
   let senderDetails = getSenderDetails(props.event, props.room);
 
   if (props.event.type === 'hand') {
@@ -13,7 +15,18 @@ let EventComponent: React.FC<{ event: Event; room: Room }> = (props) => {
   }
 
   if (props.event.type === 'question') {
-    return <QuestionEvent event={props.event} senderDetails={senderDetails} />;
+    return (
+      <QuestionEvent
+        room={props.room}
+        event={props.event}
+        senderDetails={senderDetails}
+        events={props.events}
+      />
+    );
+  }
+
+  if (props.event.type === 'question_upvote') {
+    return null;
   }
 
   // TODO: Other event types.
