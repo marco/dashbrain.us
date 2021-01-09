@@ -1,10 +1,10 @@
 import React from 'react';
 import Loading from '../Loading';
-import { Event, getSenderDetails } from '../../lib/events';
+import { Event, EventPollStart, getSenderDetails } from '../../lib/events';
 import { Room } from '../../lib/rooms';
 import RaiseHandEventComponent from './RaiseHandEvent';
 import QuestionEvent from './QuestionEvent';
-import PollStartEvent from './PollStartEvent';
+import PollEvent from './PollEvent';
 
 let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
   props
@@ -27,12 +27,40 @@ let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
   }
 
   if (props.event.type === 'poll_start') {
+    if (
+      !props.events.some(
+        (event) =>
+          event.type === 'poll_end' && event.pollEventId === props.event.id
+      )
+    ) {
+      return (
+        <PollEvent
+          room={props.room}
+          event={props.event}
+          senderDetails={senderDetails}
+          events={props.events}
+        />
+      );
+    }
+  }
+
+  if (props.event.type === 'poll_end') {
+    let pollEventId = props.event.pollEventId;
+    let originalEvent = props.events.find(
+      (event) => event.type === 'poll_start' && event.id === pollEventId
+    ) as EventPollStart;
+
+    if (!originalEvent) {
+      return null;
+    }
+
     return (
-      <PollStartEvent
+      <PollEvent
         room={props.room}
-        event={props.event}
+        event={originalEvent}
         senderDetails={senderDetails}
         events={props.events}
+        endVotes={props.event.votes}
       />
     );
   }
