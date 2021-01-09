@@ -54,6 +54,7 @@ export interface EventMessage extends EventCommon {
 
 export interface EventPollStart extends EventCommon {
   type: 'poll_start';
+  text: string;
   options: string[];
   showLiveResults: boolean;
 }

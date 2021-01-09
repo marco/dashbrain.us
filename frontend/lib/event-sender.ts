@@ -68,6 +68,7 @@ export async function deleteEvent(
 
 export async function sendPollStart(
   room: rooms.Room,
+  text: string,
   options: string[],
   showLiveResults: boolean
 ): Promise<events.EventPollStart> {
@@ -76,6 +77,7 @@ export async function sendPollStart(
   let event: events.EventPollStart = {
     ...getUniversalEventValues(reference.id),
     type: 'poll_start',
+    text: text,
     options: options,
     showLiveResults: showLiveResults,
     recipientUids: getEveryoneUids(room),

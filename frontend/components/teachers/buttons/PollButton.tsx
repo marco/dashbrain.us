@@ -44,12 +44,14 @@ let PollButton: React.FC<{ room: Room; events: Event[] }> = (props) => {
   }
 
   async function onSubmit(values: {
+    text: string;
     options: string[];
     showLiveResults: boolean;
   }) {
     setState({ state: 'starting' });
     let event = await eventSender.sendPollStart(
       props.room,
+      values.text,
       values.options,
       values.showLiveResults
     );
@@ -72,6 +74,7 @@ let PollButton: React.FC<{ room: Room; events: Event[] }> = (props) => {
 let PollPrompt: React.FC<{
   onClose: () => void;
   onSubmit: (values: {
+    text: string;
     options: string[];
     showLiveResults: boolean;
   }) => Promise<void>;
@@ -79,12 +82,18 @@ let PollPrompt: React.FC<{
   return (
     <Prompt onClose={props.onClose}>
       <Formik
-        initialValues={{ options: ['Yes 👍', 'No 👎'], showLiveResults: false }}
+        initialValues={{
+          text: '',
+          options: ['Yes 👍', 'No 👎'],
+          showLiveResults: false,
+        }}
         onSubmit={props.onSubmit}
       >
         {({ isSubmitting, values }) => (
           <Form>
             <p>Start a Poll</p>
+            <label>Question (Optional)</label>
+            <Field name="text" />
             <label>Options</label>
             <FieldArray name="options">
               {(arrayHelpers) => (
