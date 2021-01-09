@@ -43,7 +43,7 @@ export interface EventQuestion extends EventCommon {
 }
 
 export interface EventQuestionUpvote extends EventCommon {
-  type: 'upvote';
+  type: 'question_upvote';
   questionEventId: string;
 }
 
