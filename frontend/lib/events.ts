@@ -60,12 +60,13 @@ export interface EventPollStart extends EventCommon {
 
 export interface EventPollResponse extends EventCommon {
   type: 'poll_response';
-  answer: string;
+  pollEventId: string;
+  answerIndex: number;
 }
 
 export interface EventPollEnd extends EventCommon {
   type: 'poll_start';
-  options: string[];
+  pollEventId: string;
   votes: number[];
 }
 
