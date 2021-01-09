@@ -37,7 +37,11 @@ let QuestionPrompt: React.FC<{
         x
       </button>
       <p>What&apos;s your Question?</p>
-      <p>Only you and your teacher will see your question.</p>
+      <p>
+        Classmates will see your question, but won&apos;t see who it&apos;s
+        from.
+      </p>
+      <p>If you want to send a private question, use message button instead.</p>
       <Formik initialValues={{ text: '' }} onSubmit={props.onSubmit}>
         {({ isSubmitting }) => (
           <Form>
