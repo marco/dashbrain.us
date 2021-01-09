@@ -85,6 +85,31 @@ export async function sendPollStart(
   return event;
 }
 
+export async function sendPollEnd(
+  room: rooms.Room,
+  pollEventId: string,
+  optionsCount: number,
+  votes: events.EventPollResponse[]
+): Promise<events.Event> {
+  let reference = generateEventReference(room);
+
+  let scores = new Array(optionsCount).fill(0);
+  for (let voteEvent of votes) {
+    scores[voteEvent.answerIndex]++;
+  }
+
+  let event: events.Event = {
+    ...getUniversalEventValues(reference.id),
+    type: 'poll_end',
+    votes: scores,
+    pollEventId: pollEventId,
+    recipientUids: getEveryoneUids(room),
+  };
+
+  await reference.set(event);
+  return event;
+}
+
 function generateEventReference(room: rooms.Room) {
   return firebase
     .firestore()
