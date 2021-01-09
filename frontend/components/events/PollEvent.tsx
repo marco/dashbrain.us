@@ -8,18 +8,22 @@ import {
 import { Room } from '../../lib/rooms';
 import * as eventSender from '../../lib/event-sender';
 
-let PollStartEvent: React.FC<{
+let PollEvent: React.FC<{
   room: Room;
   event: EventPollStart;
   senderDetails: SenderDetails;
   events: Event[];
+  endVotes?: number[];
 }> = (props) => {
   let [choiceIndex, setChoiceIndex] = useState<number | undefined>(undefined);
   let voteTotals = getVoteTotals();
 
   return (
     <div>
-      <p>{props.senderDetails.name} sent a poll.</p>
+      <p>
+        {props.senderDetails.name} {props.endVotes ? 'ended the ' : 'sent a '}
+        poll.
+      </p>
       {props.event.text ? (
         <p>
           <strong>{props.event.text}</strong>
@@ -29,7 +33,7 @@ let PollStartEvent: React.FC<{
         <button
           onClick={() => onClickOption(index)}
           key={index}
-          disabled={choiceIndex !== undefined}
+          disabled={choiceIndex !== undefined || !!props.endVotes}
         >
           {option}
           {choiceIndex !== undefined && props.event.showLiveResults
@@ -46,6 +50,10 @@ let PollStartEvent: React.FC<{
   }
 
   function getVoteTotals() {
+    if (props.endVotes) {
+      return props.endVotes;
+    }
+
     let votes = new Array(props.event.options.length).fill(0);
 
     // This array would be empty if `showLiveResults` is false, since no
@@ -62,4 +70,4 @@ let PollStartEvent: React.FC<{
   }
 };
 
-export default PollStartEvent;
+export default PollEvent;
