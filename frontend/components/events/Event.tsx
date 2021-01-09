@@ -4,6 +4,7 @@ import { Event, getSenderDetails } from '../../lib/events';
 import { Room } from '../../lib/rooms';
 import RaiseHandEventComponent from './RaiseHandEvent';
 import QuestionEvent from './QuestionEvent';
+import PollStartEvent from './PollStartEvent';
 
 let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
   props
@@ -17,6 +18,17 @@ let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
   if (props.event.type === 'question') {
     return (
       <QuestionEvent
+        room={props.room}
+        event={props.event}
+        senderDetails={senderDetails}
+        events={props.events}
+      />
+    );
+  }
+
+  if (props.event.type === 'poll_start') {
+    return (
+      <PollStartEvent
         room={props.room}
         event={props.event}
         senderDetails={senderDetails}
