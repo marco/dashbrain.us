@@ -9,10 +9,7 @@ export async function raiseHand(room: rooms.Room): Promise<events.EventHand> {
   let event: events.EventHand = {
     ...getUniversalEventValues(reference.id),
     type: 'hand',
-    recipientUids: _.uniq([
-      room.teacherUid,
-      firebase.auth().currentUser?.uid as string,
-    ]),
+    recipientUids: getTeacherAndCurrentUserUids(room),
   };
 
   await reference.set(event);
@@ -118,6 +115,26 @@ export async function sendPollEnd(
   return event;
 }
 
+export async function sendMessage(
+  room: rooms.Room,
+  groupUids: string[],
+  text: string,
+  displayAsSentToEveryone: boolean
+): Promise<events.EventMessage> {
+  let reference = generateEventReference(room);
+
+  let event: events.EventMessage = {
+    ...getUniversalEventValues(reference.id),
+    type: 'message',
+    text: text,
+    displayAsSentToEveryone: displayAsSentToEveryone,
+    recipientUids: addCurrentUidIfNotIncluded(groupUids),
+  };
+
+  await reference.set(event);
+  return event;
+}
+
 export async function deleteEvent(
   room: rooms.Room,
   event: events.Event
@@ -154,10 +171,18 @@ function getUniversalEventValues(
   };
 }
 
-function getEveryoneUids(room: rooms.Room) {
+function getEveryoneUids(room: rooms.Room): string[] {
   return _.uniq([
     room.teacherUid,
     ...Object.keys(room.students),
     firebase.auth().currentUser?.uid as string,
   ]);
+}
+
+function getTeacherAndCurrentUserUids(room: rooms.Room): string[] {
+  return _.uniq([room.teacherUid, firebase.auth().currentUser?.uid as string]);
+}
+
+function addCurrentUidIfNotIncluded(uids: string[]): string[] {
+  return _.uniq(uids.concat([firebase.auth().currentUser?.uid as string]));
 }
