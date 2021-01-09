@@ -74,6 +74,25 @@ export async function sendPollStart(
   return event;
 }
 
+export async function sendPollResponse(
+  room: rooms.Room,
+  pollEventId: string,
+  voteIndex: number
+): Promise<events.EventPollResponse> {
+  let reference = generateEventReference(room);
+
+  let event: events.EventPollResponse = {
+    ...getUniversalEventValues(reference.id),
+    type: 'poll_response',
+    pollEventId,
+    answerIndex: voteIndex,
+    recipientUids: getEveryoneUids(room),
+  };
+
+  await reference.set(event);
+  return event;
+}
+
 export async function sendPollEnd(
   room: rooms.Room,
   pollEventId: string,
