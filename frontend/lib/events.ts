@@ -1,12 +1,12 @@
 import firebase from 'firebase/app';
 import { Room } from './rooms';
 
-export function getSenderDetails(event: Event, room: Room): SenderDetails {
-  if (firebase.auth().currentUser?.uid === event.senderUid) {
+export function getUidDetails(uid: string, room: Room): SenderDetails {
+  if (firebase.auth().currentUser?.uid === uid) {
     return { name: 'You', isCurrentUser: true };
   }
 
-  if (room.teacherUid === event.senderUid) {
+  if (room.teacherUid === uid) {
     return {
       name: room.teacherName,
       photo: room.teacherPhoto,
@@ -15,7 +15,7 @@ export function getSenderDetails(event: Event, room: Room): SenderDetails {
   }
 
   let foundStudent = Object.values(room.students).find(
-    (student) => student.uid === event.senderUid
+    (student) => student.uid === uid
   );
 
   if (foundStudent) {
@@ -23,6 +23,10 @@ export function getSenderDetails(event: Event, room: Room): SenderDetails {
   }
 
   return { name: 'Anonymous', isCurrentUser: false };
+}
+
+export function getSenderDetails(event: Event, room: Room): SenderDetails {
+  return getUidDetails(event.senderUid, room);
 }
 
 interface EventCommon {
