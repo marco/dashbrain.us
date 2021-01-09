@@ -54,6 +54,7 @@ export interface EventQuestionUpvote extends EventCommon {
 export interface EventMessage extends EventCommon {
   type: 'message';
   text: string;
+  displayAsSentToEveryone: boolean;
 }
 
 export interface EventPollStart extends EventCommon {
