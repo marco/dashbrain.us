@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as rooms from '../../../lib/rooms';
 import * as eventSender from '../../../lib/event-sender';
-import Prompt from '../../Prompt';
+import Prompt from '../../Sheet';
 
 let QuestionButton: React.FC<{ room: rooms.Room }> = (props) => {
   let [showPrompt, setShowPrompt] = useState(false);

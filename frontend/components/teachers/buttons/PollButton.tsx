@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import * as eventSender from '../../../lib/event-sender';
 import { Room } from '../../../lib/rooms';
-import Prompt from '../../Prompt';
+import Prompt from '../../Sheet';
 import { Event, EventPollResponse, EventPollStart } from '../../../lib/events';
 
 let PollButton: React.FC<{ room: Room; events: Event[] }> = (props) => {
