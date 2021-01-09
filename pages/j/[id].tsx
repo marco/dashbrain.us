@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import * as rooms from '../../frontend/lib/rooms';
+import * as events from '../../frontend/lib/events';
 import Loading from '../../frontend/components/Loading';
 import { Formik, Form, Field } from 'formik';
 import EventComponent from '../../frontend/components/events/Event';
 import * as eventSender from '../../frontend/lib/event-sender';
+import RaiseHandButton from '../../frontend/components/students/buttons/RaiseHandButton';
 
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
@@ -42,7 +44,7 @@ let StudentRoomPage: React.FC = () => {
         ))}
       </div>
       <div>
-        <button onClick={() => eventSender.raiseHand(update!.room)} />
+        <RaiseHandButton room={update!.room} />
       </div>
     </div>
   );
