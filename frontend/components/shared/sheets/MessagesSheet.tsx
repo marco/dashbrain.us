@@ -318,11 +318,13 @@ class EveryoneGroup implements Group {
   title = 'Everyone';
   computedUidsString = 'everyone';
   displayAsEveryone = true;
+
+  constructor(public lastEvent?: EventMessage) {}
 }
 
 export function getGroupForEvent(event: EventMessage, room: Room): Group {
   if (event.displayAsSentToEveryone) {
-    return new EveryoneGroup();
+    return new EveryoneGroup(event);
   } else {
     return new SpecificGroup(room, event.recipientUids, event);
   }
