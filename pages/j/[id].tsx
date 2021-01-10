@@ -9,11 +9,18 @@ import * as eventSender from '../../frontend/lib/event-sender';
 import RaiseHandButton from '../../frontend/components/students/buttons/RaiseHandButton';
 import QuestionButton from '../../frontend/components/students/buttons/QuestionButton';
 import MessagesButton from '../../frontend/components/shared/buttons/MessagesButton';
+import MessagesSheet, {
+  MessagesSheetState,
+  getGroupForEvent,
+} from '../../frontend/components/shared/sheets/MessagesSheet';
 
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
   let [hasJoined, setHasJoined] = useState(false);
   let [update, setUpdate] = useState<rooms.ListenerUpdate | undefined>();
+  let [messageSheetState, setMessageSheetState] = useState<
+    MessagesSheetState | undefined
+  >();
 
   useEffect(() => {
     if (hasJoined) {
@@ -42,19 +49,41 @@ let StudentRoomPage: React.FC = () => {
     <div>
       <div>
         {update.events.map((event) => (
-          <EventComponent
-            event={event}
-            room={update!.room}
+          <div
             key={event.id}
-            events={update!.events}
-          />
+            onClick={() => {
+              if (event.type === 'message') {
+                setMessageSheetState({
+                  selectedGroup: getGroupForEvent(event, update!.room),
+                  state: 'in_group',
+                });
+              }
+            }}
+          >
+            <EventComponent
+              event={event}
+              room={update!.room}
+              events={update!.events}
+            />
+          </div>
         ))}
       </div>
       <div>
         <RaiseHandButton room={update!.room} />
         <QuestionButton room={update!.room} />
-        <MessagesButton room={update!.room} events={update.events} />
+        <MessagesButton
+          onClick={() => setMessageSheetState({ state: 'groups_list' })}
+        />
       </div>
+      {messageSheetState ? (
+        <MessagesSheet
+          room={update.room}
+          events={update.events}
+          state={messageSheetState}
+          onSetState={setMessageSheetState}
+          onClose={() => setMessageSheetState(undefined)}
+        />
+      ) : null}
     </div>
   );
 };
