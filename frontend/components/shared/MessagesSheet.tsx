@@ -297,7 +297,13 @@ let MessageSendBox: React.FC<{
   onSubmit: (values: { text: string }) => Promise<void>;
 }> = (props) => {
   return (
-    <Formik initialValues={{ text: '' }} onSubmit={props.onSubmit}>
+    <Formik
+      initialValues={{ text: '' }}
+      onSubmit={async (values, formik) => {
+        formik.setFieldValue('text', '');
+        await props.onSubmit(values);
+      }}
+    >
       {({ isSubmitting }) => (
         <Form>
           <Field name="text" required={true} />
