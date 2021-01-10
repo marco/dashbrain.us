@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Event, EventMessage, getUidDetails } from '../../lib/events';
-import { Room } from '../../lib/rooms';
-import Sheet from '../Sheet';
+import { Event, EventMessage, getUidDetails } from '../../../lib/events';
+import { Room } from '../../../lib/rooms';
+import Sheet from '../../Sheet';
 import _ from 'lodash';
 import firebase from 'firebase/app';
-import * as eventSender from '../../lib/event-sender';
+import * as eventSender from '../../../lib/event-sender';
 import { Field, Form, Formik } from 'formik';
 
 let MessagesSheet: React.FC<{
