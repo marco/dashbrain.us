@@ -8,6 +8,7 @@ import EventComponent from '../../frontend/components/events/Event';
 import * as eventSender from '../../frontend/lib/event-sender';
 import RaiseHandButton from '../../frontend/components/students/buttons/RaiseHandButton';
 import QuestionButton from '../../frontend/components/students/buttons/QuestionButton';
+import MessagesButton from '../../frontend/components/shared/buttons/MessagesButton';
 
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
@@ -52,6 +53,7 @@ let StudentRoomPage: React.FC = () => {
       <div>
         <RaiseHandButton room={update!.room} />
         <QuestionButton room={update!.room} />
+        <MessagesButton room={update!.room} events={update.events} />
       </div>
     </div>
   );
