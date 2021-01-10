@@ -8,153 +8,135 @@ import * as eventSender from '../../../lib/event-sender';
 import { Field, Form, Formik } from 'formik';
 
 let MessagesSheet: React.FC<{
-  onClose: () => void;
   room: Room;
   events: Event[];
+  state: MessagesSheetState;
+  onClose: () => void;
+  onSetState: (state: MessagesSheetState) => void;
 }> = (props) => {
-  let [state, setState] = useState<'groups_list' | 'new_group' | 'in_group'>(
-    'groups_list'
-  );
-  let [selectedGroup, setSelectedGroup] = useState<Group | undefined>();
   let groups = getExistingGroups();
 
-  return (
-    <Sheet onClose={props.onClose}>
-      {state === 'groups_list' ? (
+  return <Sheet onClose={props.onClose}>{renderContents()}</Sheet>;
+
+  function renderContents() {
+    if (props.state.state === 'groups_list') {
+      return (
         <>
-          <div onClick={() => setState('new_group')}>+ New Message</div>
+          <div onClick={() => props.onSetState({ state: 'new_group' })}>
+            + New Message
+          </div>
           <GroupsList
             groups={groups}
             room={props.room}
             onSelect={(index) => {
-              setSelectedGroup(groups[index]);
-              setState('in_group');
+              props.onSetState({
+                state: 'in_group',
+                selectedGroup: groups[index],
+              });
             }}
           />
         </>
-      ) : null}
-      {state === 'new_group' ? (
+      );
+    }
+    if (props.state.state === 'new_group') {
+      return (
         <NewGroup
           room={props.room}
-          onSubmit={async (selectedUids, displaySentToEveryone) => {
-            let uidsWithCurrentUid = _.uniq(
-              selectedUids.concat([firebase.auth().currentUser?.uid as string])
-            );
+          onSubmit={async (group: Group) => {
+            if (!group.displayAsEveryone) {
+              (group as SpecificGroup).uids = _.uniq(
+                (group as SpecificGroup).uids.concat([
+                  firebase.auth().currentUser?.uid as string,
+                ])
+              );
+            }
 
-            setSelectedGroup({
-              uids: uidsWithCurrentUid,
-              title: convertUidsToTitle(selectedUids),
-              computedUidsString: convertUidsToString(uidsWithCurrentUid),
-              displayAsEveryone: displaySentToEveryone,
+            props.onSetState({
+              state: 'in_group',
+              selectedGroup: group,
             });
-            setState('in_group');
           }}
         />
-      ) : null}
-      {state === 'in_group' ? (
+      );
+    }
+    if (props.state.state === 'in_group') {
+      let selectedGroup = props.state.selectedGroup;
+
+      return (
         <>
           <div>
             <button
               onClick={() => {
-                setState('groups_list');
-                setSelectedGroup(undefined);
+                props.onSetState({ state: 'groups_list' });
               }}
             >
               Back
             </button>{' '}
-            {selectedGroup!.title}
+            {selectedGroup.title}
           </div>
           <MessagesList
             events={props.events}
             room={props.room}
-            group={selectedGroup!}
+            group={selectedGroup}
           />
           <MessageSendBox
             onSubmit={async (values) => {
+              let uids = selectedGroup.displayAsEveryone
+                ? _.uniq(
+                    [props.room.teacherUid].concat(
+                      Object.keys(props.room.students)
+                    )
+                  )
+                : (selectedGroup as SpecificGroup).uids;
+
               eventSender.sendMessage(
                 props.room,
-                selectedGroup!.uids,
+                uids,
                 values.text,
-                selectedGroup!.displayAsEveryone
+                selectedGroup.displayAsEveryone
               );
             }}
           />
         </>
-      ) : null}
-    </Sheet>
-  );
+      );
+    }
+  }
 
-  function getExistingGroups(): ExistingGroup[] {
-    let groups: ExistingGroup[] = [];
+  function getExistingGroups(): Group[] {
+    let groups: Group[] = [];
     let seenGroupUidStrings = new Set<string>();
-
-    let currentUid = firebase.auth().currentUser?.uid;
 
     for (let event of props.events) {
       if (event.type === 'message') {
-        // It's important to have the most up-to-date version of "everyone",
-        // since the last sent message to everyone could actually be missing
-        // some recently joined members (or have some who have left). If
-        // the old value is used instead of a recomputed one, not everyone
-        // would receive a newly sent message from the currently authed user.
-        //
-        // Also, this is useful because it means the same group UID array
-        // will be found (and therefore same computed string) for even the old,
-        // now-innacurate group events. By using the same string for all events
-        // sent to "everyone," all these messages will produce one group. Otherwise,
-        // there would be a separate "everyone" for each distinct phase of
-        // `groupUids` when someone, for example, joined after an everyone message
-        // had already been sent.
-        let groupUids = event.displayAsSentToEveryone
-          ? _.uniq(
-              [props.room.teacherUid].concat(Object.keys(props.room.students))
-            )
-          : _.uniq([event.senderUid].concat(event.recipientUids));
+        let group = getGroupForEvent(event, props.room);
 
-        let groupUidString = convertUidsToString(groupUids);
-
-        if (seenGroupUidStrings.has(groupUidString)) {
+        if (seenGroupUidStrings.has(group.computedUidsString)) {
           continue;
         }
 
-        if (getGroupUidsExcludingCurrentUser(groupUids).length === 0) {
+        if (
+          !group.displayAsEveryone &&
+          getGroupUidsExcludingCurrentUser((group as SpecificGroup).uids)
+            .length === 0
+        ) {
           continue;
         }
 
-        groups.push({
-          uids: groupUids,
-          computedUidsString: groupUidString,
-          title: event.displayAsSentToEveryone
-            ? 'Everyone'
-            : convertUidsToTitle(groupUids),
-          lastEvent: event,
-          displayAsEveryone: event.displayAsSentToEveryone,
-        });
-        seenGroupUidStrings.add(groupUidString);
+        groups.push(group);
+        seenGroupUidStrings.add(group.computedUidsString);
       }
     }
 
     return groups;
   }
-
-  function convertUidsToString(uids: string[]): string {
-    let sorted = _.sortBy(uids);
-    return sorted.join('__');
-  }
-
-  function getGroupUidsExcludingCurrentUser(uids: string[]): string[] {
-    return uids.filter((uid) => uid !== firebase.auth().currentUser?.uid);
-  }
-
-  function convertUidsToTitle(uids: string[]): string {
-    return getGroupUidsExcludingCurrentUser(uids)
-      .map((uid) => getUidDetails(uid, props.room).name)
-      .join(', ');
-  }
 };
 
+function getGroupUidsExcludingCurrentUser(uids: string[]): string[] {
+  return uids.filter((uid) => uid !== firebase.auth().currentUser?.uid);
+}
+
 let GroupsList: React.FC<{
-  groups: ExistingGroup[];
+  groups: Group[];
   room: Room;
   onSelect: (index: number) => void;
 }> = (props) => {
@@ -164,39 +146,32 @@ let GroupsList: React.FC<{
 
   return (
     <div>
-      {props.groups.map((group, index) => (
-        <div
-          key={group.computedUidsString}
-          onClick={() => props.onSelect(index)}
-        >
-          <p>{group.title}</p>
-          <p>
-            {getUidDetails(group.lastEvent.senderUid, props.room).name} —{' '}
-            {group.lastEvent.text}
-          </p>
-        </div>
-      ))}
+      {props.groups
+        .filter((group) => group.lastEvent)
+        .map((group, index) => (
+          <div
+            key={group.computedUidsString}
+            onClick={() => props.onSelect(index)}
+          >
+            <p>{group.title}</p>
+            <p>
+              {getUidDetails(group.lastEvent!.senderUid, props.room).name} —{' '}
+              {group.lastEvent!.text}
+            </p>
+          </div>
+        ))}
     </div>
   );
 };
 
 let NewGroup: React.FC<{
   room: Room;
-  onSubmit: (uids: string[], displaySentToEveryone: boolean) => Promise<void>;
+  onSubmit: (group: Group) => Promise<void>;
 }> = (props) => {
   return (
     <div>
       <p>Send a message to everyone...</p>
-      <div
-        onClick={() =>
-          props.onSubmit(
-            _.uniq(
-              [props.room.teacherUid].concat(Object.keys(props.room.students))
-            ),
-            true
-          )
-        }
-      >
+      <div onClick={() => props.onSubmit(new EveryoneGroup())}>
         {
           // TODO: "next" caret.
         }
@@ -207,7 +182,9 @@ let NewGroup: React.FC<{
       </p>
       <Formik
         initialValues={{ selected: [] as string[] }}
-        onSubmit={(values) => props.onSubmit(values.selected, false)}
+        onSubmit={(values) =>
+          props.onSubmit(new SpecificGroup(props.room, values.selected))
+        }
       >
         {({ isSubmitting, values }) => (
           <Form>
@@ -257,18 +234,15 @@ let MessagesList: React.FC<{ group: Group; events: Event[]; room: Room }> = (
   );
 
   function checkEventMatchesGroup(event: EventMessage) {
+    if (event.displayAsSentToEveryone && props.group.displayAsEveryone) {
+      return true;
+    }
+
     // The user would only ever have access to messages that were in *one* of their
     // groups, but this specific message could belong in their group with another
     // user.
     let messageMembers = new Set(event.recipientUids.concat(event.senderUid));
-    let groupMembers = new Set(props.group.uids);
-
-    // Similar to the check when generating the groups listing, the check here
-    // will actually allow the messages to show up *inside of* this everyone group,
-    // even if the recipients has changed slightly.
-    if (event.displayAsSentToEveryone && props.group.displayAsEveryone) {
-      return true;
-    }
+    let groupMembers = new Set((props.group as SpecificGroup).uids);
 
     if (messageMembers.size !== groupMembers.size) {
       return false;
@@ -318,13 +292,45 @@ let MessageSendBox: React.FC<{
 
 interface Group {
   title: string;
-  uids: string[];
   computedUidsString: string;
+  lastEvent?: EventMessage;
   displayAsEveryone: boolean;
 }
 
-interface ExistingGroup extends Group {
-  lastEvent: EventMessage;
+class SpecificGroup implements Group {
+  title: string;
+  computedUidsString: string;
+  displayAsEveryone = false;
+
+  constructor(
+    room: Room,
+    public uids: string[],
+    public lastEvent?: EventMessage
+  ) {
+    this.title = getGroupUidsExcludingCurrentUser(uids)
+      .map((uid) => getUidDetails(uid, room).name)
+      .join(', ');
+    this.computedUidsString = _.sortBy(uids).join('__');
+  }
 }
+
+class EveryoneGroup implements Group {
+  title = 'Everyone';
+  computedUidsString = 'everyone';
+  displayAsEveryone = true;
+}
+
+function getGroupForEvent(event: EventMessage, room: Room): Group {
+  if (event.displayAsSentToEveryone) {
+    return new EveryoneGroup();
+  } else {
+    return new SpecificGroup(room, event.recipientUids, event);
+  }
+}
+
+export type MessagesSheetState =
+  | { state: 'groups_list' }
+  | { state: 'new_group' }
+  | { state: 'in_group'; selectedGroup: Group };
 
 export default MessagesSheet;
