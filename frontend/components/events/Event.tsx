@@ -5,6 +5,7 @@ import { Room } from '../../lib/rooms';
 import RaiseHandEventComponent from './RaiseHandEvent';
 import QuestionEvent from './QuestionEvent';
 import PollEvent from './PollEvent';
+import MessageEvent from './MessageEvent';
 
 let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
   props
@@ -63,6 +64,16 @@ let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
         senderDetails={senderDetails}
         events={props.events}
         endVotes={props.event.votes}
+      />
+    );
+  }
+
+  if (props.event.type === 'message') {
+    return (
+      <MessageEvent
+        room={props.room}
+        event={props.event}
+        senderDetails={senderDetails}
       />
     );
   }
