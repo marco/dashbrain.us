@@ -168,6 +168,16 @@ let NewGroup: React.FC<{
   room: Room;
   onSubmit: (group: Group) => Promise<void>;
 }> = (props) => {
+  let shouldShowTeacher =
+    props.room.teacherUid !== firebase.auth().currentUser?.uid;
+  let filteredStudents = Object.values(props.room.students).filter(
+    (student) => student.uid !== firebase.auth().currentUser?.uid
+  );
+
+  if (!shouldShowTeacher && filteredStudents.length === 0) {
+    return <div>You are the only one in the room.</div>;
+  }
+
   return (
     <div>
       <p>Send a message to everyone...</p>
@@ -188,15 +198,17 @@ let NewGroup: React.FC<{
       >
         {({ isSubmitting, values }) => (
           <Form>
-            <div>
-              {props.room.teacherName}
-              <Field
-                name="selected"
-                type="checkbox"
-                value={props.room.teacherUid}
-              />
-            </div>
-            {Object.values(props.room.students).map((student) => (
+            {shouldShowTeacher ? (
+              <div>
+                {props.room.teacherName}
+                <Field
+                  name="selected"
+                  type="checkbox"
+                  value={props.room.teacherUid}
+                />
+              </div>
+            ) : null}
+            {filteredStudents.map((student) => (
               <div key={student.uid}>
                 {student.name}
                 <Field name="selected" type="checkbox" value={student.uid} />
