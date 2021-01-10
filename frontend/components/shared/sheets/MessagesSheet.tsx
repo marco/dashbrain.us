@@ -320,7 +320,7 @@ class EveryoneGroup implements Group {
   displayAsEveryone = true;
 }
 
-function getGroupForEvent(event: EventMessage, room: Room): Group {
+export function getGroupForEvent(event: EventMessage, room: Room): Group {
   if (event.displayAsSentToEveryone) {
     return new EveryoneGroup();
   } else {
