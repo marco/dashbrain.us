@@ -12,7 +12,7 @@ let Sheet: React.FC<{ onClose: () => void; className?: string }> = (props) => {
           props.className
         )}
       >
-        <button onClick={props.onClose} className="w-4 absolute right-2 top-2">
+        <button onClick={props.onClose} className="w-6 absolute right-3 top-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
