@@ -15,6 +15,7 @@ let MessagesSheet: React.FC<{
   state: MessagesSheetState;
   onClose: () => void;
   onSetState: (state: MessagesSheetState) => void;
+  onSeeMessages: (eventIds: string[]) => void;
 }> = (props) => {
   let groups = getExistingGroups();
 
@@ -97,6 +98,7 @@ let MessagesSheet: React.FC<{
             events={props.events}
             room={props.room}
             group={selectedGroup}
+            onSeeMessages={props.onSeeMessages}
           />
           <hr />
           <MessageSendBox
@@ -302,9 +304,12 @@ let NewGroup: React.FC<{
   );
 };
 
-let MessagesList: React.FC<{ group: Group; events: Event[]; room: Room }> = (
-  props
-) => {
+let MessagesList: React.FC<{
+  group: Group;
+  events: Event[];
+  room: Room;
+  onSeeMessages: (eventIds: string[]) => void;
+}> = (props) => {
   let listElementRef = useRef<HTMLDivElement | null>(null);
   let [
     lastMessageCountWhenScrolled,
@@ -319,6 +324,7 @@ let MessagesList: React.FC<{ group: Group; events: Event[]; room: Room }> = (
     if (filteredEvents.length > lastMessageCountWhenScrolled) {
       listElementRef.current?.scroll(0, listElementRef.current?.scrollHeight);
       setLastMessageCountWhenScrolled(filteredEvents.length);
+      props.onSeeMessages(filteredEvents.map((event) => event.id));
     }
   }, [filteredEvents]);
 
