@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Event, EventMessage, getUidDetails } from '../../../lib/events';
 import { Room } from '../../../lib/rooms';
 import Sheet from '../../Sheet';
@@ -84,30 +84,33 @@ let MessagesSheet: React.FC<{
       let selectedGroup = props.state.selectedGroup;
 
       return (
-        <div className="p-8">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="#0054D2"
-            onClick={() => {
-              props.onSetState({ state: 'groups_list' });
-            }}
-            className="absolute left-1 top-2 w-8"
-          >
-            <path
-              fillRule="evenodd"
-              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
+        <div className="p-8 pb-0 flex flex-col h-full">
+          <div className="text-brand-blue absolute left-1 top-2 w-8 cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              onClick={() => {
+                props.onSetState({ state: 'groups_list' });
+              }}
+            >
+              <path
+                fillRule="evenodd"
+                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
           <div className="font-bold text-center text-xl">
             {selectedGroup.title}
           </div>
+          <hr className="mt-2" />
           <MessagesList
             events={props.events}
             room={props.room}
             group={selectedGroup}
           />
+          <hr />
           <MessageSendBox
             onSubmit={async (values) => {
               let uids = selectedGroup.displayAsEveryone
@@ -233,14 +236,19 @@ let NewGroup: React.FC<{
   return (
     <div className="p-8">
       <p className="font-bold text-xl tracking-tight">New Group</p>
-      <p className="mt-2 mb-1 text-left text-sm">Send a message to everyone:</p>
+      <p className="mt-4 mb-1 text-left text-sm text-gray-500">
+        Send a message to everyone:
+      </p>
       <div
         onClick={() => props.onSubmit(new EveryoneGroup())}
-        className={classNames('text-white text-center mb-6 blueButton')}
+        className={classNames(
+          'text-white text-center mb-6 blueButton cursor-pointer'
+        )}
       >
         <div>Message Everyone</div>
       </div>
-      <p className="text-sm">
+      <hr className="border-1 mb-4" />
+      <p className="text-sm text-gray-500">
         Or select who to message. Choose more than one to start a group chat.
       </p>
       <Formik
@@ -253,12 +261,12 @@ let NewGroup: React.FC<{
           <Form>
             {shouldShowTeacher ? (
               <div>
-                {props.room.teacherName}
                 <Field
                   name="selected"
                   type="checkbox"
                   value={props.room.teacherUid}
-                />
+                />{' '}
+                {props.room.teacherName}
               </div>
             ) : null}
             {filteredStudents.map((student) => (
@@ -287,17 +295,35 @@ let NewGroup: React.FC<{
 let MessagesList: React.FC<{ group: Group; events: Event[]; room: Room }> = (
   props
 ) => {
+  let listElementRef = useRef<HTMLDivElement | null>(null);
+  let [
+    lastMessageCountWhenScrolled,
+    setLastMessageCountWhenScrolled,
+  ] = useState(0);
+
   let filteredEvents = props.events.filter(
     (event) => event.type === 'message' && checkEventMatchesGroup(event)
   ) as EventMessage[];
 
+  useEffect(() => {
+    if (filteredEvents.length > lastMessageCountWhenScrolled) {
+      listElementRef.current?.scroll(0, listElementRef.current?.scrollHeight);
+      setLastMessageCountWhenScrolled(filteredEvents.length);
+    }
+  }, [filteredEvents]);
+
   if (filteredEvents.length === 0) {
-    return <div>No messages yet...</div>;
+    return (
+      <div className="text-gray-500 text-center mt-6">No messages yet...</div>
+    );
   }
 
   return (
-    <div>
-      {filteredEvents.map((event) => (
+    <div
+      className="flex-1 overflow-scroll scroll-smooth px-3 pt-2"
+      ref={listElementRef}
+    >
+      {_.reverse(filteredEvents).map((event) => (
         <MessageBubble event={event} room={props.room} key={event.id} />
       ))}
     </div>
@@ -332,17 +358,17 @@ let MessageBubble: React.FC<{ event: EventMessage; room: Room }> = (props) => {
   return (
     <div
       className={classNames(
-        'max-w-3/4 py-2 px-3 rounded-md inline-block my-1 shadow-sm',
+        'max-w-3/4 py-2 px-3 rounded-lg rounded-br-sm inline-block my-1 shadow-inner clear-both',
         {
-          'bg-blue-700 text-right text-white float-left clear-left':
+          'bg-brand-blue text-left text-white float-right':
             props.event.senderUid === firebase.auth().currentUser?.uid,
-          'bg-gray-100 float-left clear-left':
+          'bg-gray-100 float-left':
             props.event.senderUid !== firebase.auth().currentUser?.uid,
         }
       )}
     >
       <p>{props.event.text}</p>
-      <p className="text-sm leading-none">
+      <p className="text-xs leading-none">
         {getUidDetails(props.event.senderUid, props.room).name}
       </p>
     </div>
@@ -360,10 +386,19 @@ let MessageSendBox: React.FC<{
         await props.onSubmit(values);
       }}
     >
-      {({ isSubmitting }) => (
-        <Form className="absolute bottom-0 left-0 right-0">
-          <Field name="text" required={true} />
-          <button type="submit" disabled={isSubmitting}>
+      {({ isSubmitting, values }) => (
+        <Form className="w-full py-2 flex">
+          <Field
+            name="text"
+            required={true}
+            className="input flex-1"
+            placeholder="Your message"
+          />
+          <button
+            type="submit"
+            disabled={isSubmitting || !values.text}
+            className="blueButton text-white px-2 ml-2"
+          >
             Send
           </button>
         </Form>
