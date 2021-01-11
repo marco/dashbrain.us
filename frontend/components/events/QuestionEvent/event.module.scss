@@ -1,0 +1,17 @@
+.event {
+  background: #380b5b;
+}
+
+.button {
+  color: #380b5b;
+  background: white;
+  line-height: 1;
+  padding: 3px 5px;
+  font-size: 14px;
+  border-radius: 2px;
+  margin: 8px 4px 0px 0px;
+
+  &:disabled {
+    background: rgba(255, 255, 255, 0.4);
+  }
+}

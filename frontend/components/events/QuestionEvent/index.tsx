@@ -3,6 +3,10 @@ import { Event, EventQuestion, SenderDetails } from '../../../lib/events';
 import * as eventSender from '../../../lib/event-sender';
 import { Room } from '../../../lib/rooms';
 import pluralize from 'pluralize';
+import styles from './event.module.scss';
+import eventStyles from '../events.module.scss';
+import classNames from 'classnames';
+import firebase from 'firebase/app';
 
 let QuestionEvent: React.FC<{
   room: Room;
@@ -15,12 +19,24 @@ let QuestionEvent: React.FC<{
   let upvoteCount = getUpvoteCount();
 
   return (
-    <div className={props.className}>
-      {props.senderDetails.name} asked, &ldquo;{props.event.text}&rdquo;{' '}
-      {upvoteCount > 0 ? pluralize('Likes', upvoteCount, true) + ' ' : ''}
-      <button onClick={onClickUpvote} disabled={hasUpvoted}>
-        Upvote
-      </button>
+    <div className={classNames(props.className, styles.event)}>
+      <img
+        src="/assets/question/white.png"
+        alt="Question"
+        className={eventStyles.iconXS}
+      />
+      <p className="font-bold">{props.senderDetails.name} asked</p>
+      <p className="-mt-1.5">&ldquo;{props.event.text}&rdquo; </p>
+      {shouldShowLikeButton() ? (
+        <button
+          onClick={onClickUpvote}
+          disabled={hasUpvoted}
+          className={styles.button}
+        >
+          {hasUpvoted ? 'Liked' : 'Like'}
+        </button>
+      ) : null}
+      <span className="text-sm">{stringifyLikes(upvoteCount)}</span>
     </div>
   );
 
@@ -35,6 +51,30 @@ let QuestionEvent: React.FC<{
   async function onClickUpvote() {
     setHasUpvoted(true);
     eventSender.upvoteQuestion(props.room, props.event.id);
+  }
+
+  function shouldShowLikeButton() {
+    if (firebase.auth().currentUser?.uid === props.room.teacherUid) {
+      return false;
+    }
+
+    if (firebase.auth().currentUser?.uid === props.event.senderUid) {
+      return false;
+    }
+
+    return true;
+  }
+
+  function stringifyLikes(likes: number): string | null {
+    if (likes === 0) {
+      return null;
+    }
+
+    if (likes === 1) {
+      return '1 student has liked this question.';
+    }
+
+    return `${likes} students have liked this question.`;
   }
 };
 
