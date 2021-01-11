@@ -40,6 +40,20 @@ let PollEvent: React.FC<{
           {checkShouldSeeVotes() ? voteTotals[index] + ' ' : null}
         </button>
       ))}
+      {checkShouldSeeVoters() ? (
+        <>
+          <p>
+            <strong>Responses</strong> (only visible to you)
+          </p>
+          <ul>
+            {getResponses().map((response, index) => (
+              <li key={index}>
+                {response.name}: {response.response}
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
     </div>
   );
 
@@ -75,6 +89,28 @@ let PollEvent: React.FC<{
     return votes;
   }
 
+  function getResponses(): { name: string; response: string }[] {
+    // This array would be empty for students, except for the user's own vote,
+    // if `showLiveResults` is false, since no public choice events would be sent.
+    let filteredEvents = props.events.filter(
+      (event) =>
+        event.type === 'poll_response' && event.pollEventId === props.event.id
+    ) as EventPollResponse[];
+    return filteredEvents.map((event) => {
+      if (event.senderUid === props.room.teacherUid) {
+        return {
+          name: props.room.teacherName,
+          response: props.event.options[event.answerIndex],
+        };
+      }
+
+      return {
+        name: props.room.students[event.senderUid].name || 'A student',
+        response: props.event.options[event.answerIndex],
+      };
+    });
+  }
+
   function checkShouldSeeVotes() {
     if (firebase.auth().currentUser?.uid === props.event.senderUid) {
       return true;
@@ -85,6 +121,14 @@ let PollEvent: React.FC<{
     }
 
     if (props.event.showLiveResults && choiceIndex !== undefined) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function checkShouldSeeVoters() {
+    if (firebase.auth().currentUser?.uid === props.event.senderUid) {
       return true;
     }
 
