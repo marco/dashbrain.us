@@ -74,7 +74,8 @@ export async function sendPollStart(
 export async function sendPollResponse(
   room: rooms.Room,
   pollEventId: string,
-  voteIndex: number
+  voteIndex: number,
+  sendToEveryone: boolean
 ): Promise<events.EventPollResponse> {
   let reference = generateEventReference(room);
 
@@ -83,7 +84,9 @@ export async function sendPollResponse(
     type: 'poll_response',
     pollEventId,
     answerIndex: voteIndex,
-    recipientUids: getEveryoneUids(room),
+    recipientUids: sendToEveryone
+      ? getEveryoneUids(room)
+      : getTeacherAndCurrentUserUids(room),
   };
 
   await reference.set(event);
