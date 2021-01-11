@@ -1,6 +1,10 @@
 import React from 'react';
 import { EventMessage, SenderDetails } from '../../../lib/events';
 import { Room } from '../../../lib/rooms';
+import styles from './event.module.scss';
+import eventStyles from '../events.module.scss';
+import classNames from 'classnames';
+import pluralize from 'pluralize';
 
 let MessageEvent: React.FC<{
   room: Room;
@@ -9,12 +13,36 @@ let MessageEvent: React.FC<{
   className?: string;
 }> = (props) => {
   return (
-    <div className={props.className}>
-      <p>New message from {props.senderDetails.name}</p>
-      <p>{props.event.text}</p>
-      <p>Click to view &amp; reply</p>
+    <div
+      className={classNames(props.className, styles.event, 'cursor-pointer')}
+    >
+      <img
+        src="/assets/message/white.png"
+        alt="Message"
+        className={eventStyles.iconMedium}
+      />
+      <p className="font-bold">
+        {props.senderDetails.name} sent {namesList()} a message
+      </p>
+      <p className="-mt-1.5">{props.event.text}</p>
+      <p className="text-xs mt-2.5">Click to open &amp; reply</p>
     </div>
   );
+
+  function namesList() {
+    let recipientsExcludingSender = props.event.recipientUids.filter(
+      (uid) => uid !== props.event.senderUid
+    );
+    if (recipientsExcludingSender.length <= 1) {
+      return 'you';
+    }
+
+    return `you and ${pluralize(
+      'other',
+      recipientsExcludingSender.length,
+      true
+    )}`;
+  }
 };
 
 export default MessageEvent;
