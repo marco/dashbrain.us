@@ -148,7 +148,7 @@ let PollPrompt: React.FC<{
                     onClick={() => {
                       arrayHelpers.push('');
                     }}
-                    className="leading-none text-blue-500 rounded-sm mt-0.5 mb-5"
+                    className="leading-none text-brand-blue rounded-sm mt-0.5 mb-5"
                   >
                     Add Option
                   </button>

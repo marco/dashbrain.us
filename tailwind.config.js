@@ -15,6 +15,9 @@ module.exports = {
       maxWidth: {
         '3/4': '75%',
       },
+      colors: {
+        'brand-blue': '#0054d2',
+      },
     },
   },
   variants: {
