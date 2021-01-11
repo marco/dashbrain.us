@@ -6,6 +6,12 @@ module.exports = {
       zIndex: {
         '-1': '-1',
       },
+      spacing: {
+        4.5: '1.125rem',
+        6.5: '1.625rem',
+        56.5: '14.125rem',
+        76: '19rem',
+      },
     },
   },
   variants: {
