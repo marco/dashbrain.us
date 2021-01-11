@@ -17,6 +17,7 @@ import MessagesSheet, {
 import LogoType from '../../frontend/components/LogoType';
 import styles from '../../styles/pages/teachers-students.module.scss';
 import TeacherNavBar from '../../frontend/components/NavBar';
+import BottomController from '../../frontend/components/BottomController';
 
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
@@ -87,13 +88,18 @@ let StudentRoomPage: React.FC = () => {
             </div>
           ))}
       </div>
-      <div>
-        <RaiseHandButton room={update!.room} events={update!.events} />
-        <QuestionButton room={update!.room} />
-        <MessagesButton
-          onClick={() => setMessageSheetState({ state: 'groups_list' })}
-        />
-      </div>
+      <BottomController>
+        <div className="flex items-stretch h-64 w-full">
+          <div className="flex items-stretch flex-col flex-1">
+            <QuestionButton room={update!.room} />
+            <MessagesButton
+              onClick={() => setMessageSheetState({ state: 'groups_list' })}
+              flatStyle={false}
+            />
+          </div>
+          <RaiseHandButton room={update!.room} events={update!.events} />
+        </div>
+      </BottomController>
       {messageSheetState ? (
         <MessagesSheet
           room={update.room}
