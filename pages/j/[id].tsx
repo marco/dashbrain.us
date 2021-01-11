@@ -14,6 +14,7 @@ import MessagesSheet, {
   MessagesSheetState,
   getGroupForEvent,
 } from '../../frontend/components/shared/sheets/MessagesSheet';
+import LogoType from '../../frontend/components/LogoType';
 
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
@@ -35,6 +36,7 @@ let StudentRoomPage: React.FC = () => {
   if (!hasJoined) {
     return (
       <NamePrompt
+        roomId={router.query.id as string}
         onSubmit={async (values) => {
           let room = await rooms.join(router.query.id as string, values.name);
 
@@ -112,15 +114,43 @@ let StudentRoomPage: React.FC = () => {
 };
 
 let NamePrompt: React.FC<{
+  roomId: string;
   onSubmit: (values: { name: string }) => Promise<void>;
 }> = (props) => {
   return (
-    <div>
-      <Formik initialValues={{ name: '' }} onSubmit={props.onSubmit}>
-        <Form>
-          <Field name="name" required />
-          <button type="submit">Join</button>
-        </Form>
+    <div className="flex items-center justify-center h-full flex-col pb-6">
+      <LogoType color="blue" className="text-center" size="xl" />
+      <Formik
+        initialValues={{ name: '' }}
+        onSubmit={async (values) => {
+          let available = await rooms.checkNameAvailable(
+            props.roomId,
+            values.name
+          );
+          if (available) {
+            props.onSubmit(values);
+          } else {
+            // TODO: Toast;
+          }
+        }}
+      >
+        {({ isSubmitting }) => (
+          <Form className="w-64">
+            <Field
+              name="name"
+              required
+              className="input w-full mt-6 text-center text-lg py-0.5"
+              placeholder="Your Name"
+            />
+            <button
+              type="submit"
+              className="blueButton block w-full text-white font-black mt-1"
+              disabled={isSubmitting}
+            >
+              Join
+            </button>
+          </Form>
+        )}
       </Formik>
     </div>
   );

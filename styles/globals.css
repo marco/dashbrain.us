@@ -23,6 +23,10 @@ body,
     vertical-align: -0.25rem;
   }
 
+  .-align-1\.5 {
+    vertical-align: -0.375rem;
+  }
+
   .scroll-smooth {
     scroll-behavior: smooth;
   }

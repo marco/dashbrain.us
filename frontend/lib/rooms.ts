@@ -96,6 +96,21 @@ export async function join(
   return room.data() as Room | undefined;
 }
 
+export async function checkRoomExists(id: string): Promise<boolean> {
+  let doc = await firebase.firestore().collection('rooms').doc(id).get();
+  return doc.exists;
+}
+
+export async function checkNameAvailable(
+  id: string,
+  name: string
+): Promise<boolean> {
+  let doc = await firebase.firestore().collection('rooms').doc(id).get();
+  return !Object.values(doc.data()?.students || {}).some(
+    (student) => (student as { name: string }).name === name
+  );
+}
+
 export async function deleteRoom(id: string): Promise<void> {
   await firebase.firestore().collection('rooms').doc(id).delete();
 }
