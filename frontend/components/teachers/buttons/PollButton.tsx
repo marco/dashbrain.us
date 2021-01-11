@@ -170,7 +170,7 @@ let PollPrompt: React.FC<{
               type="submit"
               disabled={isSubmitting}
               className={classNames(
-                'w-full py-1.5 mt-8 text-white block',
+                'w-full mt-8 text-white block font-black',
                 sharedStyles.blueButton
               )}
             >
