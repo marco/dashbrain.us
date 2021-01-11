@@ -9,12 +9,13 @@ let QuestionEvent: React.FC<{
   event: EventQuestion;
   senderDetails: SenderDetails;
   events: Event[];
+  className?: string;
 }> = (props) => {
   let [hasUpvoted, setHasUpvoted] = useState(false);
   let upvoteCount = getUpvoteCount();
 
   return (
-    <div>
+    <div className={props.className}>
       {props.senderDetails.name} asked, &ldquo;{props.event.text}&rdquo;{' '}
       {upvoteCount > 0 ? pluralize('Likes', upvoteCount, true) + ' ' : ''}
       <button onClick={onClickUpvote} disabled={hasUpvoted}>

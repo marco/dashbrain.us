@@ -15,12 +15,13 @@ let PollEvent: React.FC<{
   senderDetails: SenderDetails;
   events: Event[];
   endVotes?: number[];
+  className?: string;
 }> = (props) => {
   let [choiceIndex, setChoiceIndex] = useState<number | undefined>(undefined);
   let voteTotals = getVoteTotals();
 
   return (
-    <div>
+    <div className={props.className}>
       <p>
         {props.senderDetails.name} {props.endVotes ? 'ended a ' : 'sent a '}
         poll.

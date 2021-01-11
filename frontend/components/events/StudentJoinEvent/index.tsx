@@ -5,9 +5,10 @@ import { Room } from '../../../lib/rooms';
 let StudentJoinEvent: React.FC<{
   room: Room;
   event: EventStudentJoin;
+  className?: string;
 }> = (props) => {
   return (
-    <div>
+    <div className={props.className}>
       {props.room.students[props.event.studentUid]?.name || 'A student'} joined
       the Dashbrain.
     </div>
