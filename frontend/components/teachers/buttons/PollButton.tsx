@@ -117,16 +117,16 @@ let PollPrompt: React.FC<{
           <Form className="p-8">
             <p className="font-bold text-xl tracking-tight">Start a Poll</p>
             <label className="block mt-4">Question (Optional)</label>
-            <Field name="text" className={'input block w-full mb-4'} />
+            <Field name="text" className={'input block w-full mb-5'} />
             <label>Options</label>
             <FieldArray name="options">
               {(arrayHelpers) => (
                 <div>
                   {values.options.map((optionValue, index) => (
-                    <div key={index}>
+                    <div key={index} className="flex">
                       <Field
                         name={`options.${index}`}
-                        className={classNames('w-11/12 mb-2 input')}
+                        className={classNames('flex-1 mb-2 input')}
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -148,17 +148,17 @@ let PollPrompt: React.FC<{
                     onClick={() => {
                       arrayHelpers.push('');
                     }}
-                    className="leading-none text-brand-blue rounded-sm mt-0.5 mb-5"
+                    className="leading-none text-brand-blue rounded-sm mb-5"
                   >
                     Add Option
                   </button>
                 </div>
               )}
             </FieldArray>
-            <Field name="showLiveResults" type="checkbox" />
+            <p>Live Results</p>
             <label htmlFor="showLiveResults">
-              {' '}
-              Let students see live results after they vote.
+              <Field name="showLiveResults" type="checkbox" /> Let students see
+              results immediately after they vote.
             </label>
             <button
               type="submit"
