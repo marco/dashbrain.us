@@ -1,0 +1,20 @@
+.container {
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+  border-radius: 3px 3px 0px 0px;
+  z-index: 2;
+  height: 60%;
+
+  @media print {
+    display: none;
+  }
+}
+
+.cover {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
