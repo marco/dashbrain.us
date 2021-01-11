@@ -14,6 +14,8 @@ import LogoType from '../../frontend/components/LogoType';
 import TeacherNavBar from '../../frontend/components/NavBar';
 import BottomController from '../../frontend/components/BottomController';
 import styles from '../../styles/pages/teachers-students.module.scss';
+import ExportButton from '../../frontend/components/teachers/export/ExportButton';
+import ExitButton from '../../frontend/components/teachers/exit/ExitButton';
 
 let TeacherRoomPage: React.FC = () => {
   let router = useRouter();
@@ -55,13 +57,17 @@ let TeacherRoomPage: React.FC = () => {
             />
           </div>
         ))}
+        <div className="h-72"></div>
       </div>
       <BottomController>
         <div>
-          <PollButton room={update!.room} events={update!.events} />
           <MessagesButton
             onClick={() => setMessageSheetState({ state: 'groups_list' })}
+            flatStyle={true}
           />
+          <PollButton room={update!.room} events={update!.events} />
+          <ExportButton />
+          <ExitButton />
         </div>
       </BottomController>
       {messageSheetState ? (
