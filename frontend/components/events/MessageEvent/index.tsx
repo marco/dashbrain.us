@@ -30,6 +30,10 @@ let MessageEvent: React.FC<{
   );
 
   function namesList() {
+    if (props.event.displayAsSentToEveryone) {
+      return 'everyone';
+    }
+
     let recipientsExcludingSender = props.event.recipientUids.filter(
       (uid) => uid !== props.event.senderUid
     );
