@@ -1,0 +1,15 @@
+.button {
+  background: #0054d2;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 8px 0px 7px;
+  letter-spacing: -0.05em;
+  text-align: center;
+  font-weight: 900;
+  width: 22rem;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-1px) scale(1.02);
+  }
+}
