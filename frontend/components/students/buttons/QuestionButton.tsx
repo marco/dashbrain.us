@@ -17,7 +17,7 @@ let QuestionButton: React.FC<{ room: rooms.Room }> = (props) => {
         className={classNames(
           styles.button,
           sharedStyles.bottomButtonSquare,
-          'mb-1.5 flex flex-col flex-1'
+          'mb-1.5 flex flex-col flex-1 items-stretch'
         )}
       >
         <div className="flex-1 items-center justify-center flex">
@@ -50,22 +50,35 @@ let QuestionPrompt: React.FC<{
 }> = (props) => {
   return (
     <Prompt onClose={props.onClose}>
-      <p>What&apos;s your Question?</p>
-      <p>
-        Classmates will see your question, but won&apos;t see who it&apos;s
-        from.
-      </p>
-      <p>If you want to send a private question, use message button instead.</p>
-      <Formik initialValues={{ text: '' }} onSubmit={props.onSubmit}>
-        {({ isSubmitting }) => (
-          <Form>
-            <Field as="textarea" name="text" />
-            <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Submitted!' : 'Submit'}
-            </button>
-          </Form>
-        )}
-      </Formik>
+      <div className="p-8">
+        <p className="font-bold text-xl tracking-tight">
+          What&apos;s your Question?
+        </p>
+        <p className="mt-2 leading-snug text-gray-500">
+          Classmates will see your question, but won&apos;t see who it&apos;s
+          from. If you want to send a private question, use the Message button
+          instead.
+        </p>
+        <Formik initialValues={{ text: '' }} onSubmit={props.onSubmit}>
+          {({ isSubmitting }) => (
+            <Form className="mt-4">
+              <Field
+                as="textarea"
+                name="text"
+                className="input block w-full"
+                placeholder="Your question"
+              />
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="blueButton w-full text-white mt-4"
+              >
+                {isSubmitting ? 'Submitted!' : 'Submit'}
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </Prompt>
   );
 };
