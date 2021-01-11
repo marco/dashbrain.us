@@ -2,13 +2,14 @@ import React from 'react';
 import styles from './index.module.scss';
 import classNames from 'classnames';
 
-let Sheet: React.FC<{ onClose: () => void }> = (props) => {
+let Sheet: React.FC<{ onClose: () => void; className?: string }> = (props) => {
   return (
     <>
       <div
         className={classNames(
           'fixed bottom-0 bg-white left-0 right-0',
-          styles.container
+          styles.container,
+          props.className
         )}
       >
         <button onClick={props.onClose} className="w-4 absolute right-2 top-2">
