@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import _ from 'lodash';
 import config from '../config/config.json';
-import { Event, EventWelcome } from './events';
+import { Event, EventStudentJoin, EventWelcome } from './events';
 import * as errors from './errors';
 
 export async function generateId(): Promise<string> {
@@ -76,7 +76,10 @@ export function listen(
   };
 }
 
-export async function join(id: string, name: string): Promise<void> {
+export async function join(
+  id: string,
+  name: string
+): Promise<Room | undefined> {
   if (firebase.auth().currentUser) {
     await firebase.auth().signOut();
   }
@@ -89,6 +92,8 @@ export async function join(id: string, name: string): Promise<void> {
     .update({
       [`students.${result.user?.uid}`]: { name, uid: result.user?.uid },
     });
+  let room = await firebase.firestore().collection('rooms').doc(id).get();
+  return room.data() as Room | undefined;
 }
 
 async function generateIdInner(

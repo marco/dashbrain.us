@@ -135,6 +135,23 @@ export async function sendMessage(
   return event;
 }
 
+export async function sendStudentJoin(
+  room: rooms.Room,
+  uid: string
+): Promise<events.EventStudentJoin> {
+  let reference = generateEventReference(room);
+
+  let event: events.EventStudentJoin = {
+    ...getUniversalEventValues(reference.id),
+    type: 'student_join',
+    studentUid: uid,
+    recipientUids: getEveryoneUids(room),
+  };
+
+  await reference.set(event);
+  return event;
+}
+
 export async function deleteEvent(
   room: rooms.Room,
   event: events.Event

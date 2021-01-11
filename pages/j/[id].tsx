@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import * as rooms from '../../frontend/lib/rooms';
 import * as events from '../../frontend/lib/events';
 import Loading from '../../frontend/components/Loading';
+import firebase from 'firebase/app';
 import { Formik, Form, Field } from 'formik';
 import EventComponent from '../../frontend/components/events/Event';
 import * as eventSender from '../../frontend/lib/event-sender';
@@ -34,7 +35,17 @@ let StudentRoomPage: React.FC = () => {
     return (
       <NamePrompt
         onSubmit={async (values) => {
-          await rooms.join(router.query.id as string, values.name);
+          let room = await rooms.join(router.query.id as string, values.name);
+
+          if (!room) {
+            // TODO: Show error;
+            return;
+          }
+
+          await eventSender.sendStudentJoin(
+            room,
+            firebase.auth().currentUser?.uid as string
+          );
           setHasJoined(true);
         }}
       />
