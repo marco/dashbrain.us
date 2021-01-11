@@ -70,7 +70,7 @@ let TeacherRoomPage: React.FC = () => {
           />
           <PollButton room={update!.room} events={update!.events} />
           <ExportButton />
-          <ExitButton />
+          <ExitButton room={update!.room} />
         </div>
       </BottomController>
       {messageSheetState ? (
