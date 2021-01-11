@@ -1,0 +1,9 @@
+.button {
+  border-color: #d4910e;
+  color: #d4910e;
+
+  &.started {
+    background: #d4910e;
+    color: white;
+  }
+}

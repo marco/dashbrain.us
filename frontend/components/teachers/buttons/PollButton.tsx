@@ -4,13 +4,33 @@ import * as eventSender from '../../../lib/event-sender';
 import { Room } from '../../../lib/rooms';
 import Prompt from '../../Sheet';
 import { Event, EventPollResponse, EventPollStart } from '../../../lib/events';
+import sharedStyles from '../../../../styles/pages/teachers-students.module.scss';
+import styles from './PollButton.module.scss';
+import classNames from 'classnames';
 
 let PollButton: React.FC<{ room: Room; events: Event[] }> = (props) => {
   let [state, setState] = useState<PollState>({ state: 'no_poll' });
 
   return (
     <>
-      <button onClick={onClick}>{renderButtonText()}</button>
+      <div
+        onClick={onClick}
+        className={classNames(sharedStyles.bottomButtonFlat, styles.button, {
+          [styles.started]:
+            state.state === 'starting' || state.state === 'started',
+        })}
+      >
+        <img
+          src={
+            state.state === 'starting' || state.state === 'started'
+              ? '/assets/poll/white.png'
+              : '/assets/poll/orange.png'
+          }
+          alt="Poll"
+          className="w-4"
+        />
+        {renderButtonText()}
+      </div>
       {state.state === 'prompting' ? (
         <PollPrompt
           onClose={() => setState({ state: 'no_poll' })}
@@ -67,7 +87,7 @@ let PollButton: React.FC<{ room: Room; events: Event[] }> = (props) => {
       case 'ending':
       case 'prompting':
       case 'no_poll':
-        return 'Poll';
+        return 'Start a Poll';
       case 'started':
       case 'starting':
         return 'End Poll';
