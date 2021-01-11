@@ -8,14 +8,24 @@ import PollEvent from './PollEvent';
 import MessageEvent from './MessageEvent';
 import StudentJoinEvent from './StudentJoinEvent';
 import WelcomeEvent from './WelcomeEvent';
+import styles from './events.module.scss';
 
-let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
-  props
-) => {
+let EventComponent: React.FC<{
+  event: Event;
+  room: Room;
+  events: Event[];
+}> = (props) => {
   let senderDetails = getSenderDetails(props.event, props.room);
 
   if (props.event.type === 'hand') {
-    return <RaiseHandEventComponent senderDetails={senderDetails} />;
+    return (
+      <RaiseHandEventComponent
+        senderDetails={senderDetails}
+        className={styles.event}
+        event={props.event}
+        room={props.room}
+      />
+    );
   }
 
   if (props.event.type === 'question') {
@@ -25,6 +35,7 @@ let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
         event={props.event}
         senderDetails={senderDetails}
         events={props.events}
+        className={styles.event}
       />
     );
   }
@@ -42,6 +53,7 @@ let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
           event={props.event}
           senderDetails={senderDetails}
           events={props.events}
+          className={styles.event}
         />
       );
     } else {
@@ -66,6 +78,7 @@ let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
         senderDetails={senderDetails}
         events={props.events}
         endVotes={props.event.votes}
+        className={styles.event}
       />
     );
   }
@@ -76,16 +89,23 @@ let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
         room={props.room}
         event={props.event}
         senderDetails={senderDetails}
+        className={styles.event}
       />
     );
   }
 
   if (props.event.type === 'student_join') {
-    return <StudentJoinEvent room={props.room} event={props.event} />;
+    return (
+      <StudentJoinEvent
+        room={props.room}
+        event={props.event}
+        className={styles.event}
+      />
+    );
   }
 
   if (props.event.type === 'welcome') {
-    return <WelcomeEvent />;
+    return <WelcomeEvent className={styles.event} room={props.room} />;
   }
 
   if (

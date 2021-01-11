@@ -1,0 +1,21 @@
+.event {
+  background: #d4910e;
+}
+
+.pollOption {
+  width: 100%;
+  border: 3px solid white;
+  padding: 3px 10px 1px;
+  border-radius: 3px;
+  margin: 5px 0px 0px;
+  cursor: pointer;
+
+  &:first-of-type {
+    margin-top: 12px;
+  }
+
+  &:disabled {
+    border-color: rgba(255, 255, 255, 0.5);
+    cursor: default;
+  }
+}

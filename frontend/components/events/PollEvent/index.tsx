@@ -8,6 +8,9 @@ import {
 } from '../../../lib/events';
 import { Room } from '../../../lib/rooms';
 import * as eventSender from '../../../lib/event-sender';
+import styles from './event.module.scss';
+import eventStyles from '../events.module.scss';
+import classNames from 'classnames';
 
 let PollEvent: React.FC<{
   room: Room;
@@ -21,46 +24,65 @@ let PollEvent: React.FC<{
   let voteTotals = getVoteTotals();
 
   return (
-    <div className={props.className}>
-      <p>
+    <div className={classNames(props.className, styles.event)}>
+      <img
+        src="/assets/exclamation/white.png"
+        alt="Poll"
+        className={eventStyles.iconXSHeight}
+      />
+      <p className="font-bold">
         {props.senderDetails.name} {props.endVotes ? 'ended a ' : 'sent a '}
         poll.
       </p>
-      {props.event.text ? (
-        <p>
-          <strong>{props.event.text}</strong>
-        </p>
-      ) : null}
+      {props.event.text ? <p className="-mt-1.5">{props.event.text}</p> : null}
       {props.event.options.map((option, index) => (
         <button
           onClick={() => onClickOption(index)}
           key={index}
           disabled={!checkCanVote()}
+          className={classNames(styles.pollOption, 'flex')}
         >
           {option}
+          <div className="flex-1"></div>
           {checkShouldSeeVotes() ? voteTotals[index] + ' ' : null}
         </button>
       ))}
       {checkShouldSeeVoters() ? (
         <>
-          <p>
-            <strong>Responses</strong> (only visible to you)
+          <p className="mt-3.5 mb-1 font-bold">
+            Responses (only visible to you)
           </p>
           <ul>
-            {getResponses().map((response, index) => (
-              <li key={index}>
-                {response.name}: {response.response}
+            {getResponses().length > 0 ? (
+              getResponses().map((response, index) => (
+                <li key={index} className="leading-none">
+                  &nbsp;&nbsp;•&nbsp;&nbsp;{response.name} — &ldquo;
+                  {response.response}
+                  &rdquo;
+                </li>
+              ))
+            ) : (
+              <li className="leading-none">
+                {' '}
+                &nbsp;&nbsp;•&nbsp;&nbsp;No responses yet.
               </li>
-            ))}
+            )}
           </ul>
         </>
-      ) : null}
+      ) : (
+        <p className="text-xs mt-3.5">Click an option to vote</p>
+      )}
     </div>
   );
 
   function onClickOption(index: number) {
     setChoiceIndex(index);
-    eventSender.sendPollResponse(props.room, props.event.id, index);
+    eventSender.sendPollResponse(
+      props.room,
+      props.event.id,
+      index,
+      props.event.showLiveResults
+    );
   }
 
   function getVoteTotals() {
