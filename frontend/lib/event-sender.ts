@@ -155,6 +155,22 @@ export async function sendStudentJoin(
   return event;
 }
 
+export async function sendWelcomeMessage(
+  room: rooms.Room,
+  forUid: string
+): Promise<events.EventWelcome> {
+  let reference = generateEventReference(room);
+
+  let event: events.EventWelcome = {
+    ...getUniversalEventValues(reference.id),
+    type: 'welcome',
+    recipientUids: [forUid],
+  };
+
+  await reference.set(event);
+  return event;
+}
+
 export async function deleteEvent(
   room: rooms.Room,
   event: events.Event

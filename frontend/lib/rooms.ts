@@ -3,6 +3,7 @@ import _ from 'lodash';
 import config from '../config/config.json';
 import { Event, EventStudentJoin, EventWelcome } from './events';
 import * as errors from './errors';
+import * as eventSender from './event-sender';
 
 export async function generateId(): Promise<string> {
   return generateIdInner(config.rooms.minIdLength, 0);
@@ -130,30 +131,18 @@ async function generateIdInner(
       return await generateIdInner(length, iterations + 1);
     }
   } else {
-    let user = firebase.auth().currentUser;
+    let user = firebase.auth().currentUser!;
 
-    await firebase.firestore().collection('rooms').doc(attempt).set({
-      teacherUid: user?.uid,
-      teacherName: user?.displayName,
-      teacherPhoto: user?.photoURL,
+    let room: Room = {
+      teacherUid: user.uid,
+      teacherName: user.displayName || 'Teacher',
+      teacherPhoto: user.photoURL || undefined,
       id: attempt,
       students: {},
-    });
-
-    let welcomeEvent: EventWelcome = {
-      id: '__welcome_message',
-      type: 'welcome',
-      when: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp,
-      senderUid: user?.uid as string,
-      recipientUids: [user?.uid as string],
     };
-    await firebase
-      .firestore()
-      .collection('rooms')
-      .doc(attempt)
-      .collection('events')
-      .doc()
-      .set(welcomeEvent);
+
+    await firebase.firestore().collection('rooms').doc(attempt).set(room);
+    await eventSender.sendWelcomeMessage(room, user.uid as string);
 
     return attempt;
   }
