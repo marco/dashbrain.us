@@ -96,6 +96,10 @@ export async function join(
   return room.data() as Room | undefined;
 }
 
+export async function deleteRoom(id: string): Promise<void> {
+  await firebase.firestore().collection('rooms').doc(id).delete();
+}
+
 async function generateIdInner(
   length: number,
   iterations: number
