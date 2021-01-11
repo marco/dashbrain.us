@@ -1,6 +1,6 @@
 import React from 'react';
-import { EventStudentJoin } from '../../lib/events';
-import { Room } from '../../lib/rooms';
+import { EventStudentJoin } from '../../../lib/events';
+import { Room } from '../../../lib/rooms';
 
 let StudentJoinEvent: React.FC<{
   room: Room;

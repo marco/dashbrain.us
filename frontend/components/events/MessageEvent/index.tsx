@@ -1,6 +1,6 @@
 import React from 'react';
-import { EventMessage, SenderDetails } from '../../lib/events';
-import { Room } from '../../lib/rooms';
+import { EventMessage, SenderDetails } from '../../../lib/events';
+import { Room } from '../../../lib/rooms';
 
 let MessageEvent: React.FC<{
   room: Room;

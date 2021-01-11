@@ -5,9 +5,9 @@ import {
   EventPollResponse,
   EventPollStart,
   SenderDetails,
-} from '../../lib/events';
-import { Room } from '../../lib/rooms';
-import * as eventSender from '../../lib/event-sender';
+} from '../../../lib/events';
+import { Room } from '../../../lib/rooms';
+import * as eventSender from '../../../lib/event-sender';
 
 let PollEvent: React.FC<{
   room: Room;

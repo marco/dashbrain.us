@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Event, EventQuestion, SenderDetails } from '../../lib/events';
-import * as eventSender from '../../lib/event-sender';
-import { Room } from '../../lib/rooms';
+import { Event, EventQuestion, SenderDetails } from '../../../lib/events';
+import * as eventSender from '../../../lib/event-sender';
+import { Room } from '../../../lib/rooms';
 import pluralize from 'pluralize';
 
 let QuestionEvent: React.FC<{
