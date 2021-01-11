@@ -24,29 +24,28 @@ let MessagesSheet: React.FC<{
     if (props.state.state === 'groups_list') {
       return (
         <div className="p-8">
-          <p className="font-bold text-xl tracking-tight">Messages</p>
-          <div
-            onClick={() => props.onSetState({ state: 'new_group' })}
-            className={classNames(
-              // 'mt-2 py-4 border-b-2 border-t-2 border-gray-200 cursor-pointer',
-              'mt-4 py-4 mb-1 cursor-pointer text-blue-600 border-b-2 border-t-2 border-gray-200 flex'
-            )}
-          >
-            <div>New Group</div>
-            <div className="flex-1"></div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="#bbb"
-              className="w-5"
+          <p className="font-bold text-xl tracking-tight mb-3">
+            Messages
+            <div
+              onClick={() => props.onSetState({ state: 'new_group' })}
+              className={classNames(
+                'p-2.5 ml-2 cursor-pointer text-white blueButton inline-block align-middle'
+              )}
             >
-              <path
-                fillRule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="#fff"
+                className="w-5"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+          </p>
           <GroupsList
             groups={groups}
             room={props.room}
@@ -171,7 +170,15 @@ let GroupsList: React.FC<{
   onSelect: (index: number) => void;
 }> = (props) => {
   if (props.groups.length === 0) {
-    return <div>No messages yet...</div>;
+    return (
+      <div className="text-center py-2 space-y-3 text-gray-500">
+        <p>You haven&apos;t sent or received any messages yet.</p>
+        <p>
+          You can send a new message to a specific person, group, or everyone by
+          clicking the &ldquo;+&rdquo; button above.
+        </p>
+      </div>
+    );
   }
 
   return (
