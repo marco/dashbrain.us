@@ -6,6 +6,8 @@ import RaiseHandEventComponent from './RaiseHandEvent';
 import QuestionEvent from './QuestionEvent';
 import PollEvent from './PollEvent';
 import MessageEvent from './MessageEvent';
+import StudentJoinEvent from './StudentJoinEvent';
+import WelcomeEvent from './WelcomeEvent';
 
 let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
   props
@@ -76,6 +78,14 @@ let EventComponent: React.FC<{ event: Event; room: Room; events: Event[] }> = (
         senderDetails={senderDetails}
       />
     );
+  }
+
+  if (props.event.type === 'student_join') {
+    return <StudentJoinEvent room={props.room} event={props.event} />;
+  }
+
+  if (props.event.type === 'welcome') {
+    return <WelcomeEvent />;
   }
 
   if (

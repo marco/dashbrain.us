@@ -76,6 +76,15 @@ export interface EventPollEnd extends EventCommon {
   votes: number[];
 }
 
+export interface EventWelcome extends EventCommon {
+  type: 'welcome';
+}
+
+export interface EventStudentJoin extends EventCommon {
+  type: 'student_join';
+  studentUid: string;
+}
+
 export type Event =
   | EventHand
   | EventQuestion
@@ -83,7 +92,9 @@ export type Event =
   | EventMessage
   | EventPollStart
   | EventPollResponse
-  | EventPollEnd;
+  | EventPollEnd
+  | EventWelcome
+  | EventStudentJoin;
 
 export interface SenderDetails {
   name: string;
