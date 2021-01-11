@@ -80,7 +80,7 @@ let StudentRoomPage: React.FC = () => {
         ))}
       </div>
       <div>
-        <RaiseHandButton room={update!.room} />
+        <RaiseHandButton room={update!.room} events={update!.events} />
         <QuestionButton room={update!.room} />
         <MessagesButton
           onClick={() => setMessageSheetState({ state: 'groups_list' })}
