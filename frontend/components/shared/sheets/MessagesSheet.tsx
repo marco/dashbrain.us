@@ -19,7 +19,11 @@ let MessagesSheet: React.FC<{
 }> = (props) => {
   let groups = getExistingGroups();
 
-  return <Sheet onClose={props.onClose}>{renderContents()}</Sheet>;
+  return (
+    <Sheet onClose={props.onClose} className="h-3/5">
+      {renderContents()}
+    </Sheet>
+  );
 
   function renderContents() {
     if (props.state.state === 'groups_list') {
