@@ -114,23 +114,39 @@ let PollPrompt: React.FC<{
         onSubmit={props.onSubmit}
       >
         {({ isSubmitting, values }) => (
-          <Form>
-            <p>Start a Poll</p>
-            <label>Question (Optional)</label>
-            <Field name="text" />
+          <Form className="p-8">
+            <p className="font-bold text-xl tracking-tight">Start a Poll</p>
+            <label className="block mt-4">Question (Optional)</label>
+            <Field
+              name="text"
+              className={classNames(sharedStyles.input, 'block w-full mb-4')}
+            />
             <label>Options</label>
             <FieldArray name="options">
               {(arrayHelpers) => (
                 <div>
                   {values.options.map((optionValue, index) => (
                     <div key={index}>
-                      <Field name={`options.${index}`} />
-                      <button
-                        type="button"
+                      <Field
+                        name={`options.${index}`}
+                        className={classNames(
+                          sharedStyles.input,
+                          'w-11/12 mb-2'
+                        )}
+                      />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="#999"
+                        className="w-5 inline ml-2 mb-1 cursor-pointer"
                         onClick={() => arrayHelpers.remove(index)}
                       >
-                        Delete
-                      </button>
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
                     </div>
                   ))}
                   <button
@@ -138,17 +154,26 @@ let PollPrompt: React.FC<{
                     onClick={() => {
                       arrayHelpers.push('');
                     }}
+                    className="leading-none text-blue-500 rounded-sm mt-0.5 mb-5"
                   >
-                    Add
+                    Add Option
                   </button>
                 </div>
               )}
             </FieldArray>
             <Field name="showLiveResults" type="checkbox" />
             <label htmlFor="showLiveResults">
+              {' '}
               Let students see live results after they vote.
             </label>
-            <button type="submit" disabled={isSubmitting}>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={classNames(
+                'w-full py-1.5 mt-8 text-white block',
+                sharedStyles.blueButton
+              )}
+            >
               {isSubmitting ? 'Sent!' : 'Send'}
             </button>
           </Form>
