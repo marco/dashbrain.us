@@ -8,6 +8,18 @@ export async function generateId(): Promise<string> {
   return generateIdInner(config.rooms.minIdLength, 0);
 }
 
+export async function deleteCurrentRoom(): Promise<void> {
+  let existingQuery = await firebase
+    .firestore()
+    .collection('rooms')
+    .where('teacherUid', '==', firebase.auth().currentUser?.uid)
+    .get();
+
+  for (let doc of existingQuery.docs) {
+    await doc.ref.delete();
+  }
+}
+
 export function listen(
   id: string,
   callback: (update: ListenerUpdate | undefined) => void

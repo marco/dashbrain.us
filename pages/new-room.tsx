@@ -7,6 +7,7 @@ let TeacherPage: React.FC = () => {
   useEffect(() => {
     (async () => {
       try {
+        await rooms.deleteCurrentRoom();
         let roomId = await rooms.generateId();
         window.location.href = '/t/' + roomId;
       } catch (error) {

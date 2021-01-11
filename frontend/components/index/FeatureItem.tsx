@@ -20,7 +20,7 @@ let FeatureItem: React.FC<{
         alt={props.imgAlt}
         className={props.imgClassName}
       />
-      <p className="w-48 tracking-tighter leading-none">{props.description}</p>
+      <p className="w-48 tracking-tight leading-none">{props.description}</p>
     </div>
   );
 };

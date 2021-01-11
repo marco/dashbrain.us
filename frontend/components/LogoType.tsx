@@ -1,9 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
+import styles from '../../styles/components/LogoType.module.scss';
 
-let LogoType: React.FC<{ color: 'black' | 'white'; className: string }> = (
-  props
-) => {
+let LogoType: React.FC<{
+  color: 'black' | 'white' | 'blue';
+  className: string;
+}> = (props) => {
   return (
     <span className={props.className}>
       <img
@@ -15,6 +17,7 @@ let LogoType: React.FC<{ color: 'black' | 'white'; className: string }> = (
           {
             'text-black': props.color === 'black',
             'text-white': props.color === 'white',
+            [styles.textBlue]: props.color === 'blue',
           },
           ['font-black', 'text-base', 'tracking-tighter', 'inline']
         )}
