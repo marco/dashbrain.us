@@ -327,7 +327,6 @@ let MessagesList: React.FC<{
   let filteredEvents = props.events.filter(
     (event) => event.type === 'message' && checkEventMatchesGroup(event)
   ) as EventMessage[];
-  console.log(props.group, props.events, filteredEvents);
 
   useEffect(() => {
     if (filteredEvents.length > lastMessageCountWhenScrolled) {
