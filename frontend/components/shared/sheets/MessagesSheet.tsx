@@ -241,7 +241,11 @@ let NewGroup: React.FC<{
   );
 
   if (!shouldShowTeacher && filteredStudents.length === 0) {
-    return <div>You are the only one in the room.</div>;
+    return (
+      <div className="text-sm text-gray-500 p-10 text-center">
+        You are the only one in Dashbrain right now.
+      </div>
+    );
   }
 
   return (
@@ -319,6 +323,7 @@ let MessagesList: React.FC<{
   let filteredEvents = props.events.filter(
     (event) => event.type === 'message' && checkEventMatchesGroup(event)
   ) as EventMessage[];
+  console.log(props.group, props.events, filteredEvents);
 
   useEffect(() => {
     if (filteredEvents.length > lastMessageCountWhenScrolled) {
@@ -330,7 +335,9 @@ let MessagesList: React.FC<{
 
   if (filteredEvents.length === 0) {
     return (
-      <div className="text-gray-500 text-center mt-6">No messages yet...</div>
+      <div className="text-gray-500 text-center mt-6 flex-1">
+        No messages yet...
+      </div>
     );
   }
 
@@ -360,7 +367,7 @@ let MessagesList: React.FC<{
       return false;
     }
 
-    for (let memberUid in messageMembers) {
+    for (let memberUid of Array.from(messageMembers)) {
       if (!groupMembers.has(memberUid)) {
         return false;
       }
