@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import firebase from 'firebase/app';
 import * as rooms from '../../frontend/lib/rooms';
 import Loading from '../../frontend/components/Loading';
 import EventComponent from '../../frontend/components/events/Event';
@@ -9,6 +10,10 @@ import MessagesSheet, {
   MessagesSheetState,
   getGroupForEvent,
 } from '../../frontend/components/shared/sheets/MessagesSheet';
+import LogoType from '../../frontend/components/LogoType';
+import TeacherNavBar from '../../frontend/components/NavBar';
+import BottomController from '../../frontend/components/BottomController';
+import styles from '../../styles/pages/teachers-students.module.scss';
 
 let TeacherRoomPage: React.FC = () => {
   let router = useRouter();
@@ -28,8 +33,8 @@ let TeacherRoomPage: React.FC = () => {
   }
 
   return (
-    <div>
-      <div>Room Code: {update.room.id}</div>
+    <div className={styles.bodyDiv}>
+      <TeacherNavBar roomId={router.query.id as string} />
       <div>
         {update.events.map((event) => (
           <div
@@ -51,12 +56,14 @@ let TeacherRoomPage: React.FC = () => {
           </div>
         ))}
       </div>
-      <div>
-        <PollButton room={update!.room} events={update!.events} />
-        <MessagesButton
-          onClick={() => setMessageSheetState({ state: 'groups_list' })}
-        />
-      </div>
+      <BottomController>
+        <div>
+          <PollButton room={update!.room} events={update!.events} />
+          <MessagesButton
+            onClick={() => setMessageSheetState({ state: 'groups_list' })}
+          />
+        </div>
+      </BottomController>
       {messageSheetState ? (
         <MessagesSheet
           room={update.room}
