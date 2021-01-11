@@ -61,23 +61,26 @@ let MessagesSheet: React.FC<{
     }
     if (props.state.state === 'new_group') {
       return (
-        <NewGroup
-          room={props.room}
-          onSubmit={async (group: Group) => {
-            if (!group.displayAsEveryone) {
-              (group as SpecificGroup).uids = _.uniq(
-                (group as SpecificGroup).uids.concat([
-                  firebase.auth().currentUser?.uid as string,
-                ])
-              );
-            }
+        <>
+          {renderBackButton()}
+          <NewGroup
+            room={props.room}
+            onSubmit={async (group: Group) => {
+              if (!group.displayAsEveryone) {
+                (group as SpecificGroup).uids = _.uniq(
+                  (group as SpecificGroup).uids.concat([
+                    firebase.auth().currentUser?.uid as string,
+                  ])
+                );
+              }
 
-            props.onSetState({
-              state: 'in_group',
-              selectedGroup: group,
-            });
-          }}
-        />
+              props.onSetState({
+                state: 'in_group',
+                selectedGroup: group,
+              });
+            }}
+          />
+        </>
       );
     }
     if (props.state.state === 'in_group') {
@@ -85,22 +88,7 @@ let MessagesSheet: React.FC<{
 
       return (
         <div className="p-8 pb-0 flex flex-col h-full">
-          <div className="text-brand-blue absolute left-1 top-2 w-8 cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              onClick={() => {
-                props.onSetState({ state: 'groups_list' });
-              }}
-            >
-              <path
-                fillRule="evenodd"
-                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
+          {renderBackButton()}
           <div className="font-bold text-center text-xl">
             {selectedGroup.title}
           </div>
@@ -129,6 +117,27 @@ let MessagesSheet: React.FC<{
               );
             }}
           />
+        </div>
+      );
+    }
+
+    function renderBackButton() {
+      return (
+        <div className="text-brand-blue absolute left-1 top-2 w-8 cursor-pointer">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            onClick={() => {
+              props.onSetState({ state: 'groups_list' });
+            }}
+          >
+            <path
+              fillRule="evenodd"
+              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
         </div>
       );
     }
@@ -234,7 +243,7 @@ let NewGroup: React.FC<{
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8 pt-12">
       <p className="font-bold text-xl tracking-tight">New Group</p>
       <p className="mt-4 mb-1 text-left text-sm text-gray-500">
         Send a message to everyone:
@@ -279,7 +288,8 @@ let NewGroup: React.FC<{
               <button
                 disabled={isSubmitting || values.selected.length === 0}
                 className={classNames(
-                  'text-white text-center mb-6 block w-full mt-2 blueButton'
+                  'text-white text-center mb-6 block w-full mt-2 blueButton',
+                  { 'cursor-default': values.selected.length === 0 }
                 )}
               >
                 Message Selected
@@ -397,7 +407,9 @@ let MessageSendBox: React.FC<{
           <button
             type="submit"
             disabled={isSubmitting || !values.text}
-            className="blueButton text-white px-2 ml-2"
+            className={classNames('blueButton text-white px-2 ml-2', {
+              blueButtonDisabled: !values.text,
+            })}
           >
             Send
           </button>
