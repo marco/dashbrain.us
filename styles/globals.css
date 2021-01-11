@@ -47,6 +47,10 @@ body,
     padding: 8px 0px 7px;
   }
 
+  .blueButton:active {
+    outline: none;
+  }
+
   .blueButton.blueButtonDisabled {
     background: #dddddd;
     box-shadow: none;
