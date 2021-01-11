@@ -12,6 +12,9 @@ module.exports = {
         56.5: '14.125rem',
         76: '19rem',
       },
+      maxWidth: {
+        '3/4': '75%',
+      },
     },
   },
   variants: {

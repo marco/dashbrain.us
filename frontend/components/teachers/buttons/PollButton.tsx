@@ -117,10 +117,7 @@ let PollPrompt: React.FC<{
           <Form className="p-8">
             <p className="font-bold text-xl tracking-tight">Start a Poll</p>
             <label className="block mt-4">Question (Optional)</label>
-            <Field
-              name="text"
-              className={classNames(sharedStyles.input, 'block w-full mb-4')}
-            />
+            <Field name="text" className={'input block w-full mb-4'} />
             <label>Options</label>
             <FieldArray name="options">
               {(arrayHelpers) => (
@@ -129,10 +126,7 @@ let PollPrompt: React.FC<{
                     <div key={index}>
                       <Field
                         name={`options.${index}`}
-                        className={classNames(
-                          sharedStyles.input,
-                          'w-11/12 mb-2'
-                        )}
+                        className={classNames('w-11/12 mb-2 input')}
                       />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -170,8 +164,7 @@ let PollPrompt: React.FC<{
               type="submit"
               disabled={isSubmitting}
               className={classNames(
-                'w-full mt-8 text-white block font-black',
-                sharedStyles.blueButton
+                'w-full mt-8 text-white block font-black blueButton'
               )}
             >
               {isSubmitting ? 'Sent!' : 'Send'}

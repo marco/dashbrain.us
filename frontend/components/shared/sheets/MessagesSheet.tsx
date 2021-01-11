@@ -6,6 +6,8 @@ import _ from 'lodash';
 import firebase from 'firebase/app';
 import * as eventSender from '../../../lib/event-sender';
 import { Field, Form, Formik } from 'formik';
+import sharedStyles from '../../../../styles/pages/teachers-students.module.scss';
+import classNames from 'classnames';
 
 let MessagesSheet: React.FC<{
   room: Room;
@@ -21,9 +23,29 @@ let MessagesSheet: React.FC<{
   function renderContents() {
     if (props.state.state === 'groups_list') {
       return (
-        <>
-          <div onClick={() => props.onSetState({ state: 'new_group' })}>
-            + New Message
+        <div className="p-8">
+          <p className="font-bold text-xl tracking-tight">Messages</p>
+          <div
+            onClick={() => props.onSetState({ state: 'new_group' })}
+            className={classNames(
+              // 'mt-2 py-4 border-b-2 border-t-2 border-gray-200 cursor-pointer',
+              'mt-4 py-4 mb-1 cursor-pointer text-blue-600 border-b-2 border-t-2 border-gray-200 flex'
+            )}
+          >
+            <div>New Group</div>
+            <div className="flex-1"></div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="#bbb"
+              className="w-5"
+            >
+              <path
+                fillRule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clipRule="evenodd"
+              />
+            </svg>
           </div>
           <GroupsList
             groups={groups}
@@ -35,7 +57,7 @@ let MessagesSheet: React.FC<{
               });
             }}
           />
-        </>
+        </div>
       );
     }
     if (props.state.state === 'new_group') {
@@ -63,15 +85,23 @@ let MessagesSheet: React.FC<{
       let selectedGroup = props.state.selectedGroup;
 
       return (
-        <>
-          <div>
-            <button
-              onClick={() => {
-                props.onSetState({ state: 'groups_list' });
-              }}
-            >
-              Back
-            </button>{' '}
+        <div className="p-8">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="#0054D2"
+            onClick={() => {
+              props.onSetState({ state: 'groups_list' });
+            }}
+            className="absolute left-1 top-2 w-8"
+          >
+            <path
+              fillRule="evenodd"
+              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <div className="font-bold text-center text-xl">
             {selectedGroup.title}
           </div>
           <MessagesList
@@ -97,7 +127,7 @@ let MessagesSheet: React.FC<{
               );
             }}
           />
-        </>
+        </div>
       );
     }
   }
@@ -152,12 +182,27 @@ let GroupsList: React.FC<{
           <div
             key={group.computedUidsString}
             onClick={() => props.onSelect(index)}
+            className="flex py-2 border-b-2 border-gray-200 cursor-pointer"
           >
-            <p>{group.title}</p>
-            <p>
-              {getUidDetails(group.lastEvent!.senderUid, props.room).name} —{' '}
-              {group.lastEvent!.text}
-            </p>
+            <div className="flex-shrink overflow-hidden">
+              <p className="font-bold">{group.title}</p>
+              <p className="whitespace-nowrap overflow-hidden overflow-ellipsis">
+                {group.lastEvent!.text}
+              </p>
+            </div>
+            <div className="flex-1"></div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="#bbb"
+              className="w-5"
+            >
+              <path
+                fillRule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clipRule="evenodd"
+              />
+            </svg>
           </div>
         ))}
     </div>
@@ -179,15 +224,16 @@ let NewGroup: React.FC<{
   }
 
   return (
-    <div>
-      <p>Send a message to everyone...</p>
-      <div onClick={() => props.onSubmit(new EveryoneGroup())}>
-        {
-          // TODO: "next" caret.
-        }
-        Everyone &gt;
+    <div className="p-8">
+      <p className="font-bold text-xl tracking-tight">New Group</p>
+      <p className="mt-2 mb-1 text-left text-sm">Send a message to everyone:</p>
+      <div
+        onClick={() => props.onSubmit(new EveryoneGroup())}
+        className={classNames('text-white text-center mb-6 blueButton')}
+      >
+        <div>Message Everyone</div>
       </div>
-      <p>
+      <p className="text-sm">
         Or select who to message. Choose more than one to start a group chat.
       </p>
       <Formik
@@ -210,13 +256,18 @@ let NewGroup: React.FC<{
             ) : null}
             {filteredStudents.map((student) => (
               <div key={student.uid}>
+                <Field name="selected" type="checkbox" value={student.uid} />{' '}
                 {student.name}
-                <Field name="selected" type="checkbox" value={student.uid} />
               </div>
             ))}
             <div>
-              <button disabled={isSubmitting || values.selected.length === 0}>
-                Done
+              <button
+                disabled={isSubmitting || values.selected.length === 0}
+                className={classNames(
+                  'text-white text-center mb-6 block w-full mt-2 blueButton'
+                )}
+              >
+                Message Selected
               </button>
             </div>
           </Form>
@@ -272,9 +323,21 @@ let MessagesList: React.FC<{ group: Group; events: Event[]; room: Room }> = (
 
 let MessageBubble: React.FC<{ event: EventMessage; room: Room }> = (props) => {
   return (
-    <div>
+    <div
+      className={classNames(
+        'max-w-3/4 py-2 px-3 rounded-md inline-block my-1 shadow-sm',
+        {
+          'bg-blue-700 text-right text-white float-left clear-left':
+            props.event.senderUid === firebase.auth().currentUser?.uid,
+          'bg-gray-100 float-left clear-left':
+            props.event.senderUid !== firebase.auth().currentUser?.uid,
+        }
+      )}
+    >
       <p>{props.event.text}</p>
-      <p>{getUidDetails(props.event.senderUid, props.room).name}</p>
+      <p className="text-sm leading-none">
+        {getUidDetails(props.event.senderUid, props.room).name}
+      </p>
     </div>
   );
 };
@@ -291,7 +354,7 @@ let MessageSendBox: React.FC<{
       }}
     >
       {({ isSubmitting }) => (
-        <Form>
+        <Form className="absolute bottom-0 left-0 right-0">
           <Field name="text" required={true} />
           <button type="submit" disabled={isSubmitting}>
             Send
