@@ -25,7 +25,9 @@ let QuestionEvent: React.FC<{
         alt="Question"
         className={eventStyles.iconXS}
       />
-      <p className="font-bold">{props.senderDetails.name} asked</p>
+      <p className="font-bold">
+        {shouldSeeName() ? props.senderDetails.name : 'Someone'} asked
+      </p>
       <p className="-mt-1.5">&ldquo;{props.event.text}&rdquo; </p>
       {shouldShowLikeButton() ? (
         <button
@@ -39,6 +41,22 @@ let QuestionEvent: React.FC<{
       <span className="text-sm">{stringifyLikes(upvoteCount)}</span>
     </div>
   );
+
+  function shouldSeeName(): boolean {
+    if (props.room.teacherUid === firebase.auth().currentUser?.uid) {
+      return true;
+    }
+
+    if (props.event.senderUid === firebase.auth().currentUser?.uid) {
+      return true;
+    }
+
+    if (props.event.senderUid === props.room.teacherUid) {
+      return true;
+    }
+
+    return false;
+  }
 
   function getUpvoteCount(): number {
     return props.events.filter(
