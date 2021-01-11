@@ -23,12 +23,12 @@ let RaiseHandButton: React.FC<{ room: rooms.Room; events: events.Event[] }> = (
         styles.button,
         sharedStyles.bottomButtonSquare,
         'ml-1.5 flex-1 flex flex-col',
-        { [sharedStyles.bottomButtonSquareInsetShadow]: raiseEvent }
+        { [styles.buttonFilled]: raiseEvent }
       )}
     >
       <div className="flex-1 items-center justify-center flex">
         <img
-          src={'/assets/hand/blue.png'}
+          src={raiseEvent ? '/assets/hand/white.png' : '/assets/hand/blue.png'}
           alt="Raise Hand"
           className="h-14 ml-1 mt-1"
         />
