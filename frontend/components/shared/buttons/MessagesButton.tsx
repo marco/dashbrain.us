@@ -3,8 +3,8 @@ import { Event } from '../../../lib/events';
 import { Room } from '../../../lib/rooms';
 import MessagesSheet from '../sheets/MessagesSheet';
 import classNames from 'classnames';
-import styles from './MessagesButton.module.scss';
 import sharedStyles from '../../../../styles/pages/teachers-students.module.scss';
+import styles from './MessagesButton.module.scss';
 
 let MessagesButton: React.FC<{ onClick: () => void; flatStyle: boolean }> = (
   props
@@ -15,11 +15,21 @@ let MessagesButton: React.FC<{ onClick: () => void; flatStyle: boolean }> = (
       className={classNames({
         [sharedStyles.bottomButtonFlat]: props.flatStyle,
         [styles.flatButton]: props.flatStyle,
+        [sharedStyles.bottomButtonSquare]: !props.flatStyle,
+        [styles.squareButton]: !props.flatStyle,
       })}
     >
       {props.flatStyle ? (
-        <img src={'/assets/message/green.png'} alt="Messages" className="w-4" />
-      ) : null}
+        <img src="/assets/message/green.png" alt="Messages" className={'w-4'} />
+      ) : (
+        <div className="flex-1 items-center justify-center flex">
+          <img
+            src="/assets/message/green.png"
+            alt="Messages"
+            className={'h-10'}
+          />
+        </div>
+      )}
       Messages
     </div>
   );

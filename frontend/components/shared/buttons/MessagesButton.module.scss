@@ -1,8 +1,12 @@
-.flatButton {
+.flatButton,
+.squareButton {
   border-color: #0b5b35;
   color: #0b5b35;
 }
 
 .squareButton {
-  background: #0b5b35;
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
