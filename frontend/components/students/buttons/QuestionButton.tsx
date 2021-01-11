@@ -3,13 +3,32 @@ import { Formik, Form, Field } from 'formik';
 import * as rooms from '../../../lib/rooms';
 import * as eventSender from '../../../lib/event-sender';
 import Prompt from '../../Sheet';
+import sharedStyles from '../../../../styles/pages/teachers-students.module.scss';
+import styles from './QuestionButton.module.scss';
+import classNames from 'classnames';
 
 let QuestionButton: React.FC<{ room: rooms.Room }> = (props) => {
   let [showPrompt, setShowPrompt] = useState(false);
 
   return (
     <>
-      <button onClick={() => setShowPrompt(true)}>Ask a Question</button>
+      <button
+        onClick={() => setShowPrompt(true)}
+        className={classNames(
+          styles.button,
+          sharedStyles.bottomButtonSquare,
+          'mb-1.5 flex flex-col flex-1'
+        )}
+      >
+        <div className="flex-1 items-center justify-center flex">
+          <img
+            src={'/assets/question/purple.png'}
+            alt="Question"
+            className="h-12"
+          />
+        </div>
+        Ask a Question
+      </button>
       {showPrompt ? (
         <QuestionPrompt
           onSubmit={onSubmit}
