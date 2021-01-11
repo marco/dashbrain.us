@@ -1,0 +1,53 @@
+.bodyDiv {
+  min-height: 100%;
+  position: relative;
+
+  .backgroundTiles {
+    $offsetForRotationTiles: 30px;
+
+    background: url('/assets/brain-tiles.png') repeat;
+    z-index: -1;
+    transform: rotate(-5deg);
+    position: absolute;
+    top: -$offsetForRotationTiles;
+    right: -$offsetForRotationTiles;
+    bottom: -$offsetForRotationTiles;
+    left: -$offsetForRotationTiles;
+    opacity: 80%;
+  }
+
+  .backgroundGradient {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+      radial-gradient(
+        94.44% 53.13% at -21.01% 76.49%,
+        #053432 0%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      radial-gradient(
+        98.55% 55.43% at 110.87% 76.02%,
+        #2e0b4a 0%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      radial-gradient(
+        165.82% 93.27% at 15.7% 6.73%,
+        #0b194a 0%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      #000000;
+    z-index: -2;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+  }
+}
+
+.heroText {
+  font-weight: 900;
+  font-size: 2.5rem;
+  line-height: 1;
+  text-align: center;
+  letter-spacing: -0.05em;
+  color: white;
+}
