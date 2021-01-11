@@ -22,7 +22,7 @@ let RaiseHandButton: React.FC<{ room: rooms.Room; events: events.Event[] }> = (
       className={classNames(
         styles.button,
         sharedStyles.bottomButtonSquare,
-        'ml-1.5 flex-1 flex flex-col',
+        'ml-1.5 flex-1 flex flex-col items-stretch',
         { [styles.buttonFilled]: raiseEvent }
       )}
     >
