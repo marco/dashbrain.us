@@ -40,8 +40,8 @@ let PollPrompt: React.FC<{
     <Prompt onClose={props.onClose}>
       <p>Are you sure you want to end this Dashbrain?</p>
       <p>
-        <button>Cancel</button>
-        <button>End Dashbrain</button>
+        <button onClick={props.onClose}>Cancel</button>
+        <button onClick={props.onConfirm}>End Dashbrain</button>
       </p>
     </Prompt>
   );
