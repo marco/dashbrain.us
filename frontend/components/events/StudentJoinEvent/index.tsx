@@ -15,7 +15,7 @@ let StudentJoinEvent: React.FC<{
       <img
         src="/assets/smile/white.png"
         alt="A Student Joined Dashbrain"
-        className={eventStyles.iconSmall}
+        className={eventStyles.iconMedium}
       />
       <p className="font-bold">
         {props.room.students[props.event.studentUid]?.name || 'A student'}
