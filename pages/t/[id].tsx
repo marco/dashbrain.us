@@ -20,6 +20,7 @@ import ExitButton from '../../frontend/components/teachers/exit/ExitButton';
 let TeacherRoomPage: React.FC = () => {
   let router = useRouter();
   let [update, setUpdate] = useState<rooms.ListenerUpdate | undefined>();
+  let [seenMessageIds, setSeenMessageIds] = useState<Set<string>>(new Set());
   let [messageSheetState, setMessageSheetState] = useState<
     MessagesSheetState | undefined
   >();
@@ -38,25 +39,27 @@ let TeacherRoomPage: React.FC = () => {
     <div className={styles.bodyDiv}>
       <TeacherNavBar roomId={router.query.id as string} />
       <div>
-        {update.events.map((event) => (
-          <div
-            key={event.id}
-            onClick={() => {
-              if (event.type === 'message') {
-                setMessageSheetState({
-                  selectedGroup: getGroupForEvent(event, update!.room),
-                  state: 'in_group',
-                });
-              }
-            }}
-          >
-            <EventComponent
-              event={event}
-              room={update!.room}
-              events={update!.events}
-            />
-          </div>
-        ))}
+        {update.events
+          .filter((event) => !seenMessageIds.has(event.id))
+          .map((event) => (
+            <div
+              key={event.id}
+              onClick={() => {
+                if (event.type === 'message') {
+                  setMessageSheetState({
+                    selectedGroup: getGroupForEvent(event, update!.room),
+                    state: 'in_group',
+                  });
+                }
+              }}
+            >
+              <EventComponent
+                event={event}
+                room={update!.room}
+                events={update!.events}
+              />
+            </div>
+          ))}
         <div className="h-72"></div>
       </div>
       <BottomController>
@@ -77,6 +80,15 @@ let TeacherRoomPage: React.FC = () => {
           state={messageSheetState}
           onSetState={setMessageSheetState}
           onClose={() => setMessageSheetState(undefined)}
+          onSeeMessages={(newSeenIds) => {
+            setSeenMessageIds((oldSeenIds) => {
+              let newSet = new Set(oldSeenIds);
+              for (let id of newSeenIds) {
+                newSet.add(id);
+              }
+              return newSet;
+            });
+          }}
         />
       ) : null}
     </div>
