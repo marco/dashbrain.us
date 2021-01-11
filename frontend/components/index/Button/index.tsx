@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Button.module.scss';
+import styles from './index.module.scss';
 import classNames from 'classnames';
 
 let IndexButton: React.FC<{

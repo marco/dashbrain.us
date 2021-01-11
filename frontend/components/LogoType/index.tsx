@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import styles from '../../styles/components/LogoType.module.scss';
+import styles from './index.module.scss';
 
 let LogoType: React.FC<{
   color: 'black' | 'white' | 'blue';
