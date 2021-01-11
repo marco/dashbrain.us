@@ -38,11 +38,28 @@ let PollPrompt: React.FC<{
 }> = (props) => {
   return (
     <Prompt onClose={props.onClose}>
-      <p>Are you sure you want to end this Dashbrain?</p>
-      <p>
-        <button onClick={props.onClose}>Cancel</button>
-        <button onClick={props.onConfirm}>End Dashbrain</button>
-      </p>
+      <div className="p-8">
+        <p className="text-gray-500 text-center mt-1 mb-4">
+          Are you sure you want to end this Dashbrain?
+        </p>
+        <p>
+          <button
+            onClick={props.onClose}
+            className={classNames('blueButton text-white block w-full mb-2')}
+          >
+            Cancel
+          </button>
+          <button
+            onClick={props.onConfirm}
+            className={classNames(
+              styles.confirmButton,
+              'block text-white w-full mb-2'
+            )}
+          >
+            End Dashbrain
+          </button>
+        </p>
+      </div>
     </Prompt>
   );
 };
