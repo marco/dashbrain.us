@@ -1,0 +1,9 @@
+.button {
+  border-color: #800813;
+  color: #800813;
+
+  &.started {
+    background: #800813;
+    color: white;
+  }
+}
