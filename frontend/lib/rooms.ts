@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import _ from 'lodash';
 import config from '../config/config.json';
-import { Event } from './events';
+import { Event, EventWelcome } from './events';
 import * as errors from './errors';
 
 export async function generateId(): Promise<string> {
@@ -115,6 +115,22 @@ async function generateIdInner(
       id: attempt,
       students: {},
     });
+
+    let welcomeEvent: EventWelcome = {
+      id: '__welcome_message',
+      type: 'welcome',
+      when: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp,
+      senderUid: user?.uid as string,
+      recipientUids: [user?.uid as string],
+    };
+    await firebase
+      .firestore()
+      .collection('rooms')
+      .doc(attempt)
+      .collection('events')
+      .doc()
+      .set(welcomeEvent);
+
     return attempt;
   }
 }
