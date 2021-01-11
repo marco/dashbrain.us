@@ -9,6 +9,7 @@ import MessageEvent from './MessageEvent';
 import StudentJoinEvent from './StudentJoinEvent';
 import WelcomeEvent from './WelcomeEvent';
 import styles from './events.module.scss';
+import firebase from 'firebase/app';
 
 let EventComponent: React.FC<{
   event: Event;
@@ -84,6 +85,10 @@ let EventComponent: React.FC<{
   }
 
   if (props.event.type === 'message') {
+    if (props.event.senderUid === firebase.auth().currentUser?.uid) {
+      return null;
+    }
+
     return (
       <MessageEvent
         room={props.room}
