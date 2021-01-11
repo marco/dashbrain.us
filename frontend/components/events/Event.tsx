@@ -100,6 +100,10 @@ let EventComponent: React.FC<{
   }
 
   if (props.event.type === 'student_join') {
+    if (props.event.senderUid === firebase.auth().currentUser?.uid) {
+      return null;
+    }
+
     return (
       <StudentJoinEvent
         room={props.room}
