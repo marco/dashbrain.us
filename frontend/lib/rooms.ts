@@ -94,6 +94,8 @@ export async function join(
       [`students.${result.user?.uid}`]: { name, uid: result.user?.uid },
     });
   let room = await firebase.firestore().collection('rooms').doc(id).get();
+  await eventSender.sendWelcomeMessage(room.data() as Room, result.user!.uid);
+
   return room.data() as Room | undefined;
 }
 
