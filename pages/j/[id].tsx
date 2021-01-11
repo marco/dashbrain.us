@@ -15,6 +15,8 @@ import MessagesSheet, {
   getGroupForEvent,
 } from '../../frontend/components/shared/sheets/MessagesSheet';
 import LogoType from '../../frontend/components/LogoType';
+import styles from '../../styles/pages/teachers-students.module.scss';
+import TeacherNavBar from '../../frontend/components/NavBar';
 
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
@@ -60,7 +62,8 @@ let StudentRoomPage: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className={styles.bodyDiv}>
+      <TeacherNavBar roomId={update.room.id} />
       <div>
         {update.events
           .filter((event) => !seenMessageIds.has(event.id))
