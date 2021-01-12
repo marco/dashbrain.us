@@ -4,17 +4,33 @@ import { Room } from '../../lib/rooms';
 import EventComponent from './Event';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import styles from './events.module.scss';
+import { Group, checkEventMatchesGroup } from '../shared/sheets/MessagesSheet';
 
 let EventsList: React.FC<{
   room: Room;
   events: Event[];
   seenIds: Set<string>;
+  selectedMessageGroup: Group | undefined;
   onClickEvent: (event: Event) => void;
 }> = (props) => {
   return (
     <TransitionGroup>
       {props.events
-        .filter((event) => !props.seenIds.has(event.id))
+        .filter((event) => {
+          if (props.seenIds.has(event.id)) {
+            return false;
+          }
+
+          if (
+            event.type === 'message' &&
+            props.selectedMessageGroup &&
+            checkEventMatchesGroup(event, props.selectedMessageGroup)
+          ) {
+            return false;
+          }
+
+          return true;
+        })
         .map((event) => {
           let eventComponent = (
             <EventComponent

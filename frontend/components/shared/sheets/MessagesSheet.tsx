@@ -387,7 +387,8 @@ let MessagesList: React.FC<{
   ] = useState(0);
 
   let filteredEvents = props.events.filter(
-    (event) => event.type === 'message' && checkEventMatchesGroup(event)
+    (event) =>
+      event.type === 'message' && checkEventMatchesGroup(event, props.group)
   ) as EventMessage[];
 
   useEffect(() => {
@@ -416,30 +417,6 @@ let MessagesList: React.FC<{
       ))}
     </div>
   );
-
-  function checkEventMatchesGroup(event: EventMessage) {
-    if (event.displayAsSentToEveryone && props.group.displayAsEveryone) {
-      return true;
-    }
-
-    // The user would only ever have access to messages that were in *one* of their
-    // groups, but this specific message could belong in their group with another
-    // user.
-    let messageMembers = new Set(event.recipientUids.concat(event.senderUid));
-    let groupMembers = new Set((props.group as SpecificGroup).uids);
-
-    if (messageMembers.size !== groupMembers.size) {
-      return false;
-    }
-
-    for (let memberUid of Array.from(messageMembers)) {
-      if (!groupMembers.has(memberUid)) {
-        return false;
-      }
-    }
-
-    return true;
-  }
 };
 
 let MessageBubble: React.FC<{ event: EventMessage; room: Room }> = (props) => {
@@ -497,11 +474,35 @@ let MessageSendBox: React.FC<{
   );
 };
 
-interface Group {
+export interface Group {
   title: string;
   computedUidsString: string;
   lastEvent?: EventMessage;
   displayAsEveryone: boolean;
+}
+
+export function checkEventMatchesGroup(event: EventMessage, group: Group) {
+  if (event.displayAsSentToEveryone && group.displayAsEveryone) {
+    return true;
+  }
+
+  // The user would only ever have access to messages that were in *one* of their
+  // groups, but this specific message could belong in their group with another
+  // user.
+  let messageMembers = new Set(event.recipientUids.concat(event.senderUid));
+  let groupMembers = new Set((group as SpecificGroup).uids);
+
+  if (messageMembers.size !== groupMembers.size) {
+    return false;
+  }
+
+  for (let memberUid of Array.from(messageMembers)) {
+    if (!groupMembers.has(memberUid)) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 class SpecificGroup implements Group {

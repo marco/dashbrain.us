@@ -102,6 +102,11 @@ let StudentRoomPage: React.FC = () => {
           room={update.room}
           events={update.events}
           seenIds={seenMessageIds}
+          selectedMessageGroup={
+            messageSheetState?.state === 'in_group'
+              ? messageSheetState.selectedGroup
+              : undefined
+          }
           onClickEvent={(event) => {
             if (event.type === 'message') {
               setMessageSheetState({
