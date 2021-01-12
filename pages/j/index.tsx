@@ -37,7 +37,7 @@ let EnterCodePage: React.FC = () => {
                 className="blueButton block w-full text-white font-black mt-1"
                 disabled={isSubmitting}
               >
-                Next
+                {isSubmitting ? 'Loading...' : 'Next'}
               </button>
             </Form>
           )}
