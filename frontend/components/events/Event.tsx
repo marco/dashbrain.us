@@ -125,7 +125,7 @@ let EventComponent: React.FC<{
   }
 
   // TODO: Other event types.
-  return <Loading />;
+  return null;
 };
 
 export default EventComponent;
