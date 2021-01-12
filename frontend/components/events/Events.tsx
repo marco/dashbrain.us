@@ -45,7 +45,7 @@ let EventsList: React.FC<{
           } else {
             return (
               <CSSTransition
-                timeout={500}
+                timeout={2000}
                 key={event.id}
                 classNames={{
                   enter: styles.eventContainerEnter,

@@ -49,12 +49,12 @@
 }
 
 .eventContainerEnter {
-  max-height: 0;
+  max-height: 0px;
 }
 
 .eventContainerEnterActive {
   max-height: 100vh;
-  transition: max-height 2s;
+  transition: max-height 1s linear;
 }
 
 .eventContainerExit {
@@ -62,6 +62,6 @@
 }
 
 .eventContainerExitActive {
-  max-height: 0;
-  transition: max-height 2s;
+  max-height: 0px;
+  transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
