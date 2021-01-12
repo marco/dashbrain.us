@@ -2,20 +2,22 @@ import React, { useState } from 'react';
 import styles from './index.module.scss';
 import classNames from 'classnames';
 
-let Sheet: React.FC<{ onClose: () => void; className?: string }> = (props) => {
-  let [hiding, setHiding] = useState(false);
-
+let Sheet: React.FC<{
+  hidden: boolean;
+  onClose: () => void;
+  className?: string;
+}> = (props) => {
   return (
     <>
       <div
         className={classNames(
           'fixed bg-white left-0 right-0',
-          { [styles.containerHiding]: hiding },
+          { [styles.containerHiding]: props.hidden },
           styles.container,
           props.className
         )}
       >
-        <button onClick={onClose} className="w-6 absolute right-3 top-3">
+        <button onClick={props.onClose} className="w-6 absolute right-3 top-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -31,15 +33,12 @@ let Sheet: React.FC<{ onClose: () => void; className?: string }> = (props) => {
         {props.children}
       </div>
       <div
-        className={classNames(styles.cover, { [styles.coverHiding]: hiding })}
+        className={classNames(styles.cover, {
+          [styles.coverHiding]: props.hidden,
+        })}
       ></div>
     </>
   );
-
-  function onClose() {
-    setHiding(true);
-    setTimeout(props.onClose, 200);
-  }
 };
 
 export default Sheet;

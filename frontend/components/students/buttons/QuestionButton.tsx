@@ -29,12 +29,11 @@ let QuestionButton: React.FC<{ room: rooms.Room }> = (props) => {
         </div>
         Ask a Question
       </button>
-      {showPrompt ? (
-        <QuestionPrompt
-          onSubmit={onSubmit}
-          onClose={() => setShowPrompt(false)}
-        />
-      ) : null}
+      <QuestionPrompt
+        hidden={!showPrompt}
+        onSubmit={onSubmit}
+        onClose={() => setShowPrompt(false)}
+      />
     </>
   );
 
@@ -47,9 +46,10 @@ let QuestionButton: React.FC<{ room: rooms.Room }> = (props) => {
 let QuestionPrompt: React.FC<{
   onSubmit: (values: { text: string }) => Promise<void>;
   onClose: () => void;
+  hidden: boolean;
 }> = (props) => {
   return (
-    <Prompt onClose={props.onClose}>
+    <Prompt onClose={props.onClose} hidden={props.hidden}>
       <div className="p-8">
         <p className="font-bold text-xl tracking-tight">
           What&apos;s your Question?

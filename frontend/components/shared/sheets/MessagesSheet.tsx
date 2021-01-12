@@ -13,6 +13,7 @@ let MessagesSheet: React.FC<{
   room: Room;
   events: Event[];
   state: MessagesSheetState;
+  hidden: boolean;
   onClose: () => void;
   onSetState: (state: MessagesSheetState) => void;
   onSeeMessages: (eventIds: string[]) => void;
@@ -20,7 +21,7 @@ let MessagesSheet: React.FC<{
   let groups = getExistingGroups();
 
   return (
-    <Sheet onClose={props.onClose} className="h-3/5">
+    <Sheet hidden={props.hidden} onClose={props.onClose} className="h-3/5">
       {renderContents()}
     </Sheet>
   );

@@ -15,12 +15,11 @@ let ExitButton: React.FC<{ room: Room }> = (props) => {
         selector for its margin. Making the popup at the bottom would make it the
         last element and break the margin.
       */}
-      {showingPrompt ? (
-        <PollPrompt
-          onClose={() => setShowingPrompt(false)}
-          onConfirm={onConfirm}
-        />
-      ) : null}
+      <PollPrompt
+        onClose={() => setShowingPrompt(false)}
+        onConfirm={onConfirm}
+        hidden={!showingPrompt}
+      />
       <div
         onClick={() => setShowingPrompt(true)}
         className={classNames(sharedStyles.bottomButtonFlat, styles.button)}
@@ -38,11 +37,12 @@ let ExitButton: React.FC<{ room: Room }> = (props) => {
 };
 
 let PollPrompt: React.FC<{
+  hidden: boolean;
   onClose: () => void;
   onConfirm: () => void;
 }> = (props) => {
   return (
-    <Prompt onClose={props.onClose}>
+    <Prompt onClose={props.onClose} hidden={props.hidden}>
       <div className="p-8">
         <p className="text-gray-500 text-center mt-1 mb-4">
           Are you sure you want to end this Dashbrain?

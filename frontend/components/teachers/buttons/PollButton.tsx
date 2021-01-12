@@ -31,12 +31,11 @@ let PollButton: React.FC<{ room: Room; events: Event[] }> = (props) => {
         />
         {renderButtonText()}
       </div>
-      {state.state === 'prompting' ? (
-        <PollPrompt
-          onClose={() => setState({ state: 'no_poll' })}
-          onSubmit={onSubmit}
-        />
-      ) : null}
+      <PollPrompt
+        hidden={state.state !== 'prompting'}
+        onClose={() => setState({ state: 'no_poll' })}
+        onSubmit={onSubmit}
+      />
     </>
   );
 
@@ -96,6 +95,7 @@ let PollButton: React.FC<{ room: Room; events: Event[] }> = (props) => {
 };
 
 let PollPrompt: React.FC<{
+  hidden: boolean;
   onClose: () => void;
   onSubmit: (values: {
     text: string;
@@ -104,7 +104,7 @@ let PollPrompt: React.FC<{
   }) => Promise<void>;
 }> = (props) => {
   return (
-    <Prompt onClose={props.onClose}>
+    <Prompt onClose={props.onClose} hidden={props.hidden}>
       <Formik
         initialValues={{
           text: '',
