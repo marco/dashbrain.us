@@ -9,8 +9,7 @@ import { AppProps } from 'next/app';
 import Loading from '../frontend/components/Loading';
 import Head from 'next/head';
 
-const AUTHED_PATHS = ['/new-room'];
-const UNAUTHED_PATHS = ['/'];
+const AUTHED_PATHS = ['/t/[id]', 'new-room'];
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(config.firebaseConfig);
@@ -24,14 +23,8 @@ let MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
     return firebase.auth().onAuthStateChanged((user) => {
       setAuthStateLoaded(true);
 
-      if (user) {
-        if (!AUTHED_PATHS.includes(router.pathname)) {
-          // window.location.href = AUTHED_PATHS[0];
-        }
-      } else {
-        if (!UNAUTHED_PATHS.includes(router.pathname)) {
-          // window.location.href = UNAUTHED_PATHS[0];
-        }
+      if (!user && AUTHED_PATHS.includes(router.pathname)) {
+        router.push('/');
       }
     });
   }, [router]);

@@ -27,6 +27,10 @@ let TeacherRoomPage: React.FC = () => {
   >();
 
   useEffect(() => {
+    if (!firebase.auth().currentUser?.uid) {
+      return;
+    }
+
     return rooms.listen(router.query.id as string, (update) => {
       setUpdate(update);
     });
