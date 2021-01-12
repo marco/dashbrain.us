@@ -1,4 +1,4 @@
-$animationTime: 0.2s;
+$animationTime: 0.4s;
 $expoTiming: cubic-bezier(0.16, 1, 0.3, 1);
 
 .container {
@@ -9,7 +9,7 @@ $expoTiming: cubic-bezier(0.16, 1, 0.3, 1);
   bottom: 0px;
 
   &.containerHiding {
-    bottom: -100%;
+    bottom: -300%;
     transition: bottom $animationTime linear;
   }
 
