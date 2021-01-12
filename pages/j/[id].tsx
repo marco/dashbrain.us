@@ -18,6 +18,7 @@ import LogoType from '../../frontend/components/LogoType';
 import styles from '../../styles/pages/teachers-students.module.scss';
 import TeacherNavBar from '../../frontend/components/NavBar';
 import BottomController from '../../frontend/components/BottomController';
+import classNames from 'classnames';
 
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
@@ -59,7 +60,25 @@ let StudentRoomPage: React.FC = () => {
   }
 
   if (!update) {
-    return <Loading />;
+    return (
+      <div className={classNames(styles.bodyDiv, 'h-full')}>
+        <TeacherNavBar roomId={router.query.id as string} />
+        <div className="p-4 pb-32 h-full flex flex-col items-center justify-center w-96 mx-auto">
+          <p>
+            This Dashbrain does not exist or has been ended. Please try another
+            ID.
+          </p>
+          <button
+            className="blueButton text-white w-full mt-4"
+            onClick={() => {
+              window.location.href = '/';
+            }}
+          >
+            Go Back
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
