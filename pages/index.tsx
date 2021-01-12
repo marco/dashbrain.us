@@ -24,7 +24,7 @@ let Home: React.FC = () => {
           <br />
           Zoom Rooms
         </h2>
-        <p className="text-base leading-1 text-center tracking-tight mb-12">
+        <p className="text-base leading-1 text-center tracking-tight mb-11">
           Dashbrain helps everyone stay in-sync over video calls.
         </p>
         <FeatureItem
