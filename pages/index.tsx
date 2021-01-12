@@ -14,57 +14,70 @@ let Home: React.FC = () => {
   let router = useRouter();
 
   return (
-    <div className={classNames(styles.bodyDiv, 'text-black overflow-hidden')}>
-      <nav className="mb-8">
-        <LogoType color="blue" className="ml-3 mt-3.5 inline-block" />
-      </nav>
-      <h2 className={classNames(styles.heroText, 'mb-4')}>
-        Level Up Your
-        <br />
-        Zoom Rooms
-      </h2>
-      <p className="text-base leading-1 text-center tracking-tight mb-12">
-        Dashbrain helps everyone stay in-sync over video calls.
-      </p>
-      <FeatureItem
-        imgSrc="assets/hand/blue.png"
-        imgAlt="Raise Hand"
-        imgClassName="w-4"
-        className="w-56 mx-auto mb-4"
-        description="Notifications when someone raises their hand."
-      />
-      <FeatureItem
-        imgSrc="assets/poll/orange.png"
-        imgAlt="Poll"
-        imgClassName="w-4.5"
-        className="w-56.5 mx-auto mb-4"
-        description="Send polls — make sure everyone’s on the same page."
-      />
-      <FeatureItem
-        imgSrc="assets/message/green.png"
-        imgAlt="Send Message"
-        imgClassName="w-4.5"
-        className="w-56.5 mx-auto mb-6.5"
-        description="Messages to specific groups, even in breakout rooms."
-      />
-      <p className="text-center mb-12">. . . and more!</p>
-      <p className="font-black tracking-tight text-center mb-1.5">Teacher?</p>
-      <p className="w-76 leading-none tracking-tight text-center mx-auto mb-4">
-        Dashbrain works with any video-calling software. Just open a new
-        Dashbrain, send the code to your students, and get connected!
-      </p>
-      <IndexButton
-        onClick={teacherSignIn}
-        title="Create a Dashbrain"
-        className="block mx-auto mb-8"
-      />
-      <p className="font-black tracking-tight text-center mb-1.5">Student?</p>
-      <IndexButton
-        onClick={studentSignIn}
-        title="Join a Dashbrain"
-        className="block mx-auto mb-8"
-      />
-      <IndexTiles />
+    <div>
+      <div className={classNames(styles.bodyDiv, 'text-black overflow-hidden')}>
+        <nav className="mb-8">
+          <LogoType color="blue" className="ml-3 mt-3.5 inline-block" />
+        </nav>
+        <h2 className={classNames(styles.heroText, 'mb-4')}>
+          Level Up Your
+          <br />
+          Zoom Rooms
+        </h2>
+        <p className="text-base leading-1 text-center tracking-tight mb-12">
+          Dashbrain helps everyone stay in-sync over video calls.
+        </p>
+        <FeatureItem
+          imgSrc="assets/hand/blue.png"
+          imgAlt="Raise Hand"
+          imgClassName="w-4"
+          className="w-56 mx-auto mb-4"
+          description="Notifications when someone raises their hand."
+        />
+        <FeatureItem
+          imgSrc="assets/poll/orange.png"
+          imgAlt="Poll"
+          imgClassName="w-4.5"
+          className="w-56.5 mx-auto mb-4"
+          description="Send polls — make sure everyone’s on the same page."
+        />
+        <FeatureItem
+          imgSrc="assets/message/green.png"
+          imgAlt="Send Message"
+          imgClassName="w-4.5"
+          className="w-56.5 mx-auto mb-6"
+          description="Messages to specific groups, even in breakout rooms."
+        />
+        <p className="text-center mb-10">. . . and more!</p>
+        <p className="font-black tracking-tight text-center mb-1.5">Teacher?</p>
+        <p className="w-76 leading-none tracking-tight text-center mx-auto mb-4">
+          Dashbrain works with any video-calling software. Just open a new
+          Dashbrain, send the code to your students, and get connected!
+        </p>
+        <IndexButton
+          onClick={teacherSignIn}
+          title="Create a Dashbrain"
+          className="block mx-auto mb-8"
+        />
+        <p className="font-black tracking-tight text-center mb-1.5">Student?</p>
+        <IndexButton
+          onClick={studentSignIn}
+          title="Join a Dashbrain"
+          className="block mx-auto mb-32"
+        />
+        <IndexTiles />
+      </div>
+      <div
+        className={classNames(
+          styles.footer,
+          'bg-white w-full px-9 py-8 text-sm'
+        )}
+      >
+        <p className="font-bold">© Dashbrain 2021</p>
+        <p className="text-gray-500">
+          <a href="mailto:dashbrain@dashbrain.us">Contact Us</a>
+        </p>
+      </div>
     </div>
   );
 
