@@ -60,3 +60,17 @@ body,
     box-shadow: 0px 2px 5px rgba(2, 22, 53, 0.2);
   }
 }
+
+.Toastify__toast {
+  min-height: 0px;
+  font-family: 'Catamaran', sans-serif;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.Toastify__toast--error {
+  background: #800813;
+  border-radius: 5px;
+}
+.Toastify__toast-body {
+  margin: 5px 8px 0px;
+}

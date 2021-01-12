@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/globals.css';
 import config from '../frontend/config/config.json';
 import { useRouter } from 'next/router';
 import { AppProps } from 'next/app';
 import Loading from '../frontend/components/Loading';
 import Head from 'next/head';
+import { ToastContainer } from 'react-toastify';
 
 const AUTHED_PATHS = ['/t/[id]', 'new-room'];
 
@@ -40,6 +42,12 @@ let MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Component {...pageProps} />
+      <ToastContainer
+        position="top-right"
+        autoClose={false}
+        draggable={false}
+        closeButton={false}
+      />
     </>
   );
 };

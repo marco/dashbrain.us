@@ -4,6 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import { useRouter } from 'next/router';
 import * as rooms from '../../frontend/lib/rooms';
 import IndexTiles from '../../frontend/components/index/Tiles';
+import { toast } from 'react-toastify';
 
 let EnterCodePage: React.FC = () => {
   let router = useRouter();
@@ -19,7 +20,7 @@ let EnterCodePage: React.FC = () => {
             if (exists) {
               router.push('/j/' + values.code);
             } else {
-              // TODO: Toast;
+              toast.error('That Dashbrain ID does not exist.');
             }
           }}
         >

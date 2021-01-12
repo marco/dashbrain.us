@@ -21,6 +21,7 @@ import BottomController from '../../frontend/components/BottomController';
 import classNames from 'classnames';
 import EventsList from '../../frontend/components/events/Events';
 import IndexTiles from '../../frontend/components/index/Tiles';
+import { toast } from 'react-toastify';
 
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
@@ -156,7 +157,7 @@ let NamePrompt: React.FC<{
             if (available) {
               props.onSubmit(values);
             } else {
-              // TODO: Toast;
+              toast.error('That name is already taken.');
             }
           }}
         >
