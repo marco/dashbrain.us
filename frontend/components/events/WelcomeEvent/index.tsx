@@ -23,7 +23,11 @@ let WelcomeEvent: React.FC<{ className?: string; room: Room }> = (props) => {
     if (props.room.teacherUid === firebase.auth().currentUser?.uid) {
       return (
         <>
-          <p>Your Dashbrain code is {props.room.id}.</p>
+          <p>
+            Your Dashbrain code is {props.room.id}. Students can join by vising
+            dashbrain.us, choosing &ldquo;Join a Dashbrain,&rdquo; and entering
+            the code.
+          </p>
           <p className="mt-3">
             You will receive notifications in this list as students join, ask
             questions, raise their hands, and more!
