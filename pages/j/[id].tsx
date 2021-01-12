@@ -52,10 +52,16 @@ let StudentRoomPage: React.FC = () => {
             return;
           }
 
-          await eventSender.sendStudentJoin(
-            room,
-            firebase.auth().currentUser?.uid as string
-          );
+          await Promise.all([
+            await eventSender.sendWelcomeMessage(
+              room,
+              firebase.auth().currentUser?.uid as string
+            ),
+            await eventSender.sendStudentJoin(
+              room,
+              firebase.auth().currentUser?.uid as string
+            ),
+          ]);
           setHasJoined(true);
         }}
       />
