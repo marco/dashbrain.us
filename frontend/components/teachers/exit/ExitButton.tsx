@@ -10,6 +10,17 @@ let ExitButton: React.FC<{ room: Room }> = (props) => {
 
   return (
     <>
+      {/*
+        This has to be done above because the bottom button has a last-of-type
+        selector for its margin. Making the popup at the bottom would make it the
+        last element and break the margin.
+      */}
+      {showingPrompt ? (
+        <PollPrompt
+          onClose={() => setShowingPrompt(false)}
+          onConfirm={onConfirm}
+        />
+      ) : null}
       <div
         onClick={() => setShowingPrompt(true)}
         className={classNames(sharedStyles.bottomButtonFlat, styles.button)}
@@ -17,12 +28,6 @@ let ExitButton: React.FC<{ room: Room }> = (props) => {
         <img src="/assets/close/red.png" alt="Exit" className="w-4" />
         End Dashbrain
       </div>
-      {showingPrompt ? (
-        <PollPrompt
-          onClose={() => setShowingPrompt(false)}
-          onConfirm={onConfirm}
-        />
-      ) : null}
     </>
   );
 
