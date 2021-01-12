@@ -24,9 +24,11 @@ let WelcomeEvent: React.FC<{ className?: string; room: Room }> = (props) => {
       return (
         <>
           <p>
-            Your Dashbrain code is {props.room.id}. Students can join by vising
-            dashbrain.us, choosing &ldquo;Join a Dashbrain,&rdquo; and entering
-            the code.
+            Your Dashbrain code is {props.room.id}. Students can join by vising{' '}
+            <a href="/" target="_blank" className="underline">
+              dashbrain.us
+            </a>
+            , choosing &ldquo;Join a Dashbrain,&rdquo; and entering the code.
           </p>
           <p className="mt-3">
             You will receive notifications in this list as students join, ask
