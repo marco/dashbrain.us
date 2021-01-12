@@ -320,6 +320,7 @@ let NewGroup: React.FC<{
         {!props.room.options.studentsCanMessageEachOther &&
         shouldShowTeacher ? (
           <>
+            {' '}
             Your teacher has disabled messages between students, but you can
             still message everyone at once using the “Message&nbsp;Everyone”
             button above.
