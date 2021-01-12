@@ -19,6 +19,7 @@ import styles from '../../styles/pages/teachers-students.module.scss';
 import TeacherNavBar from '../../frontend/components/NavBar';
 import BottomController from '../../frontend/components/BottomController';
 import classNames from 'classnames';
+import EventsList from '../../frontend/components/events/Events';
 
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
@@ -85,27 +86,19 @@ let StudentRoomPage: React.FC = () => {
     <div className={styles.bodyDiv}>
       <TeacherNavBar roomId={update.room.id} />
       <div>
-        {update.events
-          .filter((event) => !seenMessageIds.has(event.id))
-          .map((event) => (
-            <div
-              key={event.id}
-              onClick={() => {
-                if (event.type === 'message') {
-                  setMessageSheetState({
-                    selectedGroup: getGroupForEvent(event, update!.room),
-                    state: 'in_group',
-                  });
-                }
-              }}
-            >
-              <EventComponent
-                event={event}
-                room={update!.room}
-                events={update!.events}
-              />
-            </div>
-          ))}
+        <EventsList
+          room={update.room}
+          events={update.events}
+          seenIds={seenMessageIds}
+          onClickEvent={(event) => {
+            if (event.type === 'message') {
+              setMessageSheetState({
+                selectedGroup: getGroupForEvent(event, update!.room),
+                state: 'in_group',
+              });
+            }
+          }}
+        />
       </div>
       <BottomController>
         <div className="flex items-stretch h-64 w-full">
@@ -119,24 +112,23 @@ let StudentRoomPage: React.FC = () => {
           <RaiseHandButton room={update!.room} events={update!.events} />
         </div>
       </BottomController>
-      {messageSheetState ? (
-        <MessagesSheet
-          room={update.room}
-          events={update.events}
-          state={messageSheetState}
-          onSetState={setMessageSheetState}
-          onClose={() => setMessageSheetState(undefined)}
-          onSeeMessages={(newSeenIds) => {
-            setSeenMessageIds((oldSeenIds) => {
-              let newSet = new Set(oldSeenIds);
-              for (let id of newSeenIds) {
-                newSet.add(id);
-              }
-              return newSet;
-            });
-          }}
-        />
-      ) : null}
+      <MessagesSheet
+        hidden={!messageSheetState}
+        room={update.room}
+        events={update.events}
+        state={messageSheetState || { state: 'groups_list' }}
+        onSetState={setMessageSheetState}
+        onClose={() => setMessageSheetState(undefined)}
+        onSeeMessages={(newSeenIds) => {
+          setSeenMessageIds((oldSeenIds) => {
+            let newSet = new Set(oldSeenIds);
+            for (let id of newSeenIds) {
+              newSet.add(id);
+            }
+            return newSet;
+          });
+        }}
+      />
     </div>
   );
 };
