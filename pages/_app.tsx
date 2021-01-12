@@ -7,6 +7,7 @@ import config from '../frontend/config/config.json';
 import { useRouter } from 'next/router';
 import { AppProps } from 'next/app';
 import Loading from '../frontend/components/Loading';
+import Head from 'next/head';
 
 const AUTHED_PATHS = ['/new-room'];
 const UNAUTHED_PATHS = ['/'];
@@ -39,7 +40,15 @@ let MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
     return <Loading />;
   }
 
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Head>
+        <title>Dashbrain</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <Component {...pageProps} />
+    </>
+  );
 };
 
 export default MyApp;

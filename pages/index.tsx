@@ -15,10 +15,6 @@ let Home: React.FC = () => {
 
   return (
     <div className={classNames(styles.bodyDiv, 'text-black overflow-hidden')}>
-      <Head>
-        <title>{config.appName}</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <nav className="mb-8">
         <LogoType color="blue" className="ml-3 mt-3.5 inline-block" />
       </nav>
