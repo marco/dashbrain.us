@@ -75,7 +75,7 @@ let Home: React.FC = () => {
   }
 
   function studentSignIn() {
-    router.push('/j');
+    router.push('/join');
   }
 };
 
