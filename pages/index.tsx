@@ -7,8 +7,12 @@ import LogoType from '../frontend/components/LogoType';
 import classNames from 'classnames';
 import FeatureItem from '../frontend/components/index/FeatureItem';
 import IndexButton from '../frontend/components/index/Button';
+import IndexTiles from '../frontend/components/index/Tiles';
+import { useRouter } from 'next/router';
 
 let Home: React.FC = () => {
+  let router = useRouter();
+
   return (
     <div className={classNames(styles.bodyDiv, 'text-black overflow-hidden')}>
       <Head>
@@ -64,18 +68,18 @@ let Home: React.FC = () => {
         title="Join a Dashbrain"
         className="block mx-auto mb-8"
       />
-      <div className={styles.backgroundTiles}></div>
+      <IndexTiles />
     </div>
   );
 
   async function teacherSignIn() {
     let provider = new firebase.auth.GoogleAuthProvider();
     await firebase.auth().signInWithPopup(provider);
-    window.location.href = '/new-room';
+    router.push('/new-room');
   }
 
   function studentSignIn() {
-    window.location.href = '/j';
+    router.push('/j');
   }
 };
 

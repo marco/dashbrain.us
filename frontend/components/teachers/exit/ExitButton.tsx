@@ -4,8 +4,10 @@ import Prompt from '../../Sheet';
 import sharedStyles from '../../../../styles/pages/teachers-students.module.scss';
 import styles from './ExitButton.module.scss';
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
 
 let ExitButton: React.FC<{ room: Room }> = (props) => {
+  let router = useRouter();
   let [showingPrompt, setShowingPrompt] = useState(false);
 
   return (
@@ -32,7 +34,7 @@ let ExitButton: React.FC<{ room: Room }> = (props) => {
 
   async function onConfirm() {
     await deleteRoom(props.room.id);
-    window.location.href = '/';
+    router.push('/');
   }
 };
 
