@@ -113,7 +113,7 @@ let StudentRoomPage: React.FC = () => {
         />
       </div>
       <BottomController>
-        <div className="flex items-stretch h-64 w-full">
+        <div className="flex items-stretch h-60 w-full">
           <div className="flex items-stretch flex-col flex-1">
             <QuestionButton room={update!.room} />
             <MessagesButton
