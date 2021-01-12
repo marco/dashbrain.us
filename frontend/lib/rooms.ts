@@ -122,6 +122,17 @@ export async function checkNameAvailable(
 
 export async function deleteRoom(id: string): Promise<void> {
   await firebase.firestore().collection('rooms').doc(id).delete();
+  let idToken = await firebase.auth().currentUser?.getIdToken();
+  await fetch('/api/teachers/delete-all-events', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      authorization: 'Bearer ' + idToken,
+    },
+    body: JSON.stringify({
+      roomId: id,
+    }),
+  });
 }
 
 async function generateIdInner(
