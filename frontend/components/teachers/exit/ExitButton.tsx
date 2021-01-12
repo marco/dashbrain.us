@@ -41,8 +41,10 @@ let ExitButton: React.FC<{ room: Room }> = (props) => {
 let PollPrompt: React.FC<{
   hidden: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: () => Promise<void>;
 }> = (props) => {
+  let [isDeleting, setIsDeleting] = useState(false);
+
   return (
     <Prompt onClose={props.onClose} hidden={props.hidden}>
       <div className="p-8">
@@ -57,13 +59,18 @@ let PollPrompt: React.FC<{
             Cancel
           </button>
           <button
-            onClick={props.onConfirm}
+            disabled={isDeleting}
+            onClick={async () => {
+              setIsDeleting(true);
+              await props.onConfirm();
+              setIsDeleting(false);
+            }}
             className={classNames(
               styles.confirmButton,
               'block text-white w-full mb-2'
             )}
           >
-            End Dashbrain
+            {isDeleting ? 'Ending...' : 'End Dashbrain'}
           </button>
         </p>
       </div>
