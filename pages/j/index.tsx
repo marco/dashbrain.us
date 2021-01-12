@@ -19,6 +19,7 @@ let EnterCodePage: React.FC = () => {
             let exists = await rooms.checkRoomExists(values.code);
             if (exists) {
               router.push('/j/' + values.code);
+              toast.dismiss();
             } else {
               toast.error('That Dashbrain ID does not exist.');
             }
