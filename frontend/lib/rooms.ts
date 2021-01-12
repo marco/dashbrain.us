@@ -147,6 +147,9 @@ async function generateIdInner(
       teacherPhoto: user.photoURL || undefined,
       id: attempt,
       students: {},
+      options: {
+        studentsCanMessageEachOther: true,
+      },
     };
 
     await firebase.firestore().collection('rooms').doc(attempt).set(room);
@@ -181,4 +184,7 @@ export interface Room {
   teacherName: string;
   teacherPhoto?: string;
   students: Record<string, { name: string; uid: string }>;
+  options: {
+    studentsCanMessageEachOther: boolean | undefined;
+  };
 }
