@@ -18,10 +18,20 @@ let MessagesSheet: React.FC<{
   onSetState: (state: MessagesSheetState) => void;
   onSeeMessages: (eventIds: string[]) => void;
 }> = (props) => {
+  let [optionsSaveState, setOptionsSaveState] = useState<
+    'none' | 'saving' | 'saved'
+  >('none');
   let groups = getExistingGroups();
 
   return (
-    <Sheet hidden={props.hidden} onClose={props.onClose} className="h-3/5">
+    <Sheet
+      hidden={props.hidden}
+      onClose={() => {
+        props.onClose();
+        setOptionsSaveState('none');
+      }}
+      className="h-3/5"
+    >
       {renderContents()}
     </Sheet>
   );
@@ -29,7 +39,7 @@ let MessagesSheet: React.FC<{
   function renderContents() {
     if (props.state.state === 'groups_list') {
       return (
-        <div className="p-8">
+        <div className="p-8 flex flex-col h-full">
           <p className="font-bold text-xl tracking-tight mb-3">
             Messages
             <div
@@ -62,6 +72,40 @@ let MessagesSheet: React.FC<{
               });
             }}
           />
+          {props.room.teacherUid === firebase.auth().currentUser?.uid ? (
+            <>
+              <p className="font-bold text-lg tracking-tight mt-12">
+                Options
+                {optionsSaveState === 'saving'
+                  ? ' (Saving...)'
+                  : optionsSaveState === 'saved'
+                  ? ' (Saved!)'
+                  : ''}
+              </p>
+              <p className="text-gray-500 mb-2">
+                This section is only visible to you.
+              </p>
+              <p className="w-full">
+                <input
+                  type="checkbox"
+                  className="inline"
+                  onChange={async (event) => {
+                    setOptionsSaveState('saving');
+                    await firebase
+                      .firestore()
+                      .collection('rooms')
+                      .doc(props.room.id)
+                      .update({
+                        [`options.studentsCanMessageEachOther`]: event.target
+                          .checked,
+                      });
+                    setOptionsSaveState('saved');
+                  }}
+                />{' '}
+                Let students message each other.
+              </p>
+            </>
+          ) : null}
         </div>
       );
     }
@@ -190,7 +234,7 @@ let GroupsList: React.FC<{
 }> = (props) => {
   if (props.groups.length === 0) {
     return (
-      <div className="text-center py-2 space-y-3 text-gray-500">
+      <div className="text-center py-2 space-y-3 text-gray-500 flex-1">
         <p>You haven&apos;t sent or received any messages yet.</p>
         <p>
           You can send a new message to a specific person, group, or everyone by
@@ -201,7 +245,8 @@ let GroupsList: React.FC<{
   }
 
   return (
-    <div>
+    <div className="flex-1">
+      <div className="border-b-2 border-gray-200"></div>
       {props.groups
         .filter((group) => group.lastEvent)
         .map((group, index) => (
@@ -242,7 +287,9 @@ let NewGroup: React.FC<{
   let shouldShowTeacher =
     props.room.teacherUid !== firebase.auth().currentUser?.uid;
   let filteredStudents = Object.values(props.room.students).filter(
-    (student) => student.uid !== firebase.auth().currentUser?.uid
+    (student) =>
+      student.uid !== firebase.auth().currentUser?.uid &&
+      props.room.options.studentsCanMessageEachOther
   );
 
   if (!shouldShowTeacher && filteredStudents.length === 0) {
@@ -257,7 +304,7 @@ let NewGroup: React.FC<{
     <div className="p-8 pt-12">
       <p className="font-bold text-xl tracking-tight">New Group</p>
       <p className="mt-4 mb-1 text-left text-sm text-gray-500">
-        Send a message to everyone:
+        Send a message to everyone in the Dashbrain:
       </p>
       <div
         onClick={() => props.onSubmit(new EveryoneGroup())}
@@ -268,8 +315,21 @@ let NewGroup: React.FC<{
         <div>Message Everyone</div>
       </div>
       <hr className="border-1 mb-4" />
-      <p className="text-sm text-gray-500">
-        Or select who to message. Choose more than one to start a group chat.
+      <p className="text-sm text-gray-500 mb-1">
+        Or select who to message.
+        {!props.room.options.studentsCanMessageEachOther &&
+        shouldShowTeacher ? (
+          <>
+            Your teacher has disabled messages between students, but you can
+            still message everyone at once using the “Message&nbsp;Everyone”
+            button above.
+          </>
+        ) : (
+          ''
+        )}
+        {(shouldShowTeacher ? 1 : 0) + filteredStudents.length > 1
+          ? ' You can choose more than one user to start a group chat.'
+          : ''}
       </p>
       <Formik
         initialValues={{ selected: [] as string[] }}
