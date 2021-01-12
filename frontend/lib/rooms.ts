@@ -27,6 +27,7 @@ export function listen(
 ): () => void {
   let latestRoom: Room | undefined;
   let latestEvents: Event[] | undefined;
+  let hasReachedCompleteData: boolean;
 
   let unsubscribeRoom = firebase
     .firestore()
@@ -37,7 +38,12 @@ export function listen(
         latestRoom = snap.data() as Room | undefined;
 
         if (latestRoom && latestEvents) {
+          hasReachedCompleteData = true;
           callback({ room: latestRoom, events: latestEvents });
+        }
+
+        if (hasReachedCompleteData && !latestRoom) {
+          callback(undefined);
         }
       },
       (err) => {
@@ -60,6 +66,7 @@ export function listen(
         latestEvents = snap.docs.map((doc) => doc.data() as Event);
 
         if (latestRoom && latestEvents) {
+          hasReachedCompleteData = true;
           callback({ room: latestRoom, events: latestEvents });
         }
       },
