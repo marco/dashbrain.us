@@ -14,7 +14,7 @@ let WelcomeEvent: React.FC<{ className?: string; room: Room }> = (props) => {
         alt="Dashbrain"
         className={eventStyles.iconLarge}
       />
-      <p className="font-bold">Welcome to Dashbrain!</p>
+      <p className="font-bold">Welcome to Dashbrain</p>
       {getCopy()}
     </div>
   );
