@@ -141,7 +141,7 @@ async function generateIdInner(
   let doc = await firebase.firestore().collection('rooms').doc(attempt).get();
 
   if (doc.exists) {
-    if (iterations + 1 <= config.rooms.increaseTrigger) {
+    if (iterations + 1 >= config.rooms.increaseTrigger) {
       return await generateIdInner(length + 1, 0);
     } else {
       return await generateIdInner(length, iterations + 1);
