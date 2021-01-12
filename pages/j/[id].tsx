@@ -24,7 +24,7 @@ import EventsList from '../../frontend/components/events/Events';
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
   let [hasJoined, setHasJoined] = useState(false);
-  let [update, setUpdate] = useState<rooms.ListenerUpdate | undefined>();
+  let [update, setUpdate] = useState<rooms.ListenerUpdate | undefined | null>();
   let [messageSheetState, setMessageSheetState] = useState<
     MessagesSheetState | undefined
   >();
@@ -60,7 +60,7 @@ let StudentRoomPage: React.FC = () => {
     );
   }
 
-  if (!update) {
+  if (update === null) {
     return (
       <div className={classNames(styles.bodyDiv, 'h-full')}>
         <TeacherNavBar roomId={router.query.id as string} />
@@ -80,6 +80,10 @@ let StudentRoomPage: React.FC = () => {
         </div>
       </div>
     );
+  }
+
+  if (update === undefined) {
+    return <Loading />;
   }
 
   return (

@@ -20,7 +20,7 @@ import EventsList from '../../frontend/components/events/Events';
 
 let TeacherRoomPage: React.FC = () => {
   let router = useRouter();
-  let [update, setUpdate] = useState<rooms.ListenerUpdate | undefined>();
+  let [update, setUpdate] = useState<rooms.ListenerUpdate | undefined | null>();
   let [seenMessageIds, setSeenMessageIds] = useState<Set<string>>(new Set());
   let [messageSheetState, setMessageSheetState] = useState<
     MessagesSheetState | undefined

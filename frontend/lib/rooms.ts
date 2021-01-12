@@ -23,7 +23,7 @@ export async function deleteCurrentRoom(): Promise<void> {
 
 export function listen(
   id: string,
-  callback: (update: ListenerUpdate | undefined) => void
+  callback: (update: ListenerUpdate | undefined | null) => void
 ): () => void {
   let latestRoom: Room | undefined;
   let latestEvents: Event[] | undefined;
@@ -43,7 +43,7 @@ export function listen(
         }
 
         if (hasReachedCompleteData && !latestRoom) {
-          callback(undefined);
+          callback(null);
         }
       },
       (err) => {
