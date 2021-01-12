@@ -15,7 +15,8 @@
   margin: 0px 0px 6px 0px;
   cursor: pointer;
 
-  &:active {
+  &:active,
+  &:focus {
     outline: none;
   }
 
@@ -39,7 +40,8 @@
   cursor: pointer;
   border: 5px solid black;
 
-  &:active {
+  &:active,
+  &:focus {
     outline: none;
   }
 

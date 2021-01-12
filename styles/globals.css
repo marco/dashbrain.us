@@ -47,7 +47,8 @@ body,
     padding: 8px 0px 7px;
   }
 
-  .blueButton:active {
+  .blueButton:active,
+  .blueButton:focus {
     outline: none;
   }
 
