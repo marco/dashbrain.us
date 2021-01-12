@@ -40,24 +40,20 @@ let EventsList: React.FC<{
             </div>
           );
 
-          if (event.type === 'poll_end') {
-            return eventWrapper;
-          } else {
-            return (
-              <CSSTransition
-                timeout={2000}
-                key={event.id}
-                classNames={{
-                  enter: styles.eventContainerEnter,
-                  enterActive: styles.eventContainerEnterActive,
-                  exit: styles.eventContainerExit,
-                  exitActive: styles.eventContainerExitActive,
-                }}
-              >
-                {eventWrapper}
-              </CSSTransition>
-            );
-          }
+          return (
+            <CSSTransition
+              timeout={2000}
+              key={event.id}
+              classNames={{
+                enter: styles.eventContainerEnter,
+                enterActive: styles.eventContainerEnterActive,
+                exit: styles.eventContainerExit,
+                exitActive: styles.eventContainerExitActive,
+              }}
+            >
+              {eventWrapper}
+            </CSSTransition>
+          );
         })}
     </TransitionGroup>
   );
