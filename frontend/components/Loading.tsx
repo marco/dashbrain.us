@@ -3,7 +3,7 @@ import IndexTiles from './index/Tiles';
 
 let Loading: React.FC = () => {
   return (
-    <div className="w-full h-full overflow-hidden flex items-center justify-center">
+    <div className="w-full h-full overflow-hidden flex items-center justify-center relative">
       <p className="text-brand-blue font-black text-2xl">Loading...</p>
       <IndexTiles />
     </div>
