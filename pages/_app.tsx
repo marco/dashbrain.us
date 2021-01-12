@@ -40,6 +40,11 @@ let MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       <Head>
         <title>Dashbrain</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-7K7KGWWDHE"
+        ></script>
+        <script src="/static/analytics.js"></script>
       </Head>
       <Component {...pageProps} />
       <ToastContainer
