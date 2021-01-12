@@ -37,6 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
+    await doc.ref.delete();
     await new Promise((resolve, reject) => {
       deleteBatch(roomId, resolve as () => void, reject);
     });
