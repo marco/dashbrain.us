@@ -64,6 +64,7 @@ let Home: React.FC = () => {
         title="Join a Dashbrain"
         className="block mx-auto mb-8"
       />
+      <div className={styles.backgroundTiles}></div>
     </div>
   );
 

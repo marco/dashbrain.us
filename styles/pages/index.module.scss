@@ -3,17 +3,33 @@
   position: relative;
 
   .backgroundTiles {
-    $offsetForRotationTiles: 30px;
+    $offsetForRotationTiles: 80px;
+    $slideUp: 6px;
+    $slideAcross: 56px;
 
-    background: url('/assets/brain-tiles.png') repeat;
+    background: url('/assets/brain-tiles-black.png') repeat;
     z-index: -1;
     transform: rotate(-5deg);
     position: absolute;
-    top: -$offsetForRotationTiles;
-    right: -$offsetForRotationTiles;
-    bottom: -$offsetForRotationTiles;
-    left: -$offsetForRotationTiles;
-    opacity: 50%;
+    opacity: 80%;
+    animation: slide 2s infinite;
+    animation-timing-function: linear;
+
+    @keyframes slide {
+      0% {
+        top: -$offsetForRotationTiles;
+        right: -$offsetForRotationTiles;
+        bottom: -$offsetForRotationTiles;
+        left: -$offsetForRotationTiles;
+      }
+
+      100% {
+        top: -$offsetForRotationTiles - $slideUp;
+        right: -$offsetForRotationTiles - $slideAcross;
+        bottom: -$offsetForRotationTiles + $slideUp;
+        left: -$offsetForRotationTiles + $slideAcross;
+      }
+    }
   }
 
   .backgroundGradient {
