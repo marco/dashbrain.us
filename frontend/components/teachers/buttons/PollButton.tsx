@@ -126,7 +126,7 @@ let PollPrompt: React.FC<{
               {(arrayHelpers) => (
                 <div>
                   {values.options.map((optionValue, index) => (
-                    <div key={index} className="flex">
+                    <div key={index} className="flex items-center">
                       <Field
                         name={`options.${index}`}
                         className={classNames('flex-1 mb-2 input')}
