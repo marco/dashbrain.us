@@ -60,7 +60,7 @@ let Home: React.FC = () => {
       />
       <p className="font-black tracking-tight text-center mb-1.5">Student?</p>
       <IndexButton
-        onClick={teacherSignIn}
+        onClick={studentSignIn}
         title="Join a Dashbrain"
         className="block mx-auto mb-8"
       />
@@ -71,6 +71,10 @@ let Home: React.FC = () => {
     let provider = new firebase.auth.GoogleAuthProvider();
     await firebase.auth().signInWithPopup(provider);
     window.location.href = '/new-room';
+  }
+
+  function studentSignIn() {
+    window.location.href = '/j';
   }
 };
 
