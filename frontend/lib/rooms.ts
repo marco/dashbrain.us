@@ -16,9 +16,7 @@ export async function deleteCurrentRoom(): Promise<void> {
     .where('teacherUid', '==', firebase.auth().currentUser?.uid)
     .get();
 
-  for (let doc of existingQuery.docs) {
-    await doc.ref.delete();
-  }
+  await Promise.all(existingQuery.docs.map((doc) => deleteRoom(doc.id)));
 }
 
 export function listen(
