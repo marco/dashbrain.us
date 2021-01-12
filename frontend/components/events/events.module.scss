@@ -6,6 +6,7 @@
   margin: 0px 0px 6px 0px;
   position: relative;
   color: white;
+  overflow: hidden;
 }
 
 .iconXS,
@@ -45,4 +46,22 @@
   top: 20px;
   left: 16px;
   width: 23px;
+}
+
+.eventContainerEnter {
+  max-height: 0;
+}
+
+.eventContainerEnterActive {
+  max-height: 100vh;
+  transition: max-height 2s;
+}
+
+.eventContainerExit {
+  max-height: 100vh;
+}
+
+.eventContainerExitActive {
+  max-height: 0;
+  transition: max-height 2s;
 }
