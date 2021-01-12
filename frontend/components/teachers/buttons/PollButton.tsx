@@ -111,7 +111,10 @@ let PollPrompt: React.FC<{
           options: ['Yes 👍', 'No 👎'],
           showLiveResults: false,
         }}
-        onSubmit={props.onSubmit}
+        onSubmit={async (values, formik) => {
+          await props.onSubmit(values);
+          formik.resetForm();
+        }}
       >
         {({ isSubmitting, values }) => (
           <Form className="p-8">

@@ -38,8 +38,8 @@ let QuestionButton: React.FC<{ room: rooms.Room }> = (props) => {
   );
 
   async function onSubmit(values: { text: string }) {
-    await eventSender.askQuestion(props.room, values.text);
     setShowPrompt(false);
+    await eventSender.askQuestion(props.room, values.text);
   }
 };
 
@@ -59,11 +59,17 @@ let QuestionPrompt: React.FC<{
           from. If you want to send a private question, use the Message button
           instead.
         </p>
-        <Formik initialValues={{ text: '' }} onSubmit={props.onSubmit}>
+        <Formik
+          initialValues={{ text: '' }}
+          onSubmit={async (values, formik) => {
+            await props.onSubmit(values);
+            formik.resetForm();
+          }}
+        >
           {({ isSubmitting }) => (
             <Form className="mt-4">
               <Field
-                as="textarea"
+                as="input"
                 name="text"
                 className="input block w-full"
                 placeholder="Your question"
