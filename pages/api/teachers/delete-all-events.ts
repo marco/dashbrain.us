@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   let token = getTokenFromRequest(req);
 
   if (token === undefined) {
-    res.status(401).end();
+    res.status(401).json({ error: 'Unauthenticated.' });
     return;
   }
 
@@ -18,21 +18,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     decoded = await firebase.auth().verifyIdToken(token as string);
   } catch (error) {
-    res.status(401).end();
+    res.status(401).json({ error: 'Invalid token.' });
     return;
   }
 
   let roomId = req.body.roomId;
 
   if (!roomId) {
-    res.status(401).end();
+    res.status(401).json({ error: 'Missing Dashbrain ID.' });
     return;
   }
 
   let doc = await firebase.firestore().collection('rooms').doc(roomId).get();
 
   if (!doc.exists || doc.data()?.teacherUid !== decoded.uid) {
-    res.status(401).end();
+    res.status(401).json({ error: 'That Dashbrain does not exist.' });
     return;
   }
 
