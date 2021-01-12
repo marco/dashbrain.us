@@ -20,6 +20,7 @@ import TeacherNavBar from '../../frontend/components/NavBar';
 import BottomController from '../../frontend/components/BottomController';
 import classNames from 'classnames';
 import EventsList from '../../frontend/components/events/Events';
+import IndexTiles from '../../frontend/components/index/Tiles';
 
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
@@ -72,7 +73,7 @@ let StudentRoomPage: React.FC = () => {
           <button
             className="blueButton text-white w-full mt-4"
             onClick={() => {
-              window.location.href = '/';
+              router.push('/');
             }}
           >
             Go Back
@@ -142,40 +143,43 @@ let NamePrompt: React.FC<{
   onSubmit: (values: { name: string }) => Promise<void>;
 }> = (props) => {
   return (
-    <div className="flex items-center justify-center h-full flex-col pb-6">
-      <LogoType color="blue" className="text-center" size="xl" />
-      <Formik
-        initialValues={{ name: '' }}
-        onSubmit={async (values) => {
-          let available = await rooms.checkNameAvailable(
-            props.roomId,
-            values.name
-          );
-          if (available) {
-            props.onSubmit(values);
-          } else {
-            // TODO: Toast;
-          }
-        }}
-      >
-        {({ isSubmitting }) => (
-          <Form className="w-64">
-            <Field
-              name="name"
-              required
-              className="input w-full mt-6 text-center text-lg py-0.5"
-              placeholder="Your Name"
-            />
-            <button
-              type="submit"
-              className="blueButton block w-full text-white font-black mt-1"
-              disabled={isSubmitting}
-            >
-              Join
-            </button>
-          </Form>
-        )}
-      </Formik>
+    <div className="h-full w-full relative overflow-hidden">
+      <div className="flex items-center justify-center h-full flex-col pb-6">
+        <LogoType color="blue" className="text-center" size="xl" />
+        <Formik
+          initialValues={{ name: '' }}
+          onSubmit={async (values) => {
+            let available = await rooms.checkNameAvailable(
+              props.roomId,
+              values.name
+            );
+            if (available) {
+              props.onSubmit(values);
+            } else {
+              // TODO: Toast;
+            }
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form className="w-64">
+              <Field
+                name="name"
+                required
+                className="input w-full mt-6 text-center text-lg py-0.5"
+                placeholder="Your Name"
+              />
+              <button
+                type="submit"
+                className="blueButton block w-full text-white font-black mt-1"
+                disabled={isSubmitting}
+              >
+                Join
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
+      <IndexTiles />
     </div>
   );
 };
