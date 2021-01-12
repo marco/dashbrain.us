@@ -155,7 +155,7 @@ let NamePrompt: React.FC<{
               values.name
             );
             if (available) {
-              props.onSubmit(values);
+              await props.onSubmit(values);
             } else {
               toast.error('That name is already taken.');
             }
