@@ -11,7 +11,7 @@ import Loading from '../frontend/components/Loading';
 import Head from 'next/head';
 import { ToastContainer } from 'react-toastify';
 
-const AUTHED_PATHS = ['/t/[id]', 'new-room'];
+const AUTHED_PATHS = ['/t/[id]', '/new-room'];
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(config.firebaseConfig);
@@ -31,7 +31,7 @@ let MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
     });
   }, [router]);
 
-  if (!authStateLoaded) {
+  if (!authStateLoaded && AUTHED_PATHS.includes(router.pathname)) {
     return <Loading />;
   }
 
