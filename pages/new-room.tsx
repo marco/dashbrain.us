@@ -4,6 +4,7 @@ import * as rooms from '../frontend/lib/rooms';
 import Loading from '../frontend/components/Loading';
 import { useRouter } from 'next/router';
 import firebase from 'firebase/app';
+import * as analytics from '../frontend/lib/analytics';
 
 let TeacherPage: React.FC = () => {
   let router = useRouter();
@@ -17,6 +18,7 @@ let TeacherPage: React.FC = () => {
 
         await rooms.deleteCurrentRoom();
         let roomId = await rooms.generateId();
+        analytics.sendEventNewRoom(roomId);
         router.push('/t/' + roomId);
       } catch (error) {
         errors.handleError(error);

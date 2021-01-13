@@ -22,6 +22,7 @@ import classNames from 'classnames';
 import EventsList from '../../frontend/components/events/Events';
 import IndexTiles from '../../frontend/components/index/Tiles';
 import { toast } from 'react-toastify';
+import * as analytics from '../../frontend/lib/analytics';
 
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
@@ -51,6 +52,8 @@ let StudentRoomPage: React.FC = () => {
             // TODO: Show error;
             return;
           }
+
+          analytics.sendEventJoinRoom(room.id);
 
           await Promise.all([
             await eventSender.sendWelcomeMessage(
