@@ -36,6 +36,7 @@ let Sheet: React.FC<{
         className={classNames(styles.cover, {
           [styles.coverHiding]: props.hidden,
         })}
+        onClick={props.onClose}
       ></div>
     </>
   );
