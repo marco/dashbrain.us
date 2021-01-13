@@ -9,6 +9,7 @@ import FeatureItem from '../frontend/components/index/FeatureItem';
 import IndexButton from '../frontend/components/index/Button';
 import IndexTiles from '../frontend/components/index/Tiles';
 import { useRouter } from 'next/router';
+import * as users from '../frontend/lib/users';
 
 let Home: React.FC = () => {
   let router = useRouter();
@@ -83,8 +84,14 @@ let Home: React.FC = () => {
 
   async function teacherSignIn() {
     let provider = new firebase.auth.GoogleAuthProvider();
-    await firebase.auth().signInWithPopup(provider);
-    router.push('/new-room');
+    let result = await firebase.auth().signInWithPopup(provider);
+
+    if (result.user) {
+      // Saving the user can be done asynchronously.
+      users.saveUser(result.user);
+
+      router.push('/new-room');
+    }
   }
 
   function studentSignIn() {
