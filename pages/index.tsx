@@ -16,17 +16,17 @@ let Home: React.FC = () => {
   return (
     <div>
       <div className={classNames(styles.bodyDiv, 'text-black overflow-hidden')}>
-        <nav className="mb-8">
+        <nav className="mb-10">
           <LogoType color="blue" className="ml-3 mt-3.5 inline-block" />
         </nav>
-        <h2 className={classNames(styles.heroText, 'mb-4')}>
+        <p className={classNames(styles.heroText, 'mb-4')}>
           Level Up Your
           <br />
           Zoom Rooms
-        </h2>
-        <p className="text-base leading-1 text-center tracking-tight mb-11">
-          Dashbrain helps everyone stay in-sync over video calls.
         </p>
+        <h2 className="text-base text-center tracking-tight mb-10">
+          Dashbrain keeps teachers and students in-sync.
+        </h2>
         <FeatureItem
           imgSrc="assets/hand/blue.png"
           imgAlt="Raise Hand"
@@ -39,7 +39,7 @@ let Home: React.FC = () => {
           imgAlt="Poll"
           imgClassName="w-4.5"
           className="w-56.5 mx-auto mb-4"
-          description="Send polls — make sure everyone’s on the same page."
+          description="Send polls to make sure everyone’s on the same page."
         />
         <FeatureItem
           imgSrc="assets/message/green.png"
