@@ -6,9 +6,11 @@ import classNames from 'classnames';
 import sharedStyles from '../../../../styles/pages/teachers-students.module.scss';
 import styles from './MessagesButton.module.scss';
 
-let MessagesButton: React.FC<{ onClick: () => void; flatStyle: boolean }> = (
-  props
-) => {
+let MessagesButton: React.FC<{
+  onClick: () => void;
+  flatStyle: boolean;
+  unreadCount?: number;
+}> = (props) => {
   return (
     <div
       onClick={props.onClick}
@@ -31,6 +33,11 @@ let MessagesButton: React.FC<{ onClick: () => void; flatStyle: boolean }> = (
         </div>
       )}
       Messages
+      {props.unreadCount ? (
+        <span className="bg-red-600 px-3 py-0 rounded-full ml-2  align-middle text-white font-normal text-sm ">
+          {props.unreadCount}
+        </span>
+      ) : null}
     </div>
   );
 };
