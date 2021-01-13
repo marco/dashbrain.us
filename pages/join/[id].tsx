@@ -124,6 +124,12 @@ let StudentRoomPage: React.FC = () => {
             <MessagesButton
               onClick={() => setMessageSheetState({ state: 'groups_list' })}
               flatStyle={false}
+              unreadCount={
+                update.events.filter(
+                  (event) =>
+                    event.type === 'message' && !seenMessageIds.has(event.id)
+                ).length
+              }
             />
           </div>
           <RaiseHandButton room={update!.room} events={update!.events} />

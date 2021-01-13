@@ -73,6 +73,12 @@ let TeacherRoomPage: React.FC = () => {
           <MessagesButton
             onClick={() => setMessageSheetState({ state: 'groups_list' })}
             flatStyle={true}
+            unreadCount={
+              update.events.filter(
+                (event) =>
+                  event.type === 'message' && !seenMessageIds.has(event.id)
+              ).length
+            }
           />
           <PollButton room={update!.room} events={update!.events} />
           <ExportButton />
