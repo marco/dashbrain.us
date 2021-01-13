@@ -23,6 +23,7 @@ import EventsList from '../../frontend/components/events/Events';
 import IndexTiles from '../../frontend/components/index/Tiles';
 import { toast } from 'react-toastify';
 import * as analytics from '../../frontend/lib/analytics';
+import Head from 'next/head';
 
 let StudentRoomPage: React.FC = () => {
   let router = useRouter();
@@ -74,6 +75,9 @@ let StudentRoomPage: React.FC = () => {
   if (update === null) {
     return (
       <div className={classNames(styles.bodyDiv, 'h-full')}>
+        <Head>
+          <title>Dashbrain | #{router.query.id}</title>
+        </Head>
         <TeacherNavBar roomId={router.query.id as string} />
         <div className="p-4 pb-32 h-full flex flex-col items-center justify-center w-96 mx-auto">
           <p>

@@ -17,6 +17,7 @@ import styles from '../../styles/pages/teachers-students.module.scss';
 import ExportButton from '../../frontend/components/teachers/export/ExportButton';
 import ExitButton from '../../frontend/components/teachers/exit/ExitButton';
 import EventsList from '../../frontend/components/events/Events';
+import Head from 'next/head';
 
 let TeacherRoomPage: React.FC = () => {
   let router = useRouter();
@@ -42,6 +43,9 @@ let TeacherRoomPage: React.FC = () => {
 
   return (
     <div className={styles.bodyDiv}>
+      <Head>
+        <title>Dashbrain | #{router.query.id}</title>
+      </Head>
       <TeacherNavBar
         roomId={router.query.id as string}
         room={update.room}
