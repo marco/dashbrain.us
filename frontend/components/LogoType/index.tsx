@@ -17,6 +17,7 @@ let LogoType: React.FC<{
           'h-4.5 -align-1': size === 'normal',
           'h-8 -align-1.5': size === 'xl',
         })}
+        alt="Dashbrain Logo"
       />
       <h1
         className={classNames(
