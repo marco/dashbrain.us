@@ -40,7 +40,9 @@ let PollEvent: React.FC<{
           onClick={() => onClickOption(index)}
           key={index}
           disabled={!checkCanVote()}
-          className={classNames(styles.pollOption, 'flex')}
+          className={classNames(styles.pollOption, 'flex', {
+            [styles.selected]: choiceIndex === index,
+          })}
         >
           {option}
           <div className="flex-1"></div>
@@ -69,9 +71,9 @@ let PollEvent: React.FC<{
             )}
           </ul>
         </>
-      ) : (
-        <p className="text-xs mt-3.5">Click an option to vote</p>
-      )}
+      ) : checkCanVote() ? (
+        <p className="text-xs">Click an option to vote</p>
+      ) : null}
     </div>
   );
 

@@ -14,8 +14,16 @@
     margin-top: 12px;
   }
 
+  &:last-of-type {
+    margin-bottom: 14px;
+  }
+
   &:disabled {
     border-color: rgba(255, 255, 255, 0.5);
     cursor: default;
+
+    &.selected {
+      border-color: white;
+    }
   }
 }
