@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import * as rooms from './rooms';
 import * as events from './events';
 import _ from 'lodash';
+import * as analytics from './analytics';
 
 export async function raiseHand(room: rooms.Room): Promise<events.EventHand> {
   let reference = generateEventReference(room);
@@ -13,6 +14,8 @@ export async function raiseHand(room: rooms.Room): Promise<events.EventHand> {
   };
 
   await reference.set(event);
+
+  afterSendEvent(event);
   return event;
 }
 
@@ -30,6 +33,8 @@ export async function askQuestion(
   };
 
   await reference.set(event);
+
+  afterSendEvent(event);
   return event;
 }
 
@@ -47,6 +52,8 @@ export async function upvoteQuestion(
   };
 
   await reference.set(event);
+
+  afterSendEvent(event);
   return event;
 }
 
@@ -68,6 +75,8 @@ export async function sendPollStart(
   };
 
   await reference.set(event);
+
+  afterSendEvent(event);
   return event;
 }
 
@@ -90,6 +99,8 @@ export async function sendPollResponse(
   };
 
   await reference.set(event);
+
+  afterSendEvent(event);
   return event;
 }
 
@@ -115,6 +126,8 @@ export async function sendPollEnd(
   };
 
   await reference.set(event);
+
+  afterSendEvent(event);
   return event;
 }
 
@@ -135,6 +148,8 @@ export async function sendMessage(
   };
 
   await reference.set(event);
+
+  afterSendEvent(event);
   return event;
 }
 
@@ -152,6 +167,8 @@ export async function sendStudentJoin(
   };
 
   await reference.set(event);
+
+  afterSendEvent(event);
   return event;
 }
 
@@ -168,6 +185,8 @@ export async function sendWelcomeMessage(
   };
 
   await reference.set(event);
+
+  afterSendEvent(event);
   return event;
 }
 
@@ -182,6 +201,7 @@ export async function deleteEvent(
     .collection('events')
     .doc(event.id)
     .delete();
+  afterDeleteEvent(event);
 }
 
 function generateEventReference(room: rooms.Room) {
@@ -221,4 +241,12 @@ function getTeacherAndCurrentUserUids(room: rooms.Room): string[] {
 
 function addCurrentUidIfNotIncluded(uids: string[]): string[] {
   return _.uniq(uids.concat([firebase.auth().currentUser?.uid as string]));
+}
+
+function afterSendEvent(event: events.Event) {
+  analytics.sendEventForEvent(event);
+}
+
+function afterDeleteEvent(event: events.Event) {
+  analytics.sendEventForDeleteEvent(event);
 }
