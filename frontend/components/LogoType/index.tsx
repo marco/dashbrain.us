@@ -6,6 +6,7 @@ let LogoType: React.FC<{
   color: 'black' | 'white' | 'blue';
   className: string;
   size?: 'normal' | 'xl';
+  allowCollapse?: boolean;
 }> = (props) => {
   let size = props.size || 'normal';
 
@@ -16,6 +17,7 @@ let LogoType: React.FC<{
         className={classNames('mr-1 inline', {
           'h-4.5 -align-1': size === 'normal',
           'h-8 -align-1.5': size === 'xl',
+          [styles.logoCollapsible]: props.allowCollapse === true,
         })}
         alt="Dashbrain Logo"
       />
@@ -25,9 +27,13 @@ let LogoType: React.FC<{
             'text-black': props.color === 'black',
             'text-white': props.color === 'white',
             [styles.textBlue]: props.color === 'blue',
+            [styles.textCollapsible]: props.allowCollapse === true,
           },
           ['font-black', 'tracking-tighter', 'inline'],
-          { 'text-base': size === 'normal', 'text-4xl': size === 'xl' }
+          {
+            'text-base': size === 'normal',
+            'text-4xl': size === 'xl',
+          }
         )}
       >
         Dashbrain

@@ -46,6 +46,7 @@ let TeacherRoomPage: React.FC = () => {
         roomId={router.query.id as string}
         room={update.room}
         events={update.events}
+        allowLogoCollapse={true}
       />
       <div>
         <EventsList

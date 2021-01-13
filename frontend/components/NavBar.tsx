@@ -10,13 +10,21 @@ let TeacherNavBar: React.FC<{
   roomId: string;
   room?: Room;
   events?: Event[];
+  allowLogoCollapse?: boolean;
 }> = (props) => {
   return (
     <>
-      <nav className="flex p-2 justify-between">
-        <LogoType color="black" className="inline-block" />
+      <nav className="flex p-2 justify-between items-center">
+        <LogoType
+          size="normal"
+          color="black"
+          className="inline-block"
+          allowCollapse={props.allowLogoCollapse}
+        />
         {renderMiddleComponent()}
-        <span>#{props.roomId}</span>
+        <span className={props.allowLogoCollapse ? 'text-sm' : ''}>
+          #{props.roomId}
+        </span>
       </nav>
     </>
   );
@@ -29,14 +37,14 @@ let TeacherNavBar: React.FC<{
     ) {
       return (
         <>
-          <span className="text-gray-500">
+          <span className="text-gray-500 text-sm">
             {pluralize(
               'student',
               Object.keys(props.room.students).length,
               true
             )}
           </span>
-          <span className="text-gray-500">
+          <span className="text-gray-500 text-sm">
             {pluralize(
               'hand',
               Object.keys(props.events.filter((event) => event.type === 'hand'))
@@ -44,7 +52,7 @@ let TeacherNavBar: React.FC<{
               true
             )}{' '}
           </span>
-          <span className="text-gray-500">
+          <span className="text-gray-500 text-sm">
             {pluralize(
               'question',
               Object.keys(
