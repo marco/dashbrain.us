@@ -104,19 +104,25 @@ let PollPrompt: React.FC<{
   }) => Promise<void>;
 }> = (props) => {
   return (
-    <Prompt onClose={props.onClose} hidden={props.hidden}>
-      <Formik
-        initialValues={{
-          text: '',
-          options: ['Yes 👍', 'No 👎'],
-          showLiveResults: false,
-        }}
-        onSubmit={async (values, formik) => {
-          await props.onSubmit(values);
-          formik.resetForm();
-        }}
-      >
-        {({ isSubmitting, values }) => (
+    <Formik
+      initialValues={{
+        text: '',
+        options: ['Yes 👍', 'No 👎'],
+        showLiveResults: false,
+      }}
+      onSubmit={async (values, formik) => {
+        await props.onSubmit(values);
+        formik.resetForm();
+      }}
+    >
+      {({ isSubmitting, values, resetForm }) => (
+        <Prompt
+          onClose={() => {
+            props.onClose();
+            resetForm();
+          }}
+          hidden={props.hidden}
+        >
           <Form className="p-8">
             <p className="font-bold text-xl tracking-tight">Start a Poll</p>
             <label className="block mt-4">Question (Optional)</label>
@@ -173,9 +179,9 @@ let PollPrompt: React.FC<{
               {isSubmitting ? 'Sent!' : 'Send'}
             </button>
           </Form>
-        )}
-      </Formik>
-    </Prompt>
+        </Prompt>
+      )}
+    </Formik>
   );
 };
 
