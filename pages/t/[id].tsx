@@ -42,7 +42,11 @@ let TeacherRoomPage: React.FC = () => {
 
   return (
     <div className={styles.bodyDiv}>
-      <TeacherNavBar roomId={router.query.id as string} />
+      <TeacherNavBar
+        roomId={router.query.id as string}
+        room={update.room}
+        events={update.events}
+      />
       <div>
         <EventsList
           room={update.room}
