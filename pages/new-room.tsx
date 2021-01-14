@@ -5,6 +5,7 @@ import Loading from '../frontend/components/Loading';
 import { useRouter } from 'next/router';
 import firebase from 'firebase/app';
 import * as analytics from '../frontend/lib/analytics';
+import { toast } from 'react-toastify';
 
 let TeacherPage: React.FC = () => {
   let router = useRouter();
@@ -19,6 +20,11 @@ let TeacherPage: React.FC = () => {
         await rooms.deleteCurrentRoom();
         let roomId = await rooms.generateId();
         analytics.sendEventNewRoom(roomId);
+
+        // In case the user went to "Join a Dashbrain," prompted an error,
+        // went back, and tried to create a room, delete any toasts.
+        toast.dismiss();
+
         router.push('/t/' + roomId);
       } catch (error) {
         errors.handleError(error);
