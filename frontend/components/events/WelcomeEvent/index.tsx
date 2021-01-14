@@ -35,8 +35,8 @@ let WelcomeEvent: React.FC<{ className?: string; room: Room }> = (props) => {
             questions, raise their hands, and more!
           </p>
           <p className="mt-3">
-            Below, you can send private messages to students, start a poll, or
-            end the Dashbrain.
+            Below, you can start a poll, send private messages to students, or
+            export this Dashbrain as a PDF.
           </p>
         </>
       );

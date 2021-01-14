@@ -18,7 +18,6 @@ import ExportButton from '../../frontend/components/teachers/export/ExportButton
 import ExitButton from '../../frontend/components/teachers/exit/ExitButton';
 import EventsList from '../../frontend/components/events/Events';
 import Head from 'next/head';
-import * as devices from '../../frontend/lib/devices';
 
 let TeacherRoomPage: React.FC = () => {
   let router = useRouter();
@@ -87,7 +86,7 @@ let TeacherRoomPage: React.FC = () => {
             }
           />
           <PollButton room={update!.room} events={update!.events} />
-          {devices.isMobileSafari() ? null : <ExportButton />}
+          <ExportButton />
           <ExitButton room={update!.room} />
         </div>
       </BottomController>
