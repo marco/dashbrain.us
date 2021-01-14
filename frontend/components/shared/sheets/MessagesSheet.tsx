@@ -89,6 +89,7 @@ let MessagesSheet: React.FC<{
                 <input
                   type="checkbox"
                   className="inline"
+                  checked={props.room.options.studentsCanMessageEachOther}
                   onChange={async (event) => {
                     setOptionsSaveState('saving');
                     await firebase
