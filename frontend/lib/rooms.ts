@@ -90,6 +90,7 @@ export async function join(
     await firebase.auth().signOut();
   }
 
+  await firebase.auth().setPersistence('session');
   let result = await firebase.auth().signInAnonymously();
   await firebase
     .firestore()

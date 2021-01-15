@@ -83,6 +83,7 @@ let Home: React.FC = () => {
   );
 
   async function teacherSignIn() {
+    await firebase.auth().setPersistence('session');
     let provider = new firebase.auth.GoogleAuthProvider();
     let result = await firebase.auth().signInWithPopup(provider);
 
