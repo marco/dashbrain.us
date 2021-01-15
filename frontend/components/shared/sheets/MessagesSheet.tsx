@@ -254,7 +254,7 @@ let GroupsList: React.FC<{
           <div
             key={group.computedUidsString}
             onClick={() => props.onSelect(index)}
-            className="flex py-2 border-b-2 border-gray-200 cursor-pointer"
+            className="flex py-2 border-b-2 border-gray-200 cursor-pointer items-center"
           >
             <div className="flex-shrink overflow-hidden">
               <p className="font-bold">{group.title}</p>
