@@ -12,9 +12,13 @@ module.exports = {
         11: '2.75rem',
         56.5: '14.125rem',
         76: '19rem',
+        120: '30rem',
       },
       maxWidth: {
         '3/4': '75%',
+      },
+      maxHeight: {
+        '7/8': '87.5%',
       },
       colors: {
         'brand-blue': '#0054d2',
