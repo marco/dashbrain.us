@@ -10,7 +10,7 @@ export async function raiseHand(room: rooms.Room): Promise<events.EventHand> {
   let event: events.EventHand = {
     ...getUniversalEventValues(reference.id),
     type: 'hand',
-    recipientUids: getTeacherAndCurrentUserUids(room),
+    recipientUids: getEveryoneUids(room),
   };
 
   await reference.set(event);
