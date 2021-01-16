@@ -25,18 +25,42 @@ let WelcomeEvent: React.FC<{ className?: string; room: Room }> = (props) => {
         <>
           <p>
             Your Dashbrain code is {props.room.id}. Students can join by vising{' '}
-            <a href="/" target="_blank" className="underline">
+            <a href="/" target="_blank" className="underline" rel="noreferrer">
               dashbrain.us
-            </a>
-            , choosing &ldquo;Join a Dashbrain,&rdquo; and entering the code.
+            </a>{' '}
+            and entering the code.
+          </p>
+          <p className="mt-3">
+            Or, you can send them this custom link:{' '}
+            <span className="inline-block">
+              <a
+                href={`/join/${props.room.id}`}
+                target="_blank"
+                className="underline"
+                rel="noreferrer"
+              >
+                dashbrain.us/join/{props.room.id}
+              </a>
+              .
+            </span>
           </p>
           <p className="mt-3">
             You will receive notifications in this list as students join, ask
-            questions, raise their hands, and more!
+            questions, raise their hands, and more! Below, you can start a poll,
+            send private messages to students, or export this Dashbrain as a
+            PDF.
+          </p>
+          <p className="mt-3 font-bold">Our Recommendation</p>
+          <p className="">
+            Dashbrain works best in a smaller window next to your Zoom room,
+            Google Meet call, or any other video calling software.
           </p>
           <p className="mt-3">
-            Below, you can start a poll, send private messages to students, or
-            export this Dashbrain as a PDF.
+            <img
+              className="w-full max-w-2xl"
+              src="/assets/welcome-screenshot.png"
+              alt="Dashbrain works best side-by-side with your video call application."
+            />
           </p>
         </>
       );
