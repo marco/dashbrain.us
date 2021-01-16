@@ -30,7 +30,7 @@ let MessagesSheet: React.FC<{
         props.onClose();
         setOptionsSaveState('none');
       }}
-      className="h-3/5"
+      className="h-120 max-h-7/8"
     >
       {renderContents()}
     </Sheet>
@@ -39,7 +39,7 @@ let MessagesSheet: React.FC<{
   function renderContents() {
     if (props.state.state === 'groups_list') {
       return (
-        <div className="p-8 flex flex-col h-full">
+        <div className="p-8 pb-0 flex flex-col h-full overflow-scroll">
           <p className="font-bold text-xl tracking-tight mb-3">
             Messages
             <div
@@ -74,7 +74,7 @@ let MessagesSheet: React.FC<{
           />
           {props.room.teacherUid === firebase.auth().currentUser?.uid ? (
             <>
-              <p className="font-bold text-lg tracking-tight mt-12">
+              <p className="font-bold text-lg tracking-tight mt-4">
                 Options
                 {optionsSaveState === 'saving'
                   ? ' (Saving...)'
@@ -85,7 +85,7 @@ let MessagesSheet: React.FC<{
               <p className="text-gray-500 mb-2">
                 This section is only visible to you.
               </p>
-              <p className="w-full">
+              <p className="w-full pb-8">
                 <input
                   type="checkbox"
                   className="inline"
@@ -235,7 +235,7 @@ let GroupsList: React.FC<{
 }> = (props) => {
   if (props.groups.length === 0) {
     return (
-      <div className="text-center py-2 space-y-3 text-gray-500 flex-1">
+      <div className="text-center py-2 pb-8 space-y-3 text-gray-500 flex-1">
         <p>You haven&apos;t sent or received any messages yet.</p>
         <p>
           You can send a new message to a specific person, group, or everyone by
@@ -246,7 +246,7 @@ let GroupsList: React.FC<{
   }
 
   return (
-    <div className="flex-1">
+    <div className="flex-1 pb-8">
       <div className="border-b-2 border-gray-200"></div>
       {props.groups
         .filter((group) => group.lastEvent)
@@ -302,7 +302,7 @@ let NewGroup: React.FC<{
   }
 
   return (
-    <div className="p-8 pt-12">
+    <div className="p-8 pt-12 overflow-scroll h-full">
       <p className="font-bold text-xl tracking-tight">New Group</p>
       <p className="mt-4 mb-1 text-left text-sm text-gray-500">
         Send a message to everyone in the Dashbrain:
