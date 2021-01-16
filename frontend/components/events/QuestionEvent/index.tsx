@@ -28,7 +28,7 @@ let QuestionEvent: React.FC<{
       <p className="font-bold">
         {shouldSeeName() ? props.senderDetails.name : 'Someone'} asked
       </p>
-      <p className="-mt-1.5">&ldquo;{props.event.text}&rdquo; </p>
+      <p className="leading-tight">&ldquo;{props.event.text}&rdquo; </p>
       {shouldShowLikeButton() ? (
         <button
           onClick={onClickUpvote}

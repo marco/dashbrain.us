@@ -24,7 +24,7 @@ let MessageEvent: React.FC<{
       <p className="font-bold">
         {props.senderDetails.name} sent {namesList()} a message
       </p>
-      <p className="-mt-1.5">{props.event.text}</p>
+      <p className="leading-tight">{props.event.text}</p>
       <p className="text-xs mt-2.5">Click to open &amp; reply</p>
     </div>
   );
