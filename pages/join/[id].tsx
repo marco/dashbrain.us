@@ -123,6 +123,7 @@ let StudentRoomPage: React.FC = () => {
             }
           }}
         />
+        <div className="h-72"></div>
       </div>
       <BottomController>
         <div className="flex items-stretch h-60 w-full">
