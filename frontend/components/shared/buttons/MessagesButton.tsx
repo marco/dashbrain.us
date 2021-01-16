@@ -32,12 +32,22 @@ let MessagesButton: React.FC<{
           />
         </div>
       )}
-      Messages
-      {props.unreadCount ? (
-        <span className="bg-red-600 px-3 py-0 rounded-full ml-2  align-middle text-white font-normal text-sm ">
-          {props.unreadCount}
-        </span>
-      ) : null}
+      <span>
+        Messages
+        {props.unreadCount ? (
+          <span
+            className={classNames(
+              'bg-red-600 px-3 py-0 rounded-full ml-1 text-white font-normal text-sm',
+              {
+                'align-middle': props.flatStyle,
+                'align-1': !props.flatStyle,
+              }
+            )}
+          >
+            {props.unreadCount}
+          </span>
+        ) : null}
+      </span>
     </div>
   );
 };
