@@ -27,8 +27,13 @@ let WelcomeEvent: React.FC<{ className?: string; room: Room }> = (props) => {
           <p>
             Your Dashbrain code is {props.room.id}.{' '}
             {vocab.isSchool() ? 'Students' : 'Participants'} can join by vising{' '}
-            <a href="/" target="_blank" className="underline" rel="noreferrer">
-              dashbrain.us
+            <a
+              href={`https://${vocab.isSchool() ? 'school.' : ''}dashbrain.us`}
+              target="_blank"
+              className="underline"
+              rel="noreferrer"
+            >
+              {vocab.isSchool() ? 'school.' : ''}dashbrain.us
             </a>{' '}
             and entering the code.
           </p>
