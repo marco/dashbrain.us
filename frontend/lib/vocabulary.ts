@@ -1,5 +1,7 @@
 export function isSchool(): boolean {
-  return process.env.vocabulary === 'school';
+  // This must have the prefix `NEXT_PUBLIC_`. See
+  // https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser.
+  return process.env.NEXT_PUBLIC_VOCABULARY === 'school';
 }
 
 export function getParticipantWord(): string {
