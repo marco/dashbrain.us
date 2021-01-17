@@ -19,6 +19,7 @@ import ExitButton from '../../frontend/components/teachers/exit/ExitButton';
 import EventsList from '../../frontend/components/events/Events';
 import Head from 'next/head';
 import * as devices from '../../frontend/lib/devices';
+import IndexTiles from '../../frontend/components/index/Tiles';
 
 let TeacherRoomPage: React.FC = () => {
   let router = useRouter();
@@ -72,6 +73,12 @@ let TeacherRoomPage: React.FC = () => {
       <Head>
         <title>Dashbrain | #{router.query.id}</title>
       </Head>
+      {isPrinting ? (
+        <div className="overflow-hidden flex items-center justify-center fixed left-0 right-0 top-0 bottom-0 z-1 bg-white print:hidden">
+          <p className="text-brand-blue font-black text-2xl">Printing...</p>
+          <IndexTiles />
+        </div>
+      ) : null}
       <TeacherNavBar
         roomId={router.query.id as string}
         room={update.room}
