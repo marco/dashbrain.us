@@ -1,5 +1,9 @@
 .event {
   background: #380b5b;
+
+  @media print {
+    border-color: #380b5b;
+  }
 }
 
 .button {

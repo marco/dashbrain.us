@@ -1,5 +1,9 @@
 .event {
   background: #d4910e;
+
+  @media print {
+    border-color: #d4910e;
+  }
 }
 
 .pollOption {
@@ -25,5 +29,9 @@
     &.selected {
       border-color: white;
     }
+  }
+
+  @media print {
+    border-color: #d4910e !important;
   }
 }

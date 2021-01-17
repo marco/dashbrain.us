@@ -7,6 +7,18 @@
   position: relative;
   color: white;
   overflow: hidden;
+
+  @media print {
+    box-shadow: none;
+    color: black;
+    text-shadow: none;
+    border-width: 5px;
+    border-style: solid;
+
+    img {
+      display: none;
+    }
+  }
 }
 
 .iconXS,

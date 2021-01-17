@@ -1,4 +1,8 @@
 .event {
   background: white;
   color: black;
+
+  @media print {
+    border-color: black;
+  }
 }

@@ -1,3 +1,7 @@
 .event {
   background: #0b5b35;
+
+  @media print {
+    border-color: #0b5b35;
+  }
 }
