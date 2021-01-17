@@ -40,7 +40,9 @@ let RaiseHandEvent: React.FC<{
         <p className="font-bold">{props.senderDetails.name}</p>
         <p className="-mt-1.5">raised their hand.</p>
         {firebase.auth().currentUser?.uid === props.room.teacherUid ? (
-          <p className="text-xs mt-2.5">Click to lower their hand.</p>
+          <p className="text-xs mt-2.5 print:hidden">
+            Click to lower their hand.
+          </p>
         ) : undefined}
       </div>
     );
