@@ -17,10 +17,6 @@ let EventsList: React.FC<{
     <TransitionGroup>
       {props.events
         .filter((event) => {
-          if (event.type === 'message' && event.displayAsSentToEveryone) {
-            return true;
-          }
-
           if (props.seenIds.has(event.id)) {
             return false;
           }

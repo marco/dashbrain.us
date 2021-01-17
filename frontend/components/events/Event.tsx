@@ -85,6 +85,10 @@ let EventComponent: React.FC<{
   }
 
   if (props.event.type === 'message') {
+    if (props.event.senderUid === firebase.auth().currentUser?.uid) {
+      return null;
+    }
+
     return (
       <MessageEvent
         room={props.room}
