@@ -18,6 +18,7 @@ import ExportButton from '../../frontend/components/teachers/export/ExportButton
 import ExitButton from '../../frontend/components/teachers/exit/ExitButton';
 import EventsList from '../../frontend/components/events/Events';
 import Head from 'next/head';
+import * as devices from '../../frontend/lib/devices';
 
 let TeacherRoomPage: React.FC = () => {
   let router = useRouter();
@@ -26,6 +27,7 @@ let TeacherRoomPage: React.FC = () => {
   let [messageSheetState, setMessageSheetState] = useState<
     MessagesSheetState | undefined
   >();
+  let [isPrinting, setIsPrinting] = useState(false);
 
   useEffect(() => {
     if (!firebase.auth().currentUser?.uid) {
@@ -36,6 +38,28 @@ let TeacherRoomPage: React.FC = () => {
       setUpdate(update);
     });
   }, [router.query.id]);
+
+  useEffect(() => {
+    if (isPrinting) {
+      try {
+        if (devices.isMobileSafari()) {
+          // See https://github.com/firebase/firebase-js-sdk/issues/1145#issuecomment-425197071,
+          // https://stackoverflow.com/a/50473614, https://stackoverflow.com/a/57957227.
+          try {
+            document.execCommand('print', false, null as any);
+          } catch (error) {
+            window.print();
+          }
+        } else {
+          window.print();
+        }
+      } catch {
+        // This can happen if the user cancels the prompt.
+      }
+
+      setIsPrinting(false);
+    }
+  }, [isPrinting]);
 
   if (!update) {
     return <Loading />;
@@ -70,6 +94,7 @@ let TeacherRoomPage: React.FC = () => {
               });
             }
           }}
+          isPrinting={isPrinting}
         />
         <div className="h-72"></div>
       </div>
@@ -86,7 +111,7 @@ let TeacherRoomPage: React.FC = () => {
             }
           />
           <PollButton room={update!.room} events={update!.events} />
-          <ExportButton />
+          <ExportButton onClick={() => setIsPrinting(true)} />
           <ExitButton room={update!.room} />
         </div>
       </BottomController>

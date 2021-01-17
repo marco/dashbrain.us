@@ -15,6 +15,7 @@ let EventComponent: React.FC<{
   event: Event;
   room: Room;
   events: Event[];
+  isPrinting?: boolean;
 }> = (props) => {
   let senderDetails = getSenderDetails(props.event, props.room);
 
@@ -85,10 +86,6 @@ let EventComponent: React.FC<{
   }
 
   if (props.event.type === 'message') {
-    if (props.event.senderUid === firebase.auth().currentUser?.uid) {
-      return null;
-    }
-
     return (
       <MessageEvent
         room={props.room}
