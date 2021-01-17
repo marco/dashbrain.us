@@ -42,7 +42,7 @@ let MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
-          content="Dashbrain helps keep teachers and students in-sync over video calls. Get notifications for raised hands, send custom polls, and more."
+          content="Dashbrain helps keep everyone in-sync over large video calls. Get notifications for raised hands, send custom polls, and more."
         />
         <script
           async
