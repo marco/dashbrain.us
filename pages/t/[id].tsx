@@ -47,7 +47,7 @@ let TeacherRoomPage: React.FC = () => {
           // https://stackoverflow.com/a/50473614, https://stackoverflow.com/a/57957227.
           try {
             document.execCommand('print', false, null as any);
-            setTimeout(() => setIsPrinting(false), 1000);
+            setTimeout(() => setIsPrinting(false), 2000);
           } catch (error) {
             window.print();
             setIsPrinting(false);
