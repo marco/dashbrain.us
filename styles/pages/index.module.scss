@@ -2,6 +2,35 @@
   min-height: 100vh;
   position: relative;
 
+  .schoolDisclaimer {
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    display: block;
+    left: 0px;
+    right: 0px;
+    margin: 0 auto;
+    border-radius: 0px 0px 5px 5px;
+    animation: dropDown 2s ease-in-out;
+
+    @keyframes dropDown {
+      0% {
+        top: -50px;
+      }
+
+      20% {
+        top: -50px;
+      }
+
+      100% {
+        top: 0px;
+      }
+    }
+
+    @media screen and (max-width: 735px) {
+      display: none;
+    }
+  }
+
   .backgroundGradient {
     background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
       radial-gradient(

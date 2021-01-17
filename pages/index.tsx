@@ -10,13 +10,29 @@ import IndexButton from '../frontend/components/index/Button';
 import IndexTiles from '../frontend/components/index/Tiles';
 import { useRouter } from 'next/router';
 import * as users from '../frontend/lib/users';
+import * as vocab from '../frontend/lib/vocabulary';
 
 let Home: React.FC = () => {
   let router = useRouter();
+  let isSchool = vocab.isSchool();
 
   return (
     <div>
       <div className={classNames(styles.bodyDiv, 'text-black overflow-hidden')}>
+        {isSchool ? null : (
+          <div
+            className={classNames(
+              styles.schoolDisclaimer,
+              'fixed bg-white p-1 text-sm text-brand-blue text-center'
+            )}
+          >
+            Using Dashbrain for education? To try our school-specific version,{' '}
+            <a href="https://school.dashbrain.us" className="font-bold">
+              click here
+            </a>
+            .
+          </div>
+        )}
         <nav className="mb-10">
           <LogoType color="blue" className="ml-3 mt-3.5 inline-block" />
         </nav>
@@ -26,7 +42,8 @@ let Home: React.FC = () => {
           Zoom Rooms
         </p>
         <h2 className="text-base text-center tracking-tight mb-10">
-          Dashbrain keeps teachers and students in-sync.
+          Dashbrain keeps {isSchool ? 'teachers and students' : 'everyone'}{' '}
+          in-sync{isSchool ? '' : ' in large video calls'}.
         </h2>
         <FeatureItem
           imgSrc="assets/hand/blue.png"
@@ -47,20 +64,30 @@ let Home: React.FC = () => {
           imgAlt="Send Message"
           imgClassName="w-4.5"
           className="w-56.5 mx-auto mb-6"
-          description="Messages to specific groups, even in breakout rooms."
+          description={`Messages to specific groups, ${
+            isSchool ? 'even in breakout rooms.' : 'not just “everyone.”'
+          }`}
         />
         <p className="text-center mb-10">. . . and more!</p>
-        <p className="font-black tracking-tight text-center mb-1.5">Teacher?</p>
+        <p className="font-black tracking-tight text-center mb-1.5">
+          {isSchool ? 'Teacher?' : 'Host?'}
+        </p>
         <p className="w-76 leading-none tracking-tight text-center mx-auto mb-4">
           Dashbrain works with any video-calling software. Just open a new
-          Dashbrain, send the code to your students, and get connected!
+          Dashbrain,
+          {isSchool
+            ? ' tell your students the 5-digit code'
+            : ' tell everyone the 5-digit code'}
+          , and get connected!
         </p>
         <IndexButton
           onClick={teacherSignIn}
           title="Create a Dashbrain"
           className="block mx-auto mb-8"
         />
-        <p className="font-black tracking-tight text-center mb-1.5">Student?</p>
+        <p className="font-black tracking-tight text-center mb-1.5">
+          {isSchool ? 'Student?' : 'Participant?'}
+        </p>
         <IndexButton
           onClick={studentSignIn}
           title="Join a Dashbrain"
