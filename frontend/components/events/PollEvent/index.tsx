@@ -8,6 +8,7 @@ import {
 } from '../../../lib/events';
 import { Room } from '../../../lib/rooms';
 import * as eventSender from '../../../lib/event-sender';
+import * as vocab from '../../../lib/vocabulary';
 import styles from './event.module.scss';
 import eventStyles from '../events.module.scss';
 import classNames from 'classnames';
@@ -130,7 +131,9 @@ let PollEvent: React.FC<{
       }
 
       return {
-        name: props.room.students[event.senderUid].name || 'A student',
+        name:
+          props.room.students[event.senderUid].name ||
+          `A ${vocab.getParticipantWord()}`,
         response: props.event.options[event.answerIndex],
       };
     });

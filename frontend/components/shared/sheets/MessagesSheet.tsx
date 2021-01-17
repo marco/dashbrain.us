@@ -8,6 +8,7 @@ import * as eventSender from '../../../lib/event-sender';
 import { Field, Form, Formik } from 'formik';
 import sharedStyles from '../../../../styles/pages/teachers-students.module.scss';
 import classNames from 'classnames';
+import * as vocab from '../../../lib/vocabulary';
 
 let MessagesSheet: React.FC<{
   room: Room;
@@ -103,7 +104,7 @@ let MessagesSheet: React.FC<{
                     setOptionsSaveState('saved');
                   }}
                 />{' '}
-                Let students message each other.
+                Let {vocab.getParticipantWord()}s message each other.
               </p>
             </>
           ) : null}
@@ -322,9 +323,10 @@ let NewGroup: React.FC<{
         shouldShowTeacher ? (
           <>
             {' '}
-            Your teacher has disabled messages between students, but you can
-            still message everyone at once using the “Message&nbsp;Everyone”
-            button above.
+            {vocab.isSchool() ? 'Your teacher' : 'The host'} has disabled
+            messages between {vocab.getParticipantWord()}s, but you can still
+            message everyone at once using the “Message&nbsp;Everyone” button
+            above.
           </>
         ) : (
           ''

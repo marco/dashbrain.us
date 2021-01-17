@@ -5,6 +5,7 @@ import LogoType from './LogoType';
 import { Event } from '../lib/events';
 import { Room } from '../lib/rooms';
 import pluralize from 'pluralize';
+import * as vocab from '../lib/vocabulary';
 
 let TeacherNavBar: React.FC<{
   roomId: string;
@@ -39,7 +40,7 @@ let TeacherNavBar: React.FC<{
         <>
           <span className="text-gray-500 text-sm">
             {pluralize(
-              'student',
+              vocab.getParticipantWord(),
               Object.keys(props.room.students).length,
               true
             )}

@@ -7,6 +7,7 @@ import { Event, EventPollResponse, EventPollStart } from '../../../lib/events';
 import sharedStyles from '../../../../styles/pages/teachers-students.module.scss';
 import styles from './PollButton.module.scss';
 import classNames from 'classnames';
+import * as vocab from '../../../lib/vocabulary';
 
 let PollButton: React.FC<{ room: Room; events: Event[] }> = (props) => {
   let [state, setState] = useState<PollState>({ state: 'no_poll' });
@@ -166,8 +167,9 @@ let PollPrompt: React.FC<{
             </FieldArray>
             <p>Live Results</p>
             <label htmlFor="showLiveResults">
-              <Field name="showLiveResults" type="checkbox" /> Let students see
-              results immediately after they vote.
+              <Field name="showLiveResults" type="checkbox" /> Let{' '}
+              {vocab.getParticipantWord()}s see results immediately after they
+              vote.
             </label>
             <button
               type="submit"

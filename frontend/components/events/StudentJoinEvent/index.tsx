@@ -4,6 +4,7 @@ import { Room } from '../../../lib/rooms';
 import styles from './event.module.scss';
 import eventStyles from '../events.module.scss';
 import classNames from 'classnames';
+import * as vocab from '../../../lib/vocabulary';
 
 let StudentJoinEvent: React.FC<{
   room: Room;
@@ -14,11 +15,14 @@ let StudentJoinEvent: React.FC<{
     <div className={classNames(props.className, styles.event)}>
       <img
         src="/assets/smile/white.png"
-        alt="A Student Joined Dashbrain"
+        alt={`A ${
+          vocab.isSchool() ? 'Student' : 'Participant'
+        } Joined Dashbrain`}
         className={eventStyles.iconMedium}
       />
       <p className="font-bold">
-        {props.room.students[props.event.studentUid]?.name || 'A student'}
+        {props.room.students[props.event.studentUid]?.name ||
+          `A ${vocab.getParticipantWord()}`}
       </p>
       <p className="-mt-1.5">joined the Dashbrain.</p>
     </div>

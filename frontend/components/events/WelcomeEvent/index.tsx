@@ -5,6 +5,7 @@ import eventStyles from '../events.module.scss';
 import styles from './event.module.scss';
 import classNames from 'classnames';
 import firebase from 'firebase/app';
+import * as vocab from '../../../lib/vocabulary';
 
 let WelcomeEvent: React.FC<{ className?: string; room: Room }> = (props) => {
   return (
@@ -24,7 +25,8 @@ let WelcomeEvent: React.FC<{ className?: string; room: Room }> = (props) => {
       return (
         <>
           <p>
-            Your Dashbrain code is {props.room.id}. Students can join by vising{' '}
+            Your Dashbrain code is {props.room.id}.{' '}
+            {vocab.isSchool() ? 'Students' : 'Participants'} can join by vising{' '}
             <a href="/" target="_blank" className="underline" rel="noreferrer">
               dashbrain.us
             </a>{' '}
@@ -34,21 +36,24 @@ let WelcomeEvent: React.FC<{ className?: string; room: Room }> = (props) => {
             Or, you can send them this custom link:{' '}
             <span className="inline-block">
               <a
-                href={`/join/${props.room.id}`}
+                href={`https://${
+                  vocab.isSchool() ? 'school.' : ''
+                }dashbrain.us/join/${props.room.id}`}
                 target="_blank"
                 className="underline"
                 rel="noreferrer"
               >
-                dashbrain.us/join/{props.room.id}
+                {vocab.isSchool() ? 'school.' : ''}dashbrain.us/join/
+                {props.room.id}
               </a>
               .
             </span>
           </p>
           <p className="mt-3">
-            You will receive notifications in this list as students join, ask
-            questions, raise their hands, and more! Below, you can start a poll,
-            send private messages to students, or export this Dashbrain as a
-            PDF.
+            You will receive notifications in this list as{' '}
+            {vocab.getParticipantWord()}s join, ask questions, raise their
+            hands, and more! Below, you can start a poll, send private messages
+            to {vocab.getParticipantWord()}s, or export this Dashbrain as a PDF.
           </p>
           <p className="mt-3 font-bold">Our Recommendation</p>
           <p className="">
@@ -68,8 +73,9 @@ let WelcomeEvent: React.FC<{ className?: string; room: Room }> = (props) => {
       return (
         <>
           <p>
-            You will receive notifications in this list as classmates join, ask
-            questions, raise their hands, and more!
+            You will receive notifications in this list as{' '}
+            {vocab.isSchool() ? 'classmates' : 'people'} join, ask questions,
+            raise their hands, and more!
           </p>
           <p className="mt-3">
             Below, you can ask a question, raise your hand, or send a message.

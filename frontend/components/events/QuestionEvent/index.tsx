@@ -7,6 +7,7 @@ import styles from './event.module.scss';
 import eventStyles from '../events.module.scss';
 import classNames from 'classnames';
 import firebase from 'firebase/app';
+import * as vocab from '../../../lib/vocabulary';
 
 let QuestionEvent: React.FC<{
   room: Room;
@@ -89,10 +90,10 @@ let QuestionEvent: React.FC<{
     }
 
     if (likes === 1) {
-      return '1 student has liked this question.';
+      return `1 ${vocab.getParticipantWord()} has liked this question.`;
     }
 
-    return `${likes} students have liked this question.`;
+    return `${likes} ${vocab.getParticipantWord()}s have liked this question.`;
   }
 };
 
