@@ -5,6 +5,7 @@ import * as eventSender from '../../../lib/event-sender';
 import Prompt from '../../Sheet';
 import sharedStyles from '../../../../styles/pages/teachers-students.module.scss';
 import styles from './QuestionButton.module.scss';
+import * as vocab from '../../../lib/vocabulary';
 import classNames from 'classnames';
 
 let QuestionButton: React.FC<{ room: rooms.Room }> = (props) => {
@@ -55,9 +56,9 @@ let QuestionPrompt: React.FC<{
           What&apos;s your Question?
         </p>
         <p className="mt-2 leading-snug text-gray-500">
-          Classmates will see your question, but won&apos;t see who it&apos;s
-          from. If you want to send a private question, use the Message button
-          instead.
+          {vocab.isSchool() ? 'Classmates' : 'Other participants'} will see your
+          question, but won&apos;t see who it&apos;s from. If you want to send a
+          private question, use the Message button instead.
         </p>
         <Formik
           initialValues={{ text: '' }}
