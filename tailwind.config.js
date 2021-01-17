@@ -23,6 +23,9 @@ module.exports = {
       colors: {
         'brand-blue': '#0054d2',
       },
+      screens: {
+        print: { raw: 'print' },
+      },
     },
   },
   variants: {
