@@ -47,17 +47,19 @@ let TeacherRoomPage: React.FC = () => {
           // https://stackoverflow.com/a/50473614, https://stackoverflow.com/a/57957227.
           try {
             document.execCommand('print', false, null as any);
+            setTimeout(() => setIsPrinting(false), 1000);
           } catch (error) {
             window.print();
+            setIsPrinting(false);
           }
         } else {
           window.print();
+          setIsPrinting(false);
         }
       } catch {
         // This can happen if the user cancels the prompt.
+        setIsPrinting(false);
       }
-
-      setIsPrinting(false);
     }
   }, [isPrinting]);
 
