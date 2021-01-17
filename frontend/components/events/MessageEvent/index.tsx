@@ -5,6 +5,7 @@ import styles from './event.module.scss';
 import eventStyles from '../events.module.scss';
 import classNames from 'classnames';
 import pluralize from 'pluralize';
+import firebase from 'firebase/app';
 
 let MessageEvent: React.FC<{
   room: Room;
@@ -34,16 +35,18 @@ let MessageEvent: React.FC<{
       return 'everyone';
     }
 
-    let recipientsExcludingSender = props.event.recipientUids.filter(
-      (uid) => uid !== props.event.senderUid
+    let recipientsExcludingSenderAndCurrentUser = props.event.recipientUids.filter(
+      (uid) =>
+        uid !== props.event.senderUid &&
+        uid !== firebase.auth().currentUser?.uid
     );
-    if (recipientsExcludingSender.length <= 1) {
+    if (recipientsExcludingSenderAndCurrentUser.length == 0) {
       return 'you';
     }
 
     return `you and ${pluralize(
       'other',
-      recipientsExcludingSender.length,
+      recipientsExcludingSenderAndCurrentUser.length,
       true
     )}`;
   }
