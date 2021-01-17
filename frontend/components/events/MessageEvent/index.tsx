@@ -16,7 +16,9 @@ let MessageEvent: React.FC<{
   return (
     <div
       className={classNames(props.className, styles.event, 'cursor-pointer', {
+        'print:block': props.event.displayAsSentToEveryone,
         'print:hidden': !props.event.displayAsSentToEveryone,
+        hidden: props.event.senderUid === firebase.auth().currentUser?.uid,
       })}
     >
       <img
