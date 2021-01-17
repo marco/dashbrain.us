@@ -15,7 +15,9 @@ let MessageEvent: React.FC<{
 }> = (props) => {
   return (
     <div
-      className={classNames(props.className, styles.event, 'cursor-pointer')}
+      className={classNames(props.className, styles.event, 'cursor-pointer', {
+        'print:hidden': !props.event.displayAsSentToEveryone,
+      })}
     >
       <img
         src="/assets/message/white.png"
@@ -23,10 +25,15 @@ let MessageEvent: React.FC<{
         className={eventStyles.iconMedium}
       />
       <p className="font-bold">
-        {props.senderDetails.name} sent {namesList()} a message
+        {props.senderDetails.name} sent {namesList()} a{' '}
+        {props.event.displayAsSentToEveryone ? '' : 'private '}message
       </p>
       <p className="leading-tight">{props.event.text}</p>
-      <p className="text-xs mt-2.5">Click to open &amp; reply</p>
+      <p className="text-xs mt-2.5 print:hidden">
+        {props.event.displayAsSentToEveryone
+          ? 'Click to open.'
+          : 'Click to open and remove from notifications.'}
+      </p>
     </div>
   );
 
