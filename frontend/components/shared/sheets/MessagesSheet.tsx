@@ -503,6 +503,12 @@ export function checkEventMatchesGroup(event: EventMessage, group: Group) {
     }
   }
 
+  // Even if they completely match, this still shouldn't be grouped into
+  // the same as the "everyone" category.
+  if (event.displayAsSentToEveryone !== group.displayAsEveryone) {
+    return false;
+  }
+
   return true;
 }
 
