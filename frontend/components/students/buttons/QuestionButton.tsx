@@ -58,7 +58,7 @@ let QuestionPrompt: React.FC<{
         <p className="mt-2 leading-snug text-gray-500">
           {vocab.isSchool() ? 'Classmates' : 'Other participants'} will see your
           question, but won&apos;t see who it&apos;s from. If you want to send a
-          private question, use the Message button instead.
+          private question, use the Messages button instead.
         </p>
         <Formik
           initialValues={{ text: '' }}
