@@ -103,7 +103,22 @@ let Home: React.FC = () => {
       >
         <p className="font-bold">© Dashbrain 2021</p>
         <p className="text-gray-500">
-          <a href="mailto:dashbrain@dashbrain.us">Contact Us</a>
+          <a
+            href="mailto:dashbrain@dashbrain.us"
+            target="_blank"
+            rel="noreferrer"
+            className="block"
+          >
+            Contact Us
+          </a>
+          <a
+            href="https://twitter.com/getdashbrain"
+            target="_blank"
+            rel="noreferrer"
+            className="block"
+          >
+            Twitter
+          </a>
         </p>
       </div>
     </div>
