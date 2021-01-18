@@ -37,7 +37,7 @@ let PollEvent: React.FC<{
         poll.
       </p>
       {props.event.text ? (
-        <p className="-mt-1.5">
+        <p className="leading-tight">
           <MarkdownRenderer>{props.event.text}</MarkdownRenderer>
         </p>
       ) : null}
