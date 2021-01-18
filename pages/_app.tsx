@@ -44,11 +44,15 @@ let MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
           name="description"
           content="Dashbrain helps keep everyone in-sync over large video calls. Get notifications for raised hands, send custom polls, and more."
         />
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-7K7KGWWDHE"
-        ></script>
-        <script src="/static/analytics.js"></script>
+        {process.env.NEXT_PUBLIC_ENV === 'development' ? null : (
+          <>
+            <script
+              async
+              src="https://www.googletagmanager.com/gtag/js?id=G-7K7KGWWDHE"
+            ></script>
+            <script src="/static/analytics.js"></script>
+          </>
+        )}
       </Head>
       <Component {...pageProps} />
       <ToastContainer
