@@ -435,7 +435,7 @@ let MessageBubble: React.FC<{ event: EventMessage; room: Room }> = (props) => {
         }
       )}
     >
-      <p>{props.event.text}</p>
+      <p className="leading-tight mb-1">{props.event.text}</p>
       <p className="text-xs leading-none">
         {getUidDetails(props.event.senderUid, props.room).name}
       </p>
