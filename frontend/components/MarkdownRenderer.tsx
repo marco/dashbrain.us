@@ -10,6 +10,7 @@ import sanitizeHtml from 'sanitize-html';
 // https://github.com/jonschlinkert/remarkable#manage-rules
 // for an explanation of enabling rules.
 let md = new Remarkable();
+md.set({ linkTarget: '_blank' });
 md.core.ruler.enable(['block', 'inline'], true);
 md.inline.ruler.enable(['backticks', 'emphasis', 'text', 'escape'], true);
 md.block.ruler.enable(['paragraph'], true);
@@ -26,7 +27,7 @@ let MarkdownRenderer: React.FC<{ children: string }> = (props) => {
     let rendered = md.renderInline(props.children);
     let sanitized = sanitizeHtml(rendered, {
       allowedTags: ['strong', 'em', 'code', 'a'],
-      allowedAttributes: { a: ['href'] },
+      allowedAttributes: { a: ['href', 'target'] },
       disallowedTagsMode: 'escape',
     });
 
