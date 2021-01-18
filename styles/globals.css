@@ -64,6 +64,22 @@ body,
   .blueShadow {
     box-shadow: 0px 2px 5px rgba(2, 22, 53, 0.2);
   }
+
+  .markdownUserContent strong {
+    font-weight: bold;
+  }
+
+  .markdownUserContent em {
+    font-style: italic;
+  }
+
+  .markdownUserContent code {
+    font-family: monospace;
+  }
+
+  .markdownUserContent a {
+    text-decoration: underline;
+  }
 }
 
 .Toastify__toast {
