@@ -8,6 +8,7 @@ import eventStyles from '../events.module.scss';
 import classNames from 'classnames';
 import firebase from 'firebase/app';
 import * as vocab from '../../../lib/vocabulary';
+import MarkdownRenderer from '../../MarkdownRenderer';
 
 let QuestionEvent: React.FC<{
   room: Room;
@@ -29,7 +30,9 @@ let QuestionEvent: React.FC<{
       <p className="font-bold">
         {shouldSeeName() ? props.senderDetails.name : 'Someone'} asked
       </p>
-      <p className="leading-tight">&ldquo;{props.event.text}&rdquo; </p>
+      <p className="leading-tight">
+        &ldquo;<MarkdownRenderer>{props.event.text}</MarkdownRenderer>&rdquo;{' '}
+      </p>
       {shouldShowLikeButton() ? (
         <button
           onClick={onClickUpvote}

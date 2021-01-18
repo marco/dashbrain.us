@@ -6,6 +6,7 @@ import eventStyles from '../events.module.scss';
 import classNames from 'classnames';
 import pluralize from 'pluralize';
 import firebase from 'firebase/app';
+import MarkdownRenderer from '../../MarkdownRenderer';
 
 let MessageEvent: React.FC<{
   room: Room;
@@ -29,7 +30,9 @@ let MessageEvent: React.FC<{
         {props.senderDetails.name} sent {namesList()} a{' '}
         {props.event.displayAsSentToEveryone ? '' : 'private '}message
       </p>
-      <p className="leading-tight">{props.event.text}</p>
+      <p className="leading-tight">
+        <MarkdownRenderer>{props.event.text}</MarkdownRenderer>
+      </p>
       <p className="text-xs mt-2.5 print:hidden">Click to open &amp; reply.</p>
     </div>
   );

@@ -12,6 +12,7 @@ import * as vocab from '../../../lib/vocabulary';
 import styles from './event.module.scss';
 import eventStyles from '../events.module.scss';
 import classNames from 'classnames';
+import MarkdownRenderer from '../../MarkdownRenderer';
 
 let PollEvent: React.FC<{
   room: Room;
@@ -35,7 +36,11 @@ let PollEvent: React.FC<{
         {props.senderDetails.name} {props.endVotes ? 'ended a ' : 'sent a '}
         poll.
       </p>
-      {props.event.text ? <p className="-mt-1.5">{props.event.text}</p> : null}
+      {props.event.text ? (
+        <p className="-mt-1.5">
+          <MarkdownRenderer>{props.event.text}</MarkdownRenderer>
+        </p>
+      ) : null}
       {props.event.options.map((option, index) => (
         <button
           onClick={() => onClickOption(index)}
