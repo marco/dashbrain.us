@@ -9,6 +9,7 @@ import { Field, Form, Formik } from 'formik';
 import sharedStyles from '../../../../styles/pages/teachers-students.module.scss';
 import classNames from 'classnames';
 import * as vocab from '../../../lib/vocabulary';
+import MarkdownRenderer from '../../MarkdownRenderer';
 
 let MessagesSheet: React.FC<{
   room: Room;
@@ -260,6 +261,11 @@ let GroupsList: React.FC<{
             <div className="flex-shrink overflow-hidden">
               <p className="font-bold">{group.title}</p>
               <p className="whitespace-nowrap overflow-hidden overflow-ellipsis">
+                {/*
+                  Markdown is intentionally not used here because it would be
+                  unhelpful to have clickable URLs within the preview. And, since
+                  it's just a preview, bold/italics aren't necessary.
+                */}
                 {group.lastEvent!.text}
               </p>
             </div>
@@ -435,7 +441,9 @@ let MessageBubble: React.FC<{ event: EventMessage; room: Room }> = (props) => {
         }
       )}
     >
-      <p className="leading-tight mb-1">{props.event.text}</p>
+      <p className="leading-tight mb-1">
+        <MarkdownRenderer>{props.event.text}</MarkdownRenderer>
+      </p>
       <p className="text-xs leading-none">
         {getUidDetails(props.event.senderUid, props.room).name}
       </p>
