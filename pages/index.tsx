@@ -103,21 +103,21 @@ let Home: React.FC = () => {
       >
         <p className="font-bold">© Dashbrain 2021</p>
         <p className="text-gray-500">
-          <a
-            href="mailto:dashbrain@dashbrain.us"
-            target="_blank"
-            rel="noreferrer"
-            className="block"
-          >
+          {/* eslint-disable-next-line react/jsx-no-target-blank */}
+          <a href="mailto:dashbrain@dashbrain.us" target="_blank">
             Contact Us
           </a>
-          <a
-            href="https://twitter.com/getdashbrain"
-            target="_blank"
-            rel="noreferrer"
-            className="block"
-          >
+        </p>
+        <p className="text-gray-500">
+          {/* eslint-disable-next-line react/jsx-no-target-blank */}
+          <a href="https://twitter.com/getdashbrain" target="_blank">
             Twitter
+          </a>
+        </p>
+        <p className="text-gray-500">
+          {/* eslint-disable-next-line react/jsx-no-target-blank */}
+          <a href="https://producthunt.com/posts/dashbrain" target="_blank">
+            Product Hunt
           </a>
         </p>
       </div>
