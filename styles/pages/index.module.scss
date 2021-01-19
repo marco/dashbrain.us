@@ -25,10 +25,6 @@
         top: 0px;
       }
     }
-
-    @media screen and (max-width: 735px) {
-      display: none;
-    }
   }
 
   .backgroundGradient {
@@ -55,6 +51,17 @@
     bottom: 0px;
     left: 0px;
     right: 0px;
+  }
+
+  @media screen and (max-width: 735px) {
+    .nav {
+      margin-bottom: 1.5rem;
+    }
+
+    .schoolDisclaimer {
+      width: 100%;
+      position: initial;
+    }
   }
 }
 

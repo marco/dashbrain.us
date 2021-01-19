@@ -23,18 +23,24 @@ let Home: React.FC = () => {
           <div
             className={classNames(
               styles.schoolDisclaimer,
-              'fixed bg-white p-1 text-sm text-brand-blue text-center'
+              'fixed bg-white py-1 px-3 text-sm text-brand-blue text-center'
             )}
           >
-            Using Dashbrain for education? To try our school-specific version,{' '}
-            <a href="https://school.dashbrain.us" className="font-bold">
-              click here
-            </a>
-            .
+            <span className="inline-block">Using Dashbrain for education?</span>{' '}
+            <span className="inline-block">
+              To try our school-specific version,{' '}
+              <a href="https://school.dashbrain.us" className="font-bold">
+                click here
+              </a>
+              .
+            </span>
           </div>
         )}
-        <nav className="mb-10">
-          <LogoType color="blue" className="ml-3 mt-3.5 inline-block" />
+        <nav className={classNames(styles.nav, 'mb-10')}>
+          <LogoType
+            color="blue"
+            className={classNames(styles.logoType, 'ml-3 mt-3.5 inline-block')}
+          />
         </nav>
         <p className={classNames(styles.heroText, 'mb-4')}>
           Level Up Your
