@@ -126,6 +126,12 @@ let Home: React.FC = () => {
             Product Hunt
           </a>
         </p>
+        <p className="text-gray-500">
+          {/* eslint-disable-next-line react/jsx-no-target-blank */}
+          <a href="/dashbrain-teachers-guide.pdf" target="_blank">
+            Guide for Teachers
+          </a>
+        </p>
       </div>
     </div>
   );
