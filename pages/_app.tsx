@@ -48,7 +48,7 @@ let MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
           <>
             <script
               async
-              src="https://www.googletagmanager.com/gtag/js?id=G-7K7KGWWDHE"
+              src="https://www.googletagmanager.com/gtag/js?id=UA-131738850-3"
             ></script>
             <script src="/static/analytics.js"></script>
           </>

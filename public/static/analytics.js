@@ -4,4 +4,4 @@ function gtag() {
 }
 gtag('js', new Date());
 
-gtag('config', 'G-7K7KGWWDHE');
+gtag('config', 'UA-131738850-3');
