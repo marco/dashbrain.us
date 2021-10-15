@@ -70,9 +70,9 @@ Dashbrain is a [Next.js](https://nextjs.org) project. The directory structure is
   - `components`: Shared components.
   - `lib`: Client-side libraries.
 - `pages`: Components for each page and API route in standard Next.js fashion.
-- `public`: Static assets
+- `public`: Static assets.
 - `server`: Server-side code.
-  - `lib`: Server-side libraries
+  - `lib`: Server-side libraries.
 - `styles`: Global styles. Note, most styling is handled with [TailwindCSS](https://tailwindcss.com).
 
 ## Get Dashbrain
