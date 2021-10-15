@@ -28,7 +28,11 @@ Participants can ask public questions and receive "likes" from other participant
 
 💬 _Custom group chats_
 
-In most video call software, you get a choice: message one person, or message "everyone." With Dashbrain, you can message any custom group of people — one, two, three, four, whatever you want. (Of course, you can also choose to message "everyone" as well.) ✍️ Formatting: bold, italics, code, and URLs Dashbrain supports Markdown syntax for making text bold (like this: **bold**), italic (like this: _italics_), and monospace (like this: `code`), as well as automatically making URLs become clickable links.
+In most video call software, you get a choice: message one person, or message "everyone." With Dashbrain, you can message any custom group of people — one, two, three, four, whatever you want. (Of course, you can also choose to message "everyone" as well.)
+
+✍️ _Formatting: bold, italics, code, and URLs_
+
+Dashbrain supports Markdown syntax for making text bold (like this: **bold**), italic (like this: _italics_), and monospace (like this: `code`), as well as automatically making URLs become clickable links.
 
 🖨 _Export to PDF_
 
