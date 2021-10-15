@@ -1,0 +1,16 @@
+{
+  "appName": "Dashbrain",
+  "firebaseConfig": {
+    "apiKey": "Your API key",
+    "authDomain": "Your Firebase auth domain",
+    "databaseURL": "Your database URL",
+    "projectId": "Your Firebase project ID",
+    "storageBucket": "Your Firebase storage bucket",
+    "messagingSenderId": "Your Firebase sender ID",
+    "appId": "Your Firebase app ID"
+  },
+  "rooms": {
+    "minIdLength": 5,
+    "increaseTrigger": 10
+  }
+}

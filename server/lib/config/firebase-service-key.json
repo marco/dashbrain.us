@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "Your Firebase project ID",
+  "private_key_id": "Your private key ID",
+  "private_key": "Your private key",
+  "client_email": "Your Firebase client email",
+  "client_id": "Your Firebase client ID",
+  "auth_uri": "Your Firebase auth URI",
+  "token_uri": "Your Firebase token URI",
+  "auth_provider_x509_cert_url": "Your auth provider certificate URL",
+  "client_x509_cert_url": "Your client certificate URL"
+}
