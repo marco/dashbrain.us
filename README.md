@@ -38,6 +38,17 @@ Dashbrain supports Markdown syntax for making text bold (like this: **bold**), i
 
 With everyone's great ideas flowing in Dashbrain, you might want to save the contents of your chat after the meeting ends. In one click, you can export to a PDF. And don't worry, we filter out your private messages.
 
+## Screenshots
+
+<p>
+  <img src="readme/screenshot-1.jpg" style="width: 45%;" />
+  <img src="readme/screenshot-2.jpg" style="width: 45%;" />
+  <img src="readme/screenshot-3.jpg" style="width: 45%;" />
+  <img src="readme/screenshot-4.jpg" style="width: 45%;" />
+  <img src="readme/screenshot-5.jpg" style="width: 45%;" />
+  <img src="readme/screenshot-6.jpg" style="width: 45%;" />
+</p>
+
 ## Running Dashbrain locally
 
 Before running Dashbrain, fill in the following configuration files:
@@ -63,17 +74,6 @@ Dashbrain is a [Next.js](https://nextjs.org) project. The directory structure is
 - `server`: Server-side code.
   - `lib`: Server-side libraries
 - `styles`: Global styles. Note, most styling is handled with [TailwindCSS](https://tailwindcss.com).
-
-## Screenshots
-
-<p>
-  <img src="readme/screenshot-1.jpg" style="width: 40%;" />
-  <img src="readme/screenshot-2.jpg" style="width: 40%;" />
-  <img src="readme/screenshot-3.jpg" style="width: 40%;" />
-  <img src="readme/screenshot-4.jpg" style="width: 40%;" />
-  <img src="readme/screenshot-5.jpg" style="width: 40%;" />
-  <img src="readme/screenshot-6.jpg" style="width: 40%;" />
-</p>
 
 ## Get Dashbrain
 
